@@ -1,7 +1,8 @@
 // URL de la API
-const urlBase = process.env.urlBase;
 
-// Función para registrar un usuario
+const urlBase = import.meta.env.urlBase;
+
+
 // Función para registrar un usuario
 export const userRegister = async (nombres, apellidos, correo, telefono, fecha_nacimiento, rut, password) => {
   try {
