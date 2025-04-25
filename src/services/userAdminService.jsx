@@ -114,3 +114,72 @@ export const createUsers = async (nombres, apellidos, correo, telefono, fecha_na
     return [null, error.message];
   }
 };
+
+// Función para eliminar un usuario por RUT (requiere token)
+export const userDelete = async (rut) => {
+  const token = localStorage.getItem("access_token");
+
+  if (!token) {
+    return [null, "No se encontró el token de autenticación"];
+  }
+
+  try {
+    const respuesta = await fetch(`${urlBase}/admin/usuarios/${rut}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await respuesta.json();
+
+    if (!respuesta.ok) {
+      return [null, data.detail || "Error al eliminar el usuario"];
+    }
+
+    return [data, null];
+  } catch (error) {
+    return [null, error.message];
+  }
+};
+
+// Función para actualizar un usuario por RUT (requiere token)
+export const userUpdate = async (rut, nombres, apellidos, correo, telefono, fecha_nacimiento, password, es_administrador) => {
+  const token = localStorage.getItem("access_token");
+
+  if (!token) {
+    return [null, "No se encontró el token de autenticación"];
+  }
+
+  try {
+    const respuesta = await fetch(`${urlBase}/admin/usuarios/${rut}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        nombres,
+        apellidos,
+        correo,
+        telefono,
+        fecha_nacimiento,
+        hashed_password: password,
+        es_administrador,
+      }),
+    });
+
+    const data = await respuesta.json();
+
+    if (!respuesta.ok) {
+      return [null, data.message || "Error al actualizar el usuario"];
+    }
+
+    return [data, null];
+  } catch (error) {
+    return [null, error.message];
+  }
+};

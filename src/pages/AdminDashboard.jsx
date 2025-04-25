@@ -1,5 +1,7 @@
 import UserList from "../components/UserList"; // Ajusta la ruta si es diferente
 import UserCreate from "../components/UserCreate"; // Ajusta la ruta si es diferente
+import UserDelete from "../components/UserDelete";
+import UserUpdate from "../components/UserUpdate";
 
 const AdminDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user_info")); // Obtenemos el usuario logueado
@@ -14,6 +16,8 @@ const AdminDashboard = () => {
       <h1>Panel de Administración</h1>
       <UserList />
       <UserCreate />
+      <UserDelete />
+      <UserUpdate />
     </div>
   );
 };

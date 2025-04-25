@@ -11,7 +11,7 @@ const RegisterUser = () => {
     rut,
     password,
     es_administrador,
-    setes_administrador,  // Este setter ya no es necesario
+    setes_administrador,
     error,
     mensajeExito,
     setNombres,
@@ -24,7 +24,6 @@ const RegisterUser = () => {
     handleSubmit,
   } = useCreate();
 
-  // Función de validación de formulario
   const validateForm = () => {
     return (
       nombres &&
@@ -37,12 +36,9 @@ const RegisterUser = () => {
     );
   };
 
-  // Asigna true directamente a es_administrador
-  const isAdmin = true;
-
   return (
     <div>
-      <h2>Registro</h2>
+      <h2>Registro de Usuario</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -86,9 +82,16 @@ const RegisterUser = () => {
           onChange={(e) => setContraseña(e.target.value)}
           placeholder="Contraseña"
         />
-        
-        {/* Se elimina el checkbox y se asume que es siempre true */}
-        <input type="hidden" value={isAdmin} />
+
+        {/* Checkbox para seleccionar si el usuario es administrador */}
+        <label>
+          <input
+            type="checkbox"
+            checked={es_administrador}
+            onChange={(e) => setes_administrador(e.target.checked)}
+          />
+          ¿Es administrador?
+        </label>
 
         <button type="submit" disabled={!validateForm()}>
           Registrar
