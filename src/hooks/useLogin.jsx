@@ -10,19 +10,33 @@ const useLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const [data, error] = await userLogin(username, password);
-    
-    if (error) {
-      setError(error);
-      setMensajeExito("");
-    } else {
+    try {
+      const [data, loginError] = await userLogin(username, password);
+
+      if (loginError) {
+        setError(loginError);
+        setMensajeExito("");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("user_info");
+        return [null, loginError];
+      }
+
       setMensajeExito("Inicio de sesión exitoso");
       setError("");
-      // Se guarda el token y la información del usuario en localStorage
-      localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("user_info", JSON.stringify(data.user_info));
 
-      console.log("Información del usuario:", data.user_info);
+      if (data?.access_token) {
+        localStorage.setItem("access_token", data.access_token);
+      }
+      if (data?.user_info) {
+        localStorage.setItem("user_info", JSON.stringify(data.user_info));
+        console.log("Información del usuario:", data.user_info);
+      }
+
+      return [data, null];
+    } catch (err) {
+      setError("Error inesperado al iniciar sesión");
+      setMensajeExito("");
+      return [null, err.message];
     }
   };
 
