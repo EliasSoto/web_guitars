@@ -1,5 +1,5 @@
 import React from "react";
-import useRegister from "../hooks/useRegister"; // Ajusta la ruta si es necesario
+import useRegister from "../hooks/useRegister";
 
 const RegisterUser = () => {
   const {
@@ -51,7 +51,7 @@ const RegisterUser = () => {
           placeholder="Teléfono"
         />
         <input
-          type="text"
+          type="date"
           value={fecha_nacimiento}
           onChange={(e) => setFechaNacimiento(e.target.value)}
           placeholder="Fecha de nacimiento"
