@@ -21,9 +21,16 @@
 }
 
 .a {
-    color: #8699DA; /* color de texto */
-    text-decoration: none; /* sin subrayado */
-  }
+  color: #8699DA; /* color de texto */
+  text-decoration: none; /* sin subrayado */
+  font-weight: bold; /* negrita */
+}
+
+.a:hover {
+  color: #5f73b5; /* un tono más oscuro al pasar el mouse */
+  text-decoration: underline; /* subrayado al pasar el mouse */
+}
+
 
   .label-usuario-contraseña {
     padding-top: 10px;
