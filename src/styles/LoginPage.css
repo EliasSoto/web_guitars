@@ -31,7 +31,6 @@
     font-weight: bold;
     color: #444B59; /* color de texto */
     margin-bottom: 5px; /* Espacio entre la etiqueta y el campo de entrada */
-    margin-left: -5px;
     display: block;
   }
 
