@@ -1,5 +1,6 @@
 import React from "react";
 import useRegister from "../hooks/useRegister";
+import HeaderLogin from "../components/HeaderLogin";
 
 const RegisterUser = () => {
   const {
@@ -24,8 +25,12 @@ const RegisterUser = () => {
 
   return (
     <div>
-      <h2>Registro</h2>
+      
+      <HeaderLogin />
+
       <form onSubmit={handleSubmit}>
+
+        
         <input
           type="text"
           value={nombres}
@@ -69,6 +74,11 @@ const RegisterUser = () => {
           placeholder="Contraseña"
         />
         <button type="submit">Registrar</button>
+
+
+
+
+
       </form>
 
       {error && <p style={{ color: "red" }}>{error}</p>}

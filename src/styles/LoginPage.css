@@ -1,0 +1,88 @@
+
+.login-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh; /* Cambia la altura de la página de inicio de sesión */
+}
+
+.text-inicia{
+
+    font-size: 18px; /* igual a text-2xl en Tailwind */
+    font-weight: bold; /* igual a font-bold en Tailwind */
+    color: #444B59; /* color de texto */
+    margin-bottom: 13px; /* Espacio entre el texto y el botón */
+}
+
+.text-registrate{
+    font-size: 10px; /* igual a text-2xl en Tailwind */
+    color: #444B59; /* color de texto */
+    margin-bottom: 5px; /* Espacio entre el texto y el botón */
+}
+
+.a {
+    color: #8699DA; /* color de texto */
+    text-decoration: none; /* sin subrayado */
+  }
+
+  .label-usuario-contraseña {
+    padding-top: 10px;
+    font-size: 11px; 
+    font-weight: bold;
+    color: #444B59; /* color de texto */
+    margin-bottom: 5px; /* Espacio entre la etiqueta y el campo de entrada */
+    margin-left: -5px;
+    display: block;
+  }
+
+.input-usuario {
+    border-radius: 10px;
+    border: 1.2px solid #8699DA; /* Aquí defines el grosor, el estilo y el color del borde */
+    padding: 5px; /* Espacio interno del campo de entrada */
+  }
+  
+/* Estilos para el campo de contraseña */
+  .input-contraseña {
+    border: none;
+    border-radius: 10px;
+    padding: 5px; /* Espacio interno del campo de entrada */
+    width: 75%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+  }
+
+  .password-container {
+    position: relative; /* Necesario para posicionar el icono de ojo */
+  }
+
+  .eye-icon {
+    position: absolute;
+    border-radius: 10px;
+    border: 1.2px solid #8699DA;
+    right: 2px;
+    top: 15%;
+    cursor: pointer;
+    width: 20px;  /* Ajusta el tamaño de la imagen */
+    height: 20px;
+  }
+
+  .input-contraseña-container {
+    position: relative; /* Necesario para posicionar el icono de ojo */
+    border-radius: 10px;
+    border: 1.2px solid #8699DA; /* Aquí defines el grosor, el estilo y el color del borde */
+  }
+
+  .button-login {
+    background-color: #8699DA; /* color de fondo */
+    color: white; /* color de texto */
+    border-radius: 15px; /* bordes redondeados */
+    padding: 10px 20px; /* Espacio interno del botón */
+    border: none; /* sin borde */
+    cursor: pointer; /* cursor de mano al pasar por encima */
+    font-size: 12px; /* tamaño de fuente */
+    font-weight: bold; /* negrita */
+    margin-top: 30px; /* Espacio entre el botón y el campo de entrada */
+    margin-left: 30px;
+    
+  }
+
+
+  
