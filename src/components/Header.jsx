@@ -5,21 +5,12 @@ import "../styles/Header.css";
 
 
 const Header = () => {
-  const [scrolled, setScrolled] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
 
   const handleLogout = () => {
     userLogout();
     window.location.reload();
   };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <header className={`guitar-header ${scrolled ? "scrolled" : ""}`}>
