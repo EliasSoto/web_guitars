@@ -2,6 +2,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { userLogout } from "../services/userAuthService";
 import Footer from "../components/Footer.jsx";
+import Header from "../components/Header.jsx";
+import "../styles/global.css"; // Importa el CSS específico para el menú principal
 
 
 const MainMenu = () => {
@@ -14,18 +16,7 @@ const MainMenu = () => {
 
   return (
     <div>
-      <h1>Menú Principal</h1>
-      <nav>
-        <ul>
-          <li><Link to="/register">Registro</Link></li>
-          <li><Link to="/login">Login</Link></li>
-          <li>
-            <button onClick={handleLogout}>
-              Cerrar sesión
-            </button>
-          </li>
-        </ul>
-      </nav>
+      <Header />      
       <Footer />
     </div>
   );
