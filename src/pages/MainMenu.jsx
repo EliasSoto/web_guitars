@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { userLogout } from "../services/userAuthService";
+import Footer from "../components/Footer.jsx";
+
 
 const MainMenu = () => {
   const navigate = useNavigate();
@@ -24,6 +26,7 @@ const MainMenu = () => {
           </li>
         </ul>
       </nav>
+      <Footer />
     </div>
   );
 };
