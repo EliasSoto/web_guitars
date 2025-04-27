@@ -7,14 +7,15 @@
     align-items: center;
     padding-left: 10px;
     padding-right: 10px;
-    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 20px;
     border-bottom: 1px solid #E5E7EB; /* línea en la parte inferior */
   }
   
 
   .text-header {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 32px; /* igual a text-2xl en Tailwind */
+    font-size: 25px; /* igual a text-2xl en Tailwind */
     font-weight: bold; /* igual a font-bold en Tailwind */
     color: #3563E9; /* color de texto */
   }
