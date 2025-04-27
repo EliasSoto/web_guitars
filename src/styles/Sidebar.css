@@ -10,11 +10,8 @@
   
   .sidebar {
     width: var(--sidebar-width);
-    height: relative;
-    position: fixed;
+    position: absolute;
     left: 0;
-    top: 9%;
-    bottom: 38%;
     background: var(--bg-color);
     border-right: 1px solid var(--border-color);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

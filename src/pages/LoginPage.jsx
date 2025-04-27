@@ -32,8 +32,28 @@ const LoginPage = () => {
     <div>
 
       <HeaderLogin />
+
+      <main>
+
+        <section>
+          <div>Inicia sesión</div>
+          <div>¿No tienes una cuenta?, <a href="https://www.youtube.com/watch?v=-s_O2mCiHK4">Registrate</a></div>
+          
+
+
+
+        </section>
+
+
+
+
+
+
+
+
+      </main>
       
-      <h2>Login</h2>
+      {/* <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <input
           type="text"
@@ -51,7 +71,7 @@ const LoginPage = () => {
       </form>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {mensajeExito && <p style={{ color: "green" }}>{mensajeExito}</p>}
+      {mensajeExito && <p style={{ color: "green" }}>{mensajeExito}</p>} */}
     </div>
   );
 };

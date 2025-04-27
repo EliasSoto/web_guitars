@@ -7,7 +7,9 @@ export default function HeaderLogin() {
       <div className="text-header">
         Guitarras
       </div>
-      <Icon icon="fa-solid:home" width="22" height="22" color="#808080" /> {/* Gris */}
+      <nav>
+        <Icon icon="fa-solid:home" width="22" height="22" color="#808080" /> {/* Gris */}
+      </nav>
     </header>
   );
 }

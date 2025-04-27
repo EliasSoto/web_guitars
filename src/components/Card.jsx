@@ -1,5 +1,5 @@
 import React from 'react';
-import './Card.css';  // Aquí podrías agregar tus estilos, como por ejemplo un tamaño fijo para las imágenes
+import './styles/Card.css';  // Aquí podrías agregar tus estilos, como por ejemplo un tamaño fijo para las imágenes
 
 const Card = ({ title, description, image }) => {
   return (
