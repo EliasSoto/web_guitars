@@ -1,7 +1,8 @@
-// src/components/Header.jsx
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { isAuthenticated, userLogout } from "../services/userAuthService";
+import "../styles/Header.css"; 
+
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
