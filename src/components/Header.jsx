@@ -11,6 +11,22 @@ const Header = () => {
     userLogout();
     window.location.reload();
   };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  const [scrolled, setScrolled] = useState(false);
 
   return (
     <header className={`guitar-header ${scrolled ? "scrolled" : ""}`}>
