@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { userLogout } from "../services/userAuthService";
 import Footer from "../components/Footer.jsx";
 import Header from "../components/Header.jsx";
+import Sidebar from "../components/Sidebar.jsx";
 
 
 const MainMenu = () => {
@@ -15,7 +16,8 @@ const MainMenu = () => {
 
   return (
     <div>
-      <Header />      
+      <Header />  
+      <Sidebar />
       <Footer />
     </div>
   );
