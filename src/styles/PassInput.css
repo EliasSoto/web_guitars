@@ -1,0 +1,43 @@
+/* Estilos para el campo de contraseña */
+.input-contraseña {
+    border: none;
+    border-radius: 10px;
+    padding: 5px; /* Espacio interno del campo de entrada */
+    width: 75%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+  }
+
+  .password-container {
+    position: relative; /* Necesario para posicionar el icono de ojo */
+  }
+
+  .eye-icon {
+    position: absolute;
+    border-radius: 10px;
+    border: 1.2px solid #8699DA;
+    right: 2px;
+    top: 15%;
+    cursor: pointer;
+    width: 20px;  /* Ajusta el tamaño de la imagen */
+    height: 20px;
+  }
+
+  .input-contraseña-container {
+    position: relative; /* Necesario para posicionar el icono de ojo */
+    border-radius: 10px;
+    border: 1.2px solid #8699DA; /* Aquí defines el grosor, el estilo y el color del borde */
+  }
+
+.button-login {
+  background-color: #8699DA; /* color de fondo */
+  color: white; /* color de texto */
+  border-radius: 15px; /* bordes redondeados */
+  padding: 10px 20px; /* Espacio interno del botón */
+  border: none; /* sin borde */
+  cursor: pointer; /* cursor de mano al pasar por encima */
+  font-size: 12px; /* tamaño de fuente */
+  font-weight: bold; /* negrita */
+  margin-top: 30px; /* Espacio entre el botón y el campo de entrada */
+}
+
+
+  
