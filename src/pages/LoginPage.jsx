@@ -8,36 +8,37 @@ import { Icon } from '@iconify/react';
 export default function LoginPage () {
   const navigate = useNavigate();
 
+  // Importamos el hook useLogin
   const {
-    username,
-    password,
+    formData,
     error,
     mensajeExito,
-    setUsername,
-    setPassword,
+    handleChange,
     handleSubmit,
   } = useLogin();
 
-  const [value, setValue] = useState('');
   const [showPassword, setShowPassword] = useState(false); // Estado para mostrar u ocultar la contraseña
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
-
-  const handleLogin = async (e) => {
-    const [data, err] = await handleSubmit(e); // ✅ Aquí obtienes data
-
-    if (data?.user_info?.es_administrador) {
-      navigate("/admin");
-    } else if (data) {
-      navigate("/"); // o "/user-dashboard"
-    }
-  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword); // Cambia el estado de visibilidad de la contraseña
   };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const [data, err] = await handleSubmit();
+
+    if (err) {
+      console.error("Error al iniciar sesión:", err);
+      return;
+    }
+
+    if (data?.user_info?.role === "admin") {
+      navigate("/admin");
+    } else if (data) {
+      navigate("/"); // Usuario normal
+    }
+  };
+
 
   return (
     <div className="login-container">
@@ -56,15 +57,14 @@ export default function LoginPage () {
                 <input
                   className="input-usuario"
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
                   placeholder="usuario@ejemplo.cl"
                   style={{
                     outline: 'none', // Elimina el contorno al hacer foco
                   }}
                 />
-          
-            
           
               <div className="password-container">
                 <label className="label-usuario-contraseña" htmlFor="password">Contraseña</label>
@@ -72,8 +72,9 @@ export default function LoginPage () {
                   <input
                       className="input-contraseña"
                       type={showPassword ? "text" : "password"} // Cambia el tipo de input según el estado
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
                       placeholder="•••••••••••"
                       style={{
                         outline: 'none', // Elimina el contorno al hacer foco
