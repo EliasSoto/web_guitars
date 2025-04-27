@@ -74,7 +74,7 @@ export default function LoginPage () {
                       type={showPassword ? "text" : "password"} // Cambia el tipo de input según el estado
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Contraseña"
+                      placeholder="•••••••••••"
                       style={{
                         outline: 'none', // Elimina el contorno al hacer foco
                       }}   
