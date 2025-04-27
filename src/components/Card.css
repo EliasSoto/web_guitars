@@ -1,0 +1,42 @@
+/* Card.css */
+.card {
+    width: 200px;
+    height: 300px; /* Cambia la altura de la tarjeta */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 16px;
+    background-color: white;
+  }
+  
+  .card-image {
+    width: 100%;
+    height: 200px;  /* Establece el tamaño estándar para la imagen */
+    overflow: hidden;
+  }
+  
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* Asegura que las imágenes se ajusten sin distorsionarse */
+  }
+  
+  .card-content {
+    padding: 16px;
+  }
+  
+  .card-content h3 {
+    /*Titulo */
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000000;
+  }
+  
+  .card-content p {
+    /*Descripcion */
+    font-size: 14px;
+    color: #555;
+  }
+  
