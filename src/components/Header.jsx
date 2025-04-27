@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react';
 import "../styles/Header.css"; // Asegúrate de tener este archivo CSS
 import { Link } from 'react-router-dom'; // Para navegación interna
 
-export default function HeaderLogin() {
+export default function Header() {
   return (
     <header className="header-login">
       <div className="text-header">
@@ -18,16 +18,11 @@ export default function HeaderLogin() {
         />
       </div>
 
-
-      <Icon icon="fa-solid:home" width="22" height="22" color="#808080" /> {/* Gris */}
-
-
       {/* Apartado de Login y Registro */}
       <div className="auth-links">
         <Link to="/login" className="auth-button">Login</Link>
         <Link to="/register" className="auth-button">Registro</Link>
       </div>
-
 
     </header>
   );
