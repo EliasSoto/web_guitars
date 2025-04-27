@@ -3,8 +3,8 @@ import React from "react";
 const Footer = () => {
   return (
     <footer style={{backgroundColor: "#1f2937", padding: "2rem 0",
-        position: "relative",
-        bottom: 0,
+        position: "absolute",
+        bottom: 0, left: 0, right: 0,
         width: "100%", }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-start", padding: "0 1rem" }}>
         
@@ -27,7 +27,7 @@ const Footer = () => {
 
       </div>
 
-      <div style={{ borderTop: "1px solid #374151", marginTop: "2rem", paddingTop: "1rem", textAlign: "center", fontSize: "0.875rem", color: "#9ca3af" }}>
+      <div style={{ borderTop: "1px solid #374151", marginTop: "1rem",marginLeft:"1rem" , paddingTop: "1rem", textAlign: "left", fontSize: "0.875rem", color: "#9ca3af" }}>
         <p>©2025 Guitars. Derechos reservados</p>
         <a href="#" style={{ color: "#9ca3af", textDecoration: "none" ,}}>Términos y Condiciones</a>
       </div>
