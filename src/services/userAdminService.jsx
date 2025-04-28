@@ -1,185 +1,149 @@
 // URL de la API
 const urlBase = import.meta.env.VITE_URL_BASE;
 
-// Función para registrar un usuario público (sin token)
-export const userRegister = async (nombres, apellidos, correo, telefono, fecha_nacimiento, rut, password) => {
+// Función para registrar un nuevo usuario
+export const registerAdminUser = async (first_name, last_name, email, phone, birth_date, rut, password, is_admin) => {
+    // Validar campos obligatorios
+    if (!first_name || !last_name || !phone || !rut || !password) {
+        return [null, "Faltan campos obligatorios"];
+      }
+
+    // Obtener el token de acceso del almacenamiento local
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+        return [null, "Acceso no autorizado. Token no encontrado"];
+      }
+
   try {
-    const respuesta = await fetch(`${urlBase}/usuarios`, {
+    const response = await fetch(`${urlBase}/admin/usuarios`, {
       method: "POST",
       headers: {
+        "Accept": "application/json",
         "Content-Type": "application/json",
-        accept: "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({
-        nombres,
-        apellidos,
-        correo,
-        telefono,
-        fecha_nacimiento,
+        first_name,
+        last_name,
+        email,
+        phone,
+        birth_date,
         rut,
         hashed_password: password,
+        is_admin,
       }),
     });
+    
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : {};
 
-    const data = await respuesta.json();
-
-    if (!respuesta.ok) {
-      return [null, "Error al registrar usuario"];
-    }
+    if (!response.ok) {
+      // Manejo mejorado de errores de validación
+      if (response.status === 422) {
+          const errorMsg = data.detail || 
+              (Array.isArray(data.detail) ? data.detail.map(e => e.msg).join(', ') : "Datos inválidos");
+          return [null, errorMsg];
+      }
+      return [null, data.detail || "Error al crear el usuario"];
+  }
 
     return [data, null];
   } catch (error) {
-    return [null, error.message];
+    return [null, "Error al conectar con el servidor"];
   }
 };
 
-// Función para obtener la lista de usuarios (requiere token)
-export const getUsers = async () => {
-  const token = localStorage.getItem("access_token");
 
-  if (!token) {
-    return [null, "No se encontró el token de autenticación"];
-  }
+// Función para obtener todos los usuarios
+export const getAdminAllUsers = async () => {
+    // Obtener el token de acceso del almacenamiento local
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+        return [null, "Acceso no autorizado. Token no encontrado"];
+      }
 
   try {
-    const respuesta = await fetch(`${urlBase}/admin/usuarios`, {
+    const response = await fetch(`${urlBase}/admin/usuarios`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
-        accept: "application/json",
-        Authorization: `Bearer ${token}`,
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`
       },
     });
+    
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : {};
 
-    if (!respuesta.ok) {
-      const errorData = await respuesta.json();
-      return [null, errorData.message || "Error al obtener los usuarios"];
+    if (!response.ok) {
+      const errorMessage = data?.detail || "Error al crear el usuario";
+      return [null, errorMessage];
     }
 
-    const data = await respuesta.json();
     return [data, null];
-
   } catch (error) {
-    return [null, error.message];
+    return [null, "Error al conectar con el servidor"];
   }
 };
 
-// Función para registrar un usuario desde el panel admin (requiere token)
-export const createUsers = async (nombres, apellidos, correo, telefono, fecha_nacimiento, rut, password, es_administrador) => {
-  const token = localStorage.getItem("access_token");
 
-  if (!token) {
-    return [null, "No se encontró el token de autenticación"];
-  }
+// Función para obtener usuariopor id
+export const getAdminUserById = async (userId) => {
+    // Obtener el token de acceso del almacenamiento local
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+        return [null, "Acceso no autorizado. Token no encontrado"];
+      }
 
   try {
-    console.log("Datos enviados al backend:", {
-      nombres,
-      apellidos,
-      correo,
-      telefono,
-      fecha_nacimiento,
-      rut,
-      hashed_password: password,
-      es_administrador,
-    });
-
-    const respuesta = await fetch(`${urlBase}/admin/usuarios`, {
-      method: "POST",
+    const response = await fetch(`${urlBase}/admin/usuarios/${userId}`, {
+      method: "GET",
       headers: {
-        "Content-Type": "application/json",
-        accept: "application/json",
-        Authorization: `Bearer ${token}`,
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`
       },
-      body: JSON.stringify({
-        nombres,
-        apellidos,
-        correo,
-        telefono,
-        fecha_nacimiento,
-        rut,
-        hashed_password: password,
-        es_administrador,
-      }),
     });
+    
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : {};
 
-    const data = await respuesta.json();
-
-    if (!respuesta.ok) {
-      return [null, data.message || "Error al registrar usuario"];
+    if (!response.ok) {
+      const errorMessage = data?.detail || "Error al crear el usuario";
+      return [null, errorMessage];
     }
 
     return [data, null];
   } catch (error) {
-    return [null, error.message];
+    return [null, "Error al conectar con el servidor"];
   }
 };
 
-// Función para eliminar un usuario por RUT (requiere token)
-export const userDelete = async (rut) => {
-  const token = localStorage.getItem("access_token");
-
-  if (!token) {
-    return [null, "No se encontró el token de autenticación"];
-  }
+// Función para eliminar usuario por id
+export const deleteAdminUserById = async (userId) => {
+    // Obtener el token de acceso del almacenamiento local
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+        return [null, "Acceso no autorizado. Token no encontrado"];
+      }
 
   try {
-    const respuesta = await fetch(`${urlBase}/admin/usuarios/${rut}`, {
+    const response = await fetch(`${urlBase}/admin/usuarios/${userId}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
-        accept: "application/json",
-        Authorization: `Bearer ${token}`,
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`
       },
     });
+    
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : {};
 
-    const data = await respuesta.json();
-
-    if (!respuesta.ok) {
-      return [null, data.detail || "Error al eliminar el usuario"];
+    if (!response.ok) {
+      const errorMessage = data?.detail || "Error al crear el usuario";
+      return [null, errorMessage];
     }
 
     return [data, null];
   } catch (error) {
-    return [null, error.message];
-  }
-};
-
-// Función para actualizar un usuario por RUT (requiere token)
-export const userUpdate = async (rut, nombres, apellidos, correo, telefono, fecha_nacimiento, password, es_administrador) => {
-  const token = localStorage.getItem("access_token");
-
-  if (!token) {
-    return [null, "No se encontró el token de autenticación"];
-  }
-
-  try {
-    const respuesta = await fetch(`${urlBase}/admin/usuarios/${rut}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        nombres,
-        apellidos,
-        correo,
-        telefono,
-        fecha_nacimiento,
-        hashed_password: password,
-        es_administrador,
-      }),
-    });
-
-    const data = await respuesta.json();
-
-    if (!respuesta.ok) {
-      return [null, data.message || "Error al actualizar el usuario"];
-    }
-
-    return [data, null];
-  } catch (error) {
-    return [null, error.message];
+    return [null, "Error al conectar con el servidor"];
   }
 };

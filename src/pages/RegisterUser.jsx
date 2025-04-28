@@ -1,30 +1,63 @@
-import React from "react";
-import useRegister from "../hooks/useRegister";
+import React, { useState } from "react";
 import HeaderLogin from "../components/HeaderLogin";
 import { Icon } from '@iconify/react';
 import "../styles/RegisterUser.css";
 import { PasswordInput } from "../components/PasswordInput"; // Asegúrate de que la ruta sea correcta
 
 const RegisterUser = () => {
-  const {
-    nombres,
-    apellidos,
-    correo,
-    telefono,
-    fecha_nacimiento,
-    rut,
-    password,
-    error,
-    mensajeExito,
-    setNombres,
-    setApellidos,
-    setCorreo,
-    setTelefono,
-    setFechaNacimiento,
-    setRut,
-    setContraseña,
-    handleSubmit,
-  } = useRegister();
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
+    birth_date: '',
+    rut: '',
+    password: '',
+  });
+
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value
+    });
+  };
+
+  // Función para formatear la fecha en DD/MM/YYYY
+  const formatDate = (date) => {
+    const [year, month, day] = date.split('-');
+    return `${day}/${month}/${year}`;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(null);
+
+    // Formatear la fecha de nacimiento
+    const formattedBirthDate = formatDate(formData.birth_date);
+
+    const [data, err] = await registerAdminUser(
+      formData.first_name,
+      formData.last_name,
+      formData.email,
+      formData.phone,
+      formattedBirthDate, // Pasar la fecha formateada
+      formData.rut,
+      formData.password,
+      formData.is_admin
+    );
+
+    if (err) {
+      setError(err);
+    } else {
+      setSuccess(user ? 'Usuario actualizado correctamente' : 'Usuario creado correctamente');
+      setTimeout(onClose, 1500);
+    }
+  };
 
   return (
     <div className="register-container">
@@ -46,75 +79,76 @@ const RegisterUser = () => {
             <input
               className="input-normal"
               type="text"
-              value={nombres}
-              onChange={(e) => setNombres(e.target.value)}
+              name="first_name"
+              value={formData.first_name}
+              onChange={handleChange}
               placeholder="Nombres"
-              style={{
-                outline: 'none', // Elimina el contorno al hacer foco
-              }}
+              style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
+              required
             />
 
             <label className="label-register">Apellido</label>
             <input
               className="input-normal"
               type="text"
-              value={apellidos}
-              onChange={(e) => setApellidos(e.target.value)}
+              name="last_name"
+              value={formData.last_name}
+              onChange={handleChange}
               placeholder="Apellidos"
-              style={{
-                outline: 'none', // Elimina el contorno al hacer foco
-              }}
+              style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
+              required
             />
 
             <label className="label-register">Rut</label>
             <input
               className="input-normal"
               type="text"
-              value={rut}
-              onChange={(e) => setRut(e.target.value)}
+              name="rut"
+              value={formData.rut}
+              onChange={handleChange}
               placeholder="RUT"
-              style={{
-                outline: 'none', // Elimina el contorno al hacer foco
-              }}
+              style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
+              required
             />
 
             <label className="label-register">Correo</label>
             <input
               className="input-normal"
               type="email"
-              value={correo}
-              onChange={(e) => setCorreo(e.target.value)}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Correo electrónico"
-              style={{
-                outline: 'none', // Elimina el contorno al hacer foco
-              }}
+              style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
+              required
             />
 
             <label className="label-register">Teléfono</label>
             <input
               className="input-normal"
               type="text"
-              value={telefono}
-              onChange={(e) => setTelefono(e.target.value)}
+              name="phone"
+              value={phone}
+              onChange={handleChange}
               placeholder="Teléfono"
-              style={{
-                outline: 'none', // Elimina el contorno al hacer foco
-              }}
+              style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
+              required
             />
 
             <label className="label-register">Fecha nacimiento</label>
             <input
             className="input-normal"
               type="date"
-              value={fecha_nacimiento}
-              onChange={(e) => setFechaNacimiento(e.target.value)}
-              placeholder="Fecha de nacimiento"
-              style={{
-                outline: 'none', // Elimina el contorno al hacer foco
-              }}
+              name="birth_date"
+              value={formData.birth_date}
+              onChange={handleChange}
+              style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
             />
 
-            <PasswordInput></PasswordInput>
+            <PasswordInput
+              value={formData.password}
+              onChange={(value) => setFormData({ ...formData, password: value })}
+            />
 
             <button className="button-register" type="submit">Registrar</button>
           </form>
