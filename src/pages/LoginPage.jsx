@@ -52,7 +52,7 @@ export default function LoginPage () {
           
           <form onSubmit={handleLogin}>
     
-              <label className="label-usuario-contraseña" htmlFor="Usuario">Usuario</label>
+              <label className="label-usuario-contraseña" htmlFor="Usuario">Correo</label>
                 <input
                   className="input-usuario"
                   type="text"

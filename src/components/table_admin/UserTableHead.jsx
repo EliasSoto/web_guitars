@@ -4,6 +4,7 @@ export default function UserTableHead() {
     return (
       <thead className="table-head">
         <tr>
+          <th>ID</th>
           <th>Nombre</th>
           <th>Apellido</th>
           <th>Email</th>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../styles/Sidebar.css"; 
 
 export default function Sidebar () {
@@ -7,7 +8,9 @@ export default function Sidebar () {
       <h2>Panel</h2>
       <nav>
         <ul>
-          <li><a href="/admin">Usuarios</a></li>
+          <Link to="/admin">
+            <li><>Usuarios</></li>
+          </Link>
         </ul>
       </nav>
     </aside>

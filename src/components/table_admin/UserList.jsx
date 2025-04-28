@@ -3,8 +3,8 @@ import { getAdminAllUsers, deleteAdminUserById } from '../../services/userAdminS
 import UserRow from './RowTableAdmin.jsx';
 import UserTableHead from './UserTableHead.jsx'; 
 import UpdateModal from '../UpdateModal.jsx';
-import UserDetail from '../UserDetail.jsx'; // Asegúrate de que la ruta sea correcta  
-import "../../styles/admin_table/TableUsers.css"; // Asegúrate de que la ruta sea corre
+import UserDetail from '../UserDetail.jsx';
+import "../../styles/admin_table/TableUsers.css";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -49,6 +49,7 @@ const UserList = () => {
         <button onClick={() => setShowForm(true)}>Crear Nuevo Usuario</button>
       </div>
      
+      
       <table>
         <UserTableHead /> 
         {/* Cuerpo de la tabla con todos los usuarios */}
@@ -64,10 +65,11 @@ const UserList = () => {
             />
           ))}
         </tbody>
-      </table>  
+
+      </table>
 
       {showForm && (
-        <UpdateModal
+        <UpdateModal 
           user={selectedUser} 
           onClose={() => { setShowForm(false); setSelectedUser(null); fetchUsers(); }} 
         />
@@ -79,8 +81,6 @@ const UserList = () => {
           onClose={() => { setShowDetail(false); setSelectedUser(null); }} 
         />
       )}
-
-
     </div>
 
 
