@@ -68,7 +68,7 @@ const UpdateModal = ({ user, onClose }) => {
         <div className='modal-header'>
           <h2>{user ? 'Editar Usuario' : 'Crear Nuevo Usuario'}</h2>
           <button type="button" onClick={onClose} className="cancel-button">
-                Cancelar
+                X
               </button>
         </div>
 

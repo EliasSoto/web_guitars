@@ -3,8 +3,9 @@ import { getAdminAllUsers, deleteAdminUserById } from '../../services/userAdminS
 import UserRow from './RowTableAdmin.jsx';
 import UserTableHead from './UserTableHead.jsx'; 
 import UpdateModal from '../UpdateModal.jsx';
-import UserDetail from '../UserDetail.jsx';
+import UserReadModal from '../UserReadModal.jsx';
 import "../../styles/admin_table/TableUsers.css";
+import { Icon } from '@iconify/react'; // Asegúrate de que la ruta sea correcta
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -46,9 +47,8 @@ const UserList = () => {
 
       <div className="table-header"> 
         <h1>Lista de Usuarios</h1>
-        <button onClick={() => setShowForm(true)}>Crear Nuevo Usuario</button>
+        <Icon onClick={() => setShowForm(true)} color="#3563E9" icon="humbleicons:user-add" width="34" height="34" />
       </div>
-     
       
       <table>
         <UserTableHead /> 
@@ -76,7 +76,7 @@ const UserList = () => {
       )}
 
       {showDetail && (
-        <UserDetail 
+        <UserReadModal
           user={selectedUser} 
           onClose={() => { setShowDetail(false); setSelectedUser(null); }} 
         />

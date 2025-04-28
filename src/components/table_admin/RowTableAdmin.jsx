@@ -1,5 +1,4 @@
-
-
+import { Icon } from '@iconify/react';
 
 export default function UserRow({ user, setSelectedUser, setShowDetail, setShowForm, handleDelete }) {
     return (
@@ -11,15 +10,10 @@ export default function UserRow({ user, setSelectedUser, setShowDetail, setShowF
         <td>{user.phone}</td>
         <td>{user.rut}</td>
         <td>
-          <button onClick={() => { setSelectedUser(user); setShowDetail(true); }}>
-            R
-          </button>
-          <button onClick={() => { setSelectedUser(user); setShowForm(true); }}>
-            U
-          </button>
-          <button onClick={() => handleDelete(user.id)}>
-            D
-          </button>
+          {/* Cambiar colores despues */}
+          <Icon color='#FFC10C' onClick={() => { setSelectedUser(user); setShowForm(true); }} icon="lucide:edit" width="20" height="20" />
+          <Icon color='#ED3F3F' onClick={() => handleDelete(user.id)} icon="material-symbols:delete-outline-rounded" width="22" height="22" />
+
         </td>
       </tr>
     );

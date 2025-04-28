@@ -50,3 +50,12 @@
     padding: 5px; /* Espacio interno del campo de entrada */
     width: 100%; /* Ancho completo */
 }
+
+.cancel-button{
+    background-color: transparent; /* Color de fondo del botón */
+    border: none; /* Sin borde */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espacio interno del botón */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    font-size: 14px; /* Tamaño de la fuente del botón */
+}
