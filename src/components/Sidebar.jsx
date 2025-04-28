@@ -8,9 +8,7 @@ export default function Sidebar () {
       <h2>Panel</h2>
       <nav>
         <ul>
-          <Link to="/admin">
-            <li><>Usuarios</></li>
-          </Link>
+            <li><>Sección</></li>
         </ul>
       </nav>
     </aside>
