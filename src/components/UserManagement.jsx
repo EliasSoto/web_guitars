@@ -1,7 +1,7 @@
 // components/admin/users/UserManagement.jsx
 import { useState } from 'react';
 import UserList from './UserList';
-import UserForm from './UserForm';
+import UpdateModal from './UpdateModal';
 import UserDetails from './UserDetails';
 import { useUsers } from '@/hooks/useUsers'; // Asegúrate de que la ruta sea correcta
 
@@ -50,7 +50,7 @@ const UserManagement = () => {
     <div className="user-management">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Gestión de Usuarios</h1>
-        <button 
+        <button
           onClick={handleCreate}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
@@ -69,7 +69,7 @@ const UserManagement = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             {isEditing ? (
-              <UserForm 
+              <UpdateModal
                 user={selectedUser} 
                 onSubmit={handleSubmit} 
                 onCancel={handleClose} 

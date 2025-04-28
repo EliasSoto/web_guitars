@@ -1,6 +1,4 @@
 
-
-
 export default function UserRow({ user, setSelectedUser, setShowDetail, setShowForm, handleDelete }) {
     return (
       <tr key={user.id}>
