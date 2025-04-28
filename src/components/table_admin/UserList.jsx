@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
-import { getAdminAllUsers, deleteAdminUserById } from '../services/userAdminService';
-import UserForm from './UserForm';
-import UserDetail from './UserDetail';
+import { getAdminAllUsers, deleteAdminUserById } from '../../services/userAdminService.jsx';
+import UserRow from './RowTableAdmin.jsx';
+import UserTableHead from './UserTableHead.jsx'; 
+import UserForm from '../UserForm.jsx';
+import UserDetail from '../UserDetail.jsx'; // Asegúrate de que la ruta sea correcta  
+import "../../styles/admin_table/TableUsers.css"; // Asegúrate de que la ruta sea corre
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -17,6 +20,7 @@ const UserList = () => {
 
   const fetchUsers = async () => {
     setLoading(true);
+    
     const [data, err] = await getAdminAllUsers();
     if (err) {
       setError(err);
@@ -37,48 +41,34 @@ const UserList = () => {
     }
   };
 
-  if (loading) return <div>Cargando usuarios...</div>;
-  if (error) return <div>Error: {error}</div>;
-
   return (
-    <div>
-      <h1>Administración de Usuarios</h1>
-      <button onClick={() => setShowForm(true)}>Crear Nuevo Usuario</button>
+    <div className="table-container">
 
+      <div className="table-header"> 
+        <h1>Lista de Usuarios</h1>
+        <button onClick={() => setShowForm(true)}>Crear Nuevo Usuario</button>
+      </div>
+     
+      
       <table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Email</th>
-            <th>Teléfono</th>
-            <th>RUT</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
+        <UserTableHead /> 
+        {/* Cuerpo de la tabla con todos los usuarios */}
         <tbody>
           {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.first_name}</td>
-              <td>{user.last_name}</td>
-              <td>{user.email}</td>
-              <td>{user.phone}</td>
-              <td>{user.rut}</td>
-              <td>
-                <button onClick={() => { setSelectedUser(user); setShowDetail(true); }}>
-                  Ver
-                </button>
-                <button onClick={() => { setSelectedUser(user); setShowForm(true); }}>
-                  Editar
-                </button>
-                <button onClick={() => handleDelete(user.id)}>
-                  Eliminar
-                </button>
-              </td>
-            </tr>
+            <UserRow
+              key={user.id}
+              user={user}
+              setSelectedUser={setSelectedUser}
+              setShowDetail={setShowDetail}
+              setShowForm={setShowForm}
+              handleDelete={handleDelete}
+            />
           ))}
         </tbody>
+
       </table>
+
+      
 
       {showForm && (
         <UserForm 
@@ -93,7 +83,11 @@ const UserList = () => {
           onClose={() => { setShowDetail(false); setSelectedUser(null); }} 
         />
       )}
+
+
     </div>
+
+
   );
 };
 

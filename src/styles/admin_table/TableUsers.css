@@ -1,0 +1,45 @@
+.table-head {
+    text-align: left;
+    border-bottom: 1px solid #EEEEEE; /* Borde inferior para la fila de encabezado */
+    font-size: 9px;
+    color: #B5B7C0;
+}
+
+table {
+    border-collapse: collapse; /* Para que los bordes de las celdas estén juntos */
+    font-weight: normal;
+    width: 92%; /* Asegura que la tabla ocupe todo el ancho */
+    margin: 0 auto; /* Centra la tabla horizontalmente */
+}
+
+th, td {
+    height: 40px; /* Altura de las celdas */
+    font-weight: bold;
+    border-bottom: 1px solid #EEEEEE;
+    padding: 6px; /* Espaciado interno */
+}
+
+td {
+    font-size: 10px; /* Tamaño de fuente para las celdas */
+    color: #444B59; /* Color de texto para las celdas */
+    height: 40px; /* Altura de las celdas */
+}
+
+.table-container {
+    display: block;
+    align-items: center;
+    align-content: center;
+    width: 80%; /* Ancho de la tabla */
+    overflow-x: auto; /* Permite desplazamiento horizontal si es necesario */
+    margin: 20px 0; /* Espacio superior e inferior */
+    padding: 10px; /* Espacio interno */
+    border-radius: 8px; /* Bordes redondeados */
+    background-color: #FFFFFF; /* Color de fondo de la tabla */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+}
+
+.table-header {
+    padding: 5px;
+    display: flex;
+    justify-content: space-between; /* Espacio entre los elementos */
+}
