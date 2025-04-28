@@ -98,6 +98,7 @@ const RegisterAdminUser = () => {
               onChange={handleChange}
               placeholder="Nombres"
               style={{ outline: 'none'}}
+              minLength={2}
               required
             />
 
@@ -110,6 +111,7 @@ const RegisterAdminUser = () => {
               onChange={handleChange}
               placeholder="Apellidos"
               style={{ outline: 'none'}}
+              minLength={2}
               required
             />
 
@@ -146,6 +148,8 @@ const RegisterAdminUser = () => {
               onChange={handleChange}
               placeholder="Teléfono"
               style={{ outline: 'none'}}
+              minLength={9}
+              maxLength={9}
               required
             />
 

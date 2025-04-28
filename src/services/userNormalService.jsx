@@ -72,7 +72,7 @@ export const getCurrentUser = async () => {
   };
 
 // Función para actualizar un usuario logueado
-export const updateCurrentUser = async () => {
+export const updateCurrentUser = async (userUpdate) => {
   // Obtener el token de acceso del almacenamiento local
   const token = localStorage.getItem("access_token");
   if (!token) {
@@ -87,6 +87,7 @@ export const updateCurrentUser = async () => {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
+        body: JSON.stringify(userUpdate)
       });
 
       const text = await response.text();
@@ -99,6 +100,7 @@ export const updateCurrentUser = async () => {
   
       return [data, null];
     } catch (error) {
+      console.error("Error en updateCurrentUser:", error);
       return [null, "Error al conectar con el servidor"];
     }
   };

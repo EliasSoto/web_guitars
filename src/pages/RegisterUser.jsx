@@ -50,6 +50,7 @@ const RegisterUser = () => {
               onChange={handleChange}
               placeholder="Nombres"
               style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
+              minLength={2}
               required
             />
 
@@ -62,6 +63,7 @@ const RegisterUser = () => {
               onChange={handleChange}
               placeholder="Apellidos"
               style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
+              minLength={2}
               required
             />
 
@@ -98,6 +100,8 @@ const RegisterUser = () => {
               onChange={handleChange}
               placeholder="Teléfono"
               style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
+              minLength={9}
+              maxLength={9}
               required
             />
 
@@ -116,6 +120,7 @@ const RegisterUser = () => {
               onChange={(value) => handleChange({ target: { name: 'password', value } })}
               showPassword={showPassword}
               togglePasswordVisibility={togglePasswordVisibility}
+              
             />
 
             <button className="button-register" type="submit">Registrar</button>

@@ -77,6 +77,11 @@ const EditUserProfile = () => {
     // Preparar los datos para enviar (excluyendo confirmPassword)
     const { confirmPassword, ...userUpdate } = formData;
 
+    if (userUpdate.birth_date) {
+      const [year, month, day] = userUpdate.birth_date.split('-');
+      userUpdate.birth_date = `${day}/${month}/${year}`;
+    }
+
     try {
       const [data, updateError] = await updateCurrentUser(userUpdate);
 
@@ -113,7 +118,7 @@ const EditUserProfile = () => {
       <main className="register-main">
         <section className="register-section">
           <div className="title-register">
-            <Link to="/perfil" className="link-atras">
+            <Link to="/" className="link-atras">
               <Icon className="atras-icon" icon="ic:round-arrow-back" width="24" height="24" />
             </Link>
             <div className="text-inicia">Editar perfil</div>
@@ -129,6 +134,7 @@ const EditUserProfile = () => {
               onChange={handleChange}
               placeholder="Nombres"
               style={{ outline: 'none'}}
+              minLength={2}
               required
             />
 
@@ -141,6 +147,7 @@ const EditUserProfile = () => {
               onChange={handleChange}
               placeholder="Apellidos"
               style={{ outline: 'none'}}
+              minLength={2}
               required
             />
             
@@ -152,7 +159,7 @@ const EditUserProfile = () => {
               value={formData.rut}
               onChange={handleChange}
               placeholder="RUT"
-              style={{ outline: 'none', display: 'none' }} // Oculta el campo
+              style={{ outline: 'none', display: 'none' }}
             />
 
             <label className="label-register">Correo</label>
@@ -176,20 +183,22 @@ const EditUserProfile = () => {
               onChange={handleChange}
               placeholder="Teléfono"
               style={{ outline: 'none'}}
+              minLength={9}
+              maxLength={9}
               required
             />
 
-            <label className="label-register">Fecha nacimiento</label>
+            <label className="label-register" style={{ outline: 'none', display: 'none' }}>Fecha nacimiento</label>
             <input
               className="input-normal"
               type="date"
               name="birth_date"
               value={formData.birth_date}
               onChange={handleChange}
-              style={{ outline: 'none'}}
+              style={{ outline: 'none', display: 'none' }}
             />
 
-            <label className="label-register">Nueva contraseña (opcional)</label>
+            <label className="label-register">Nueva contraseña</label>
             <input
               className="input-normal"
               type="password"

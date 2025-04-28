@@ -18,6 +18,7 @@ export function PasswordInput({ value, onChange, showPassword, togglePasswordVis
           onChange={handleChange}
           placeholder="•••••••••••"
           style={{ outline: 'none' }}
+          minLength={8}
         />
         <button
           type="button"

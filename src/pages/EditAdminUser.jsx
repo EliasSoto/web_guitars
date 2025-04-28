@@ -128,6 +128,7 @@ const EditAdminUser = () => {
               onChange={handleChange}
               placeholder="Nombres"
               style={{ outline: 'none' }}
+              minLength={2}
               required
             />
 
@@ -140,6 +141,7 @@ const EditAdminUser = () => {
               onChange={handleChange}
               placeholder="Apellidos"
               style={{ outline: 'none' }}
+              minLength={2}
               required
             />
 
@@ -177,6 +179,8 @@ const EditAdminUser = () => {
               placeholder="Teléfono"
               style={{ outline: 'none' }}
               required
+              minLength={9}
+              maxLength={9}
             />
 
             <label className="label-register">Fecha nacimiento</label>
