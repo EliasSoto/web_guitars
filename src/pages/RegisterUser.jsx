@@ -3,60 +3,23 @@ import HeaderLogin from "../components/HeaderLogin";
 import { Icon } from '@iconify/react';
 import "../styles/RegisterUser.css";
 import { PasswordInput } from "../components/PasswordInput"; // Asegúrate de que la ruta sea correcta
+import useRegisterUser from "../hooks/useRegisterUser";
+import { Link } from "react-router-dom";
 
 const RegisterUser = () => {
-  const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone: '',
-    birth_date: '',
-    rut: '',
-    password: '',
-  });
+  // Importamos el hook useRegisterUser
+  const {
+    formData,
+    error,
+    mensajeExito,
+    handleChange,
+    handleSubmit,
+  } = useRegisterUser();
 
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar u ocultar la contraseña
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value
-    });
-  };
-
-  // Función para formatear la fecha en DD/MM/YYYY
-  const formatDate = (date) => {
-    const [year, month, day] = date.split('-');
-    return `${day}/${month}/${year}`;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setSuccess(null);
-
-    // Formatear la fecha de nacimiento
-    const formattedBirthDate = formatDate(formData.birth_date);
-
-    const [data, err] = await registerAdminUser(
-      formData.first_name,
-      formData.last_name,
-      formData.email,
-      formData.phone,
-      formattedBirthDate, // Pasar la fecha formateada
-      formData.rut,
-      formData.password,
-      formData.is_admin
-    );
-
-    if (err) {
-      setError(err);
-    } else {
-      setSuccess(user ? 'Usuario actualizado correctamente' : 'Usuario creado correctamente');
-      setTimeout(onClose, 1500);
-    }
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword); // Cambia el estado de visibilidad de la contraseña
   };
 
   return (
@@ -69,8 +32,11 @@ const RegisterUser = () => {
         <section className="register-section">
 
           <div className="title-register">
-            <Icon className="atras-icon" icon="ic:round-arrow-back" width="24" height="24" />
+            <Link to="/login" className="link-atras">
+              <Icon className="atras-icon" icon="ic:round-arrow-back" width="24" height="24" />
+            </Link>
             <div className="text-inicia">Crea una cuenta</div>
+            
           </div>
         
           <form onSubmit={handleSubmit}>
@@ -128,7 +94,7 @@ const RegisterUser = () => {
               className="input-normal"
               type="text"
               name="phone"
-              value={phone}
+              value={formData.phone}
               onChange={handleChange}
               placeholder="Teléfono"
               style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
@@ -147,12 +113,24 @@ const RegisterUser = () => {
 
             <PasswordInput
               value={formData.password}
-              onChange={(value) => setFormData({ ...formData, password: value })}
+              onChange={(value) => handleChange({ target: { name: 'password', value } })}
+              showPassword={showPassword}
+              togglePasswordVisibility={togglePasswordVisibility}
             />
 
             <button className="button-register" type="submit">Registrar</button>
           </form>
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          {error && Array.isArray(error) ? (
+            error.map((err, index) => (
+              <p key={index} style={{ color: "red" }}>
+                {err.msg}
+              </p>
+            ))
+          ) : (
+            <p style={{ color: "red" }}>
+              {error.msg ? error.msg : error}
+            </p>
+          )}
           {mensajeExito && <p style={{ color: "green" }}>{mensajeExito}</p>}
         </section>
       </main>

@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
-import "../styles/HeaderLogin.css"; // Asegúrate de tener este archivo CSS
+import { Link } from 'react-router-dom';
+import "../styles/HeaderLogin.css";
 
 export default function HeaderLogin() {
   return (
@@ -8,7 +9,9 @@ export default function HeaderLogin() {
         Guitarras
       </div>
       <nav>
-        <Icon icon="fa-solid:home" width="22" height="22" color="#808080" /> {/* Gris */}
+        <Link to="/">
+          <Icon icon="fa-solid:home" width="22" height="22" color="#808080" />
+        </Link>
       </nav>
     </header>
   );

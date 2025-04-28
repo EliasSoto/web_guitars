@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { userLogin } from "../services/userAuthService.jsx";
+import { useNavigate } from "react-router-dom";
 
 const useLogin = () => {
+  // Importamos el hook useNavigate para redirigir al usuario después de iniciar sesión
+  const navigate = useNavigate();
+
   // Estado para almacenar los datos del formulario
   const [formData, setFormData] = useState({
     username: "",
@@ -37,6 +41,13 @@ const useLogin = () => {
 
       if (data?.access_token) localStorage.setItem("access_token", data.access_token);
       if (data?.user_info) localStorage.setItem("user_info", JSON.stringify(data.user_info));
+
+      // Redirigir al usuario según su rol
+      if (data?.user_info?.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
 
       return [data, null];
 

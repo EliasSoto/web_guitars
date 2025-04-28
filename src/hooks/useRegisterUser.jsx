@@ -1,61 +1,90 @@
 import { useState } from "react";
-import { userLogin } from "../services/userAuthService.jsx";
+import { registerNormalUser } from "../services/userNormalService";
+import { useNavigate } from "react-router-dom";
 
-const useLogin = () => {
+const useRegisterUser = () => {
+  // Importamos el hook useNavigate para redirigir al usuario después de iniciar sesión
+  const navigate = useNavigate();
+
   // Estado para almacenar los datos del formulario
   const [formData, setFormData] = useState({
-    username: "",
-    password: ""
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    birth_date: "",
+    rut: "",
+    password: "",
   });
 
-  // Estado para almacenar el error y el mensaje de éxito
+  // Estados para manejar errores y mensajes de éxito
   const [error, setError] = useState("");
-  const [mensajeExito, setMensajeExito] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  // Función para manejar el cambio en los campos del formulario
+  // Función para manejar cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Función para formatear la fecha en DD/MM/YYYY
+  const formatDate = (date) => {
+    if (!date) return "";
+    const [year, month, day] = date.split('-');
+    return `${day}/${month}/${year}`;
+  };
+
   // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
+    e?.preventDefault();
+    
     try {
-      const [data, loginError] = await userLogin(formData.username, formData.password);
+      // Formatear la fecha de nacimiento
+      const formattedBirthDate = formatDate(formData.birth_date);
 
-      // Manejo de errores del inicio de sesión
-      if (loginError) {
-        setError(loginError);
-        setMensajeExito("");
-        localStorage.clear();
-        return [null, loginError];
+      // Llamar al servicio de registro
+      const [data, registerError] = await registerNormalUser(
+        formData.first_name,
+        formData.last_name,
+        formData.email,
+        formData.phone,
+        formattedBirthDate,
+        formData.rut,
+        formData.password
+      );
+
+      // Manejo de errores
+      if (registerError) {
+        setError(registerError);
+        setSuccessMessage("");
+        return [null, registerError];
       }
 
-      // Guardar el token y la información del usuario en localStorage
-      setMensajeExito("Inicio de sesión exitoso");
+      // Registro exitoso
+      setSuccessMessage("Usuario registrado correctamente");
       setError("");
-
-      if (data?.access_token) localStorage.setItem("access_token", data.access_token);
-      if (data?.user_info) localStorage.setItem("user_info", JSON.stringify(data.user_info));
+    
+      // Redirigir al usuario a la página de inicio
+      navigate("/login");
 
       return [data, null];
 
     } catch (err) {
       // Manejo de errores inesperados
-      setError("Error inesperado al iniciar sesión");
-      setMensajeExito("");
+      setError("Error inesperado al registrar el usuario");
+      setSuccessMessage("");
       return [null, err.message];
     }
   };
 
-  // Retornar los estados y funciones necesarias para el formulario de inicio de sesión
+  // Retornar los estados y funciones necesarias
   return {
     formData,
     error,
-    mensajeExito,
+    successMessage,
     handleChange,
     handleSubmit,
   };
 };
 
-export default useLogin;
+export default useRegisterUser;

@@ -1,6 +1,7 @@
-import { Icon } from '@iconify/react';
-import "../styles/Header.css"; // Asegúrate de tener este archivo CSS
-import { Link } from 'react-router-dom'; // Para navegación interna
+import { Link } from 'react-router-dom';
+import { isAuthenticated } from '../services/userAuthService';
+import "../styles/Header.css";
+import ProfileDropdown from './ProfileDropdown';
 
 export default function Header() {
   return (
@@ -9,7 +10,6 @@ export default function Header() {
         Guitarras
       </div>
 
-      {/* NUEVO: Input de búsqueda */}
       <div className="search-container">
         <input
           type="text"
@@ -18,12 +18,13 @@ export default function Header() {
         />
       </div>
 
-      {/* Apartado de Login y Registro */}
       <div className="auth-links">
-        <Link to="/login" className="auth-button">Login</Link>
-        <Link to="/register" className="auth-button">Registro</Link>
+        {isAuthenticated() ? (
+          <ProfileDropdown />
+        ) : (
+          <Link to="/login" className="auth-button">Login</Link>
+        )}
       </div>
-
     </header>
   );
 }

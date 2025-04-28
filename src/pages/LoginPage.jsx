@@ -6,6 +6,7 @@ import  "../styles/LoginPage.css"; // Asegúrate de que la ruta sea correcta}
 import { PasswordInput } from "../components/PasswordInput";
 
 export default function LoginPage () {
+  // Importamos el hook useNavigate para redirigir al usuario al querer registrarse
   const navigate = useNavigate();
 
   // Importamos el hook useLogin
@@ -31,15 +32,14 @@ export default function LoginPage () {
       console.error("Error al iniciar sesión:", err);
       return;
     }
-
-    if (data?.user_info?.role === "admin") {
-      navigate("/admin");
-    } else if (data) {
-      navigate("/"); // Usuario normal
-    }
   };
 
-
+  // Función para manejar el clic en el enlace de registro
+  const handleRegisterClick = () => {
+    e.preventDefault();
+    navigate("/register");
+  };
+  
   return (
     <div>
       <HeaderLogin /> 
@@ -48,7 +48,7 @@ export default function LoginPage () {
         
         <section>
           <div className="text-inicia">Inicia sesión</div>
-          <div className="text-registrate">¿No tienes una cuenta?, <a className= "a" href="https://www.youtube.com/watch?v=-s_O2mCiHK4">Regístrate</a></div>
+          <div className="text-registrate">¿No tienes una cuenta?, <a className= "a" href="/register" onClick={handleRegisterClick}>Regístrate</a></div>
           
           <form onSubmit={handleLogin}>
     
@@ -60,9 +60,7 @@ export default function LoginPage () {
                   value={formData.username}
                   onChange={handleChange}
                   placeholder="usuario@ejemplo.cl"
-                  style={{
-                    outline: 'none', // Elimina el contorno al hacer foco
-                  }}
+                  style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
                 />
          
                 <PasswordInput
