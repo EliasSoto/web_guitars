@@ -3,7 +3,7 @@ import useRegister from "../hooks/useRegister";
 import HeaderLogin from "../components/HeaderLogin";
 import { Icon } from '@iconify/react';
 import "../styles/RegisterUser.css";
-import { PasswordInput } from "../components/PassInput"; // Asegúrate de que la ruta sea correcta
+import { PasswordInput } from "../components/PasswordInput"; // Asegúrate de que la ruta sea correcta
 
 const RegisterUser = () => {
   const {

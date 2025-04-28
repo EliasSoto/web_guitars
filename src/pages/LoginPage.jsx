@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin";
 import HeaderLogin from "../components/HeaderLogin";
 import  "../styles/LoginPage.css"; // Asegúrate de que la ruta sea correcta}
-import { PasswordInput } from "../components/PassInput";
+import { PasswordInput } from "../components/PasswordInput";
 
 export default function LoginPage () {
   const navigate = useNavigate();
@@ -65,7 +65,12 @@ export default function LoginPage () {
                   }}
                 />
          
-              <PasswordInput></PasswordInput>
+                <PasswordInput
+                  value={formData.password}
+                  onChange={(value) => handleChange({ target: { name: 'password', value } })}
+                  showPassword={showPassword}
+                  togglePasswordVisibility={togglePasswordVisibility}
+                />
               
               <button className="button-login" type="submit">Iniciar sesión</button>
           </form>

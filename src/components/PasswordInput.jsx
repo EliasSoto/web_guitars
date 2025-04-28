@@ -1,11 +1,9 @@
 import { useState } from "react";
-import "../styles/PassInput.css"; // Asegúrate de que la ruta sea correcta
+import "../styles/PasswordInput.css"; // Asegúrate de que la ruta sea correcta
 
-export function PasswordInput({ value, onChange }) {
-  const [showPassword, setShowPassword] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(prev => !prev);
+export function PasswordInput({ value, onChange, showPassword, togglePasswordVisibility }) {
+  const handleChange = (e) => {
+    onChange(e.target.value);  // Propaga el cambio hacia el componente padre
   };
 
   return (
@@ -17,7 +15,7 @@ export function PasswordInput({ value, onChange }) {
           type={showPassword ? "text" : "password"}
           name="password"
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
           placeholder="•••••••••••"
           style={{ outline: 'none' }}
         />
