@@ -5,9 +5,12 @@ import UserTableHead from './UserTableHead.jsx';
 import UpdateModal from '../UpdateModal.jsx';
 import UserReadModal from '../UserReadModal.jsx';
 import "../../styles/admin_table/TableUsers.css";
-import { Icon } from '@iconify/react'; // Asegúrate de que la ruta sea correcta
+import { Icon } from '@iconify/react';
+import { useNavigate } from "react-router-dom";
 
 const UserList = () => {
+  const navigate = useNavigate();
+
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -45,9 +48,9 @@ const UserList = () => {
   return (
     <div className="table-container">
 
-      <div className="table-header"> 
+      <div className="table-header" onClick={() => navigate("/admin/register")} style={{ cursor: 'pointer' }}>
         <h1>Lista de Usuarios</h1>
-        <Icon onClick={() => setShowForm(true)} color="#3563E9" icon="humbleicons:user-add" width="34" height="34" />
+        <Icon color="#3563E9" icon="humbleicons:user-add" width="34" height="34" />
       </div>
       
       <table>
@@ -67,20 +70,6 @@ const UserList = () => {
         </tbody>
 
       </table>
-
-      {showForm && (
-        <UpdateModal 
-          user={selectedUser} 
-          onClose={() => { setShowForm(false); setSelectedUser(null); fetchUsers(); }} 
-        />
-      )}
-
-      {showDetail && (
-        <UserReadModal
-          user={selectedUser} 
-          onClose={() => { setShowDetail(false); setSelectedUser(null); }} 
-        />
-      )}
     </div>
 
 

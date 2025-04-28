@@ -1,0 +1,53 @@
+.profile-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+    flex-direction: column;
+  }
+  
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .atras-icon {
+    color: #444B59;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+  
+  .link-atras {
+    text-decoration: none;
+  }
+  
+  .profile-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #444B59;
+    margin: 0;
+  }
+  
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1.2px solid #8699DA;
+    background-color: #f9f9f9;
+  }
+  
+  .profile-field {
+    font-size: 13px;
+    color: #444B59;
+  }
+  
+  .profile-field strong {
+    font-weight: bold;
+  }
+  

@@ -8,7 +8,7 @@ export const userLogin = async (username, password) => {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        accept: "application/json",
+        "Accept": "application/json",
       },
       body: new URLSearchParams({
         username,

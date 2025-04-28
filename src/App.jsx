@@ -4,6 +4,10 @@ import MainMenu from "./pages/MainMenu";
 import RegisterUser from "./pages/RegisterUser";
 import AdminDashboard from "./pages/AdminDashboard";
 import LoginPage from "./pages/LoginPage";
+import RegisterAdminUser from "./pages/RegisterAdminUser";
+import EditAdminUser from "./pages/EditAdminUser";
+import UserProfilePage from "./pages/UserProfilePage";
+import EditUserProfile from "./pages/EditUserProfile";
 
 const App = () => {
   return (
@@ -13,6 +17,11 @@ const App = () => {
         <Route path="/register" element={<RegisterUser />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/register" element={<RegisterAdminUser />} />
+        <Route path="/admin/edit/:userId" element={<EditAdminUser />} />
+        <Route path="/perfil" element={<UserProfilePage />} />
+        <Route path="/editar-perfil" element={<EditUserProfile />} />
+
       </Routes>
     </Router>
   );

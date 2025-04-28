@@ -151,7 +151,7 @@ export const deleteAdminUserById = async (userId) => {
 // Función para actualizar usuario por id
 export const updateAdminUserById = async (userId, first_name, last_name, email, phone, birth_date, rut, is_admin) => {
     // Validar campos obligatorios
-    if (!first_name || !last_name || !phone || !rut || !email) {
+    if (!first_name || !last_name ) {
         return [null, "Faltan campos obligatorios"];
       }
 

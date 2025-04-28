@@ -39,3 +39,66 @@ export const registerNormalUser = async (first_name, last_name, email, phone, bi
     return [null, "Error al conectar con el servidor"];
   }
 };
+
+// Función para obtener un usuario logueado
+export const getCurrentUser = async () => {
+  // Obtener el token de acceso del almacenamiento local
+  const token = localStorage.getItem("access_token");
+  if (!token) {
+      return [null, "Acceso no autorizado. Token no encontrado"];
+    }
+
+    try {
+      const response = await fetch(`${urlBase}/usuarios`, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+      });
+
+      const text = await response.text();
+      const data = text ? JSON.parse(text) : {};
+  
+      if (!response.ok) {
+        const errorMessage = data?.detail || "Error al obtener el usuario";
+        return [null, errorMessage];
+      }
+  
+      return [data, null];
+    } catch (error) {
+      return [null, "Error al conectar con el servidor"];
+    }
+  };
+
+// Función para actualizar un usuario logueado
+export const updateCurrentUser = async () => {
+  // Obtener el token de acceso del almacenamiento local
+  const token = localStorage.getItem("access_token");
+  if (!token) {
+      return [null, "Acceso no autorizado. Token no encontrado"];
+    }
+
+    try {
+      const response = await fetch(`${urlBase}/usuarios`, {
+        method: "PUT",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+      });
+
+      const text = await response.text();
+      const data = text ? JSON.parse(text) : {};
+  
+      if (!response.ok) {
+        const errorMessage = data?.detail || "Error al obtener el usuario";
+        return [null, errorMessage];
+      }
+  
+      return [data, null];
+    } catch (error) {
+      return [null, "Error al conectar con el servidor"];
+    }
+  };
