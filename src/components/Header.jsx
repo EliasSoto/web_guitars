@@ -10,13 +10,13 @@ export default function Header() {
         Guitarras
       </div>
 
-      <div className="search-container">
+      {/* <div className="search-container">
         <input
           type="text"
           placeholder="Buscar..."
           className="search-input"
         />
-      </div>
+      </div> */}
 
       <div className="auth-links">
         {isAuthenticated() ? (
