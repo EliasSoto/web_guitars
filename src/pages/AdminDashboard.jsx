@@ -8,11 +8,11 @@ export default function AdminDashboard() {
   return (
     <div className="admin-dashboard">
       <HeaderLogin className="header-login" />
-      <main className="main-content">
+      <main className="main-content-admin">
 
         <Sidebar />
         
-        <section className="main-section">
+        <section className="main-section-admin">
           <UserList />
         </section>
         

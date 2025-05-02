@@ -10,7 +10,7 @@ export default function HeaderLogin() {
       </div>
       <nav>
         <Link to="/">
-          <Icon icon="fa-solid:home" width="22" height="22" color="#808080" />
+          <Icon className="home-ico" icon="fa-solid:home" width="22" height="22" color="#808080" />
         </Link>
       </nav>
     </header>

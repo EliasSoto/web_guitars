@@ -16,7 +16,7 @@
   }
   
   
-  .main-content {
+  .main-content-admin {
     display: flex;
     flex-grow: 1;
   }
@@ -48,7 +48,7 @@
     font-weight: normal;
   }
   
-  .main-section {
+  .main-section-admin {
     display: flex;
     flex-direction: column;
     align-items: center;

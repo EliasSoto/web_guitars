@@ -1,0 +1,8 @@
+.main-content-guitarras {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem; /* Espacio entre tarjetas */
+    padding: 1rem; /* Espacio alrededor de las tarjetas */
+    margin-left: 5%;
+    margin-right: 5%;
+  }
