@@ -10,6 +10,7 @@
     width: 200px;
     display: flex;
     flex-direction: column;
+    border-radius: 5px;
 }
 
 .guitar-card:hover {
@@ -61,7 +62,7 @@
 
 
 .guitar-card-image-container {
-    height: 160px;
+    height: 190px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -78,6 +79,7 @@
     max-width: 100%;
     object-fit: contain;
     transition: transform 0.3s;
+    border-radius: 5px;
 }
 
 
