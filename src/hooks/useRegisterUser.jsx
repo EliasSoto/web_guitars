@@ -27,28 +27,19 @@ const useRegisterUser = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Función para formatear la fecha en DD/MM/YYYY
-  const formatDate = (date) => {
-    if (!date) return "";
-    const [year, month, day] = date.split('-');
-    return `${day}/${month}/${year}`;
-  };
-
   // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
     e?.preventDefault();
     
     try {
       // Formatear la fecha de nacimiento
-      const formattedBirthDate = formatDate(formData.birth_date);
-
       // Llamar al servicio de registro
       const [data, registerError] = await registerNormalUser(
         formData.first_name,
         formData.last_name,
         formData.email,
         formData.phone,
-        formattedBirthDate,
+        formData.birth_date,
         formData.rut,
         formData.password
       );

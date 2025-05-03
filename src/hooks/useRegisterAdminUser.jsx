@@ -29,22 +29,16 @@ const useRegisterAdminUser = () => {
     }));
   };
 
-  const formatDate = (date) => {
-    if (!date) return "";
-    const [year, month, day] = date.split("-");
-    return `${day}/${month}/${year}`;
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formattedBirthDate = formatDate(formData.birth_date);
       const [data, registerError] = await registerAdminUser(
         formData.first_name,
         formData.last_name,
         formData.email,
         formData.phone,
-        formattedBirthDate,
+        formData.birth_date,
         formData.rut,
         formData.password,
         formData.is_admin

@@ -12,6 +12,9 @@ export default function UserRow({ user, setSelectedUser, setShowDetail, setShowF
         <td>{user.email}</td>
         <td>{user.phone}</td>
         <td>{user.rut}</td>
+        <td>{user.birth_date}</td>
+        <td>{user.is_admin ? 'Admin' : 'Usuario'}</td>
+        {/* Cambiar colores despues */}
         <td>
           {/* Cambiar colores despues */}
           <Icon color='#FFC10C' onClick={() => navigate(`/admin/edit/${user.id}`)}  icon="lucide:edit" width="20" height="20" style={{ cursor: 'pointer' }} />
