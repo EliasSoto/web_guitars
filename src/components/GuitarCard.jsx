@@ -1,36 +1,47 @@
-
 // GuitarCard.jsx
-import React from 'react';
+import React from "react";
+import "../styles/GuitarCard.css";
 
-const GuitarCard = () => {
+const GuitarCard = ({
+  model = "Modelo",
+  brand = "Marca",
+  price = "100.000",
+  salePrice,
+  imageUrl = "/default-guitar.jpg",
+}) => {
   return (
-    <div className="max-w-xs rounded-2xl bg-white shadow-lg p-5 text-center relative">
-      <div className="flex justify-between items-start">
-        <div className="text-left">
-          <h2 className="text-lg font-bold text-gray-900">Modelo</h2>
-          <p className="text-sm text-gray-400">Marca</p>
+    <div className="guitar-card">
+      <div className="guitar-card-header">
+        <div>
+          <h2 className="guitar-card-model">{model}</h2>
+          <p className="guitar-card-brand">{brand}</p>
         </div>
-        <button className="text-gray-400 text-xl hover:text-red-500">
-          ♥
+        <button
+          className="guitar-card-wishlist"
+          aria-label="Añadir a favoritos"
+        >
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
         </button>
       </div>
 
-      <div className="my-4">
+      <div className="guitar-card-image-container">
         <img
-          src="/path-to-image/guitar.png" // cambia esto por la ruta real de tu imagen
-          alt="Guitarra"
-          className="mx-auto max-h-40 object-contain"
+          src={imageUrl}
+          alt={`Guitarra ${model}`}
+          className="guitar-card-image"
         />
       </div>
 
-      <div className="mt-4 text-left">
-        <p className="text-xl font-bold text-gray-900">$Precio Final</p>
-        <p className="text-sm text-gray-400 line-through">$Precio Remate</p>
+      <div className="guitar-card-footer">
+        <div className="guitar-card-prices">
+          <p className="guitar-card-final-price">${price}</p>
+          {salePrice && <p className="guitar-card-sale-price">${salePrice}</p>}
+          <p className="guitar-card-sale-price">$100.000</p>
+        </div>
+        <button className="guitar-card-add-to-cart">Agregar al carro</button>
       </div>
-
-      <button className="mt-4 w-full bg-blue-600 text-white rounded-lg py-2 font-semibold hover:bg-blue-700">
-        Agregar al carro
-      </button>
     </div>
   );
 };
