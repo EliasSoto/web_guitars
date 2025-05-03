@@ -1,13 +1,12 @@
 /* GuitarCard.css */
 .guitar-card {
-    width: 250px;
+
     background-color: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     font-family: 'Arial', sans-serif;
-    border: 1px solid #f3f3f3;
-    margin: 0 auto;
+    border: 2px solid #f3f3f3;
     transition: transform 0.3s, box-shadow 0.3s;
-    height: 400px;
+    height: 350px;
     display: flex;
     flex-direction: column;
 }
@@ -48,6 +47,7 @@
     align-items: center;
 }
 
+
 .guitar-card-wishlist svg {
     width: 20px;
     height: 20px;
@@ -58,6 +58,7 @@
     color: #ff0000;
 }
 
+
 .guitar-card-image-container {
     height: 160px;
     display: flex;
@@ -67,12 +68,18 @@
     padding: 0 15px;
 }
 
+
+
+
+
 .guitar-card-image {
     max-height: 100%;
     max-width: 100%;
     object-fit: contain;
     transition: transform 0.3s;
 }
+
+
 
 .guitar-card-image:hover {
     transform: scale(1.05);
@@ -83,31 +90,38 @@
     margin-top: auto;
     padding: 15px;
     display: flex; /* Añade flexbox */
-     justify-content: space-between; /* Separa los elementos */
+    justify-content: space-between; /* Separa los elementos */
     align-items: center; /* Centra verticalmente */
     /*gap: 12px; /* Espacio entre elementos */
 }
 
 .guitar-card-prices {
-    margin-bottom: 0; /* Elimina el margen inferior */
-    flex: 1; /* Permite que ocupe el espacio disponible */
+    margin-bottom: 0; 
+    flex: 1; 
 }
 
 .guitar-card-add-to-cart {
-    width: auto; /* Cambia el ancho fijo */
-    /*padding: 1; /* Ajusta el padding */
-    white-space: nowrap; /* Evita que el texto se divida */
+    width: 55%; 
     background-color: #3b82f6;
     color: white;
     border: none;
     border-radius: 6px;
-    padding: 12px;
-    font-size: 14px;
+    padding: 7px;
+    font-size: 12px;
     font-weight: bold;
     transition: all 0.3s;
     cursor: pointer;
     display: block;
+    white-space: normal; 
+    word-break: break-word; 
+    text-align: center; 
 }
+
+
+
+
+
+
 
 .guitar-card-final-price {
     font-size: 16px;
@@ -115,6 +129,7 @@
     color: #000;
     margin: 0;
 }
+
 
 .guitar-card-sale-price {
     font-size: 14px;
