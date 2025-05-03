@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 
-export default function UserRow({ user, setSelectedUser, setShowDetail, setShowForm, handleDelete }) {
+export default function UserRow({ user, handleDelete }) {
   const navigate = useNavigate();
 
     return (
@@ -12,7 +12,7 @@ export default function UserRow({ user, setSelectedUser, setShowDetail, setShowF
         <td>{user.email}</td>
         <td>{user.phone}</td>
         <td>{user.rut}</td>
-        <td>{user.birth_date}</td>
+        <td>{formatDate(user.birth_date)}</td>
         <td>{user.is_admin ? 'Admin' : 'Usuario'}</td>
         {/* Cambiar colores despues */}
         <td>
@@ -25,3 +25,7 @@ export default function UserRow({ user, setSelectedUser, setShowDetail, setShowF
     );
   }
   
+function formatDate(dateString) {
+  const [year, month, day] = dateString.split("-");
+  return `${day}/${month}/${year}`;
+}

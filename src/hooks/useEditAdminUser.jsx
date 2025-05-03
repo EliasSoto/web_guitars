@@ -25,19 +25,12 @@ export const useEditAdminUser = (userId, navigate) => {
         return;
       }
 
-      // Formatear la fecha si existe
-      let formattedDate = "";
-      if (data.birth_date) {
-        const [day, month, year] = data.birth_date.split('/');
-        formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-      }
-
       setFormData({
         first_name: data.first_name || "",
         last_name: data.last_name || "",
         email: data.email || "",
         phone: data.phone || "",
-        birth_date: formattedDate,
+        birth_date: data.birth_date || "",
         rut: data.rut || "",
         is_admin: data.is_admin || false,
       });
@@ -57,15 +50,7 @@ export const useEditAdminUser = (userId, navigate) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const formatDate = (date) => {
-      if (!date) return "";
-      const [year, month, day] = date.split("-");
-      return `${day}/${month}/${year}`;
-    };
     
-    const formattedBirthDate = formatDate(formData.birth_date);
-
     try {
       const [data, updateError] = await updateAdminUserById(
         userId,
@@ -73,7 +58,7 @@ export const useEditAdminUser = (userId, navigate) => {
         formData.last_name,
         formData.email,
         formData.phone,
-        formattedBirthDate,
+        formData.birth_date,
         formData.rut,
         formData.is_admin
       );

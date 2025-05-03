@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { registerAdminUser } from "../services/userAdminService";
+import { useNavigate } from "react-router-dom";
 
 const useRegisterAdminUser = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -50,8 +53,10 @@ const useRegisterAdminUser = () => {
         return;
       }
 
-      setSuccessMessage("Usuario administrador registrado correctamente");
+      setSuccessMessage("Usuario registrado correctamente");
       setError("");
+
+      navigate("/admin");
     } catch (err) {
       setError("Error inesperado al registrar el usuario");
       setSuccessMessage("");

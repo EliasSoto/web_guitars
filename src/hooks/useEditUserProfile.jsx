@@ -7,7 +7,6 @@ export const useEditUserProfile = (navigate) => {
     last_name: "",
     email: "",
     phone: "",
-    birth_date: "",
     rut: "",
     password: "",
     confirmPassword: ""
@@ -26,20 +25,12 @@ export const useEditUserProfile = (navigate) => {
         return;
       }
 
-      // Convertir la fecha de nacimiento a formato YYYY-MM-DD para el input de tipo date
-      let formattedDate = "";
-      if (data.birth_date) {
-        const [day, month, year] = data.birth_date.split('/');
-        formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-      }
-
       setFormData(prev => ({
         ...prev,
         first_name: data.first_name || "",
         last_name: data.last_name || "",
         email: data.email || "",
         phone: data.phone || "",
-        birth_date: formattedDate, // Guardamos la fecha en el formato adecuado para el input
         rut: data.rut || ""
       }));
       setLoading(false);
