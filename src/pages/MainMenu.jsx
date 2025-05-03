@@ -26,7 +26,7 @@ const MainMenu = () => {
         </aside>
 
         <main className="main-content-guitarras">
-          {Array.from({ length: 10 }).map((_, i) => (
+          {Array.from({ length: 33 }).map((_, i) => (
             <GuitarCard key={i} />
           ))}
         </main>
