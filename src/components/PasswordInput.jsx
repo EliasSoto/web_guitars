@@ -1,5 +1,5 @@
-import { useState } from "react";
 import "../styles/PasswordInput.css"; // Asegúrate de que la ruta sea correcta
+import { Icon } from '@iconify/react';
 
 export function PasswordInput({ value, onChange, showPassword, togglePasswordVisibility }) {
   const handleChange = (e) => {
@@ -8,7 +8,6 @@ export function PasswordInput({ value, onChange, showPassword, togglePasswordVis
 
   return (
     <div className="password-container">
-      <label className="label-usuario-contraseña" htmlFor="password">Contraseña</label>
       <div className="input-contraseña-container">
         <input
           className="input-contraseña"
@@ -20,11 +19,15 @@ export function PasswordInput({ value, onChange, showPassword, togglePasswordVis
           style={{ outline: 'none' }}
           minLength={8}
         />
-        <button
-          type="button"
+
+        <Icon 
+          icon={showPassword ? "octicon:eye-16" : "mdi:eye-off-outline"}
+          width="24"
+          height="24"
           className="eye-icon"
           onClick={togglePasswordVisibility}
         />
+        
       </div>
     </div>
   );

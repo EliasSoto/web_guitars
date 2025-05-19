@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { getAdminAllUsers, deleteAdminUserById } from '../../services/userAdminService.jsx';
 import UserRow from './RowTableAdmin.jsx';
 import UserTableHead from './UserTableHead.jsx'; 
-import UpdateModal from '../UpdateModal.jsx';
-import UserReadModal from '../UserReadModal.jsx';
 import "../../styles/admin_table/TableUsers.css";
 import { Icon } from '@iconify/react';
 import { useNavigate } from "react-router-dom";
+
+import Modal from '../modal.jsx';
+import RegisterAdminUserForm from '../forms/RegisterAdminUserForm.jsx';
+
+
 
 const UserList = () => {
   const navigate = useNavigate();
@@ -45,13 +48,28 @@ const UserList = () => {
     }
   };
 
+   const handleCloseForm = () => {
+    setShowForm(false);
+    fetchUsers();
+  };
+
+   const handleFormSuccess = useCallback(async () => {
+    await fetchUsers();
+}, []);
+
+
+
   return (
     <div className="table-container">
 
-      <div className="table-header" onClick={() => navigate("/admin/register")} style={{ cursor: 'pointer' }}>
+      <div className="table-header" onClick={() => setShowForm(true)} style={{ cursor: 'pointer' }}>
         <h1>Lista de Usuarios</h1>
         <Icon color="#3563E9" icon="humbleicons:user-add" width="34" height="34" />
       </div>
+
+       <Modal isOpen={showForm} onClose={handleCloseForm}>
+        <RegisterAdminUserForm onSuccess={handleFormSuccess} />
+      </Modal>
       
       <table>
         <UserTableHead /> 
@@ -70,6 +88,10 @@ const UserList = () => {
         </tbody>
 
       </table>
+
+     
+
+
     </div>
 
 

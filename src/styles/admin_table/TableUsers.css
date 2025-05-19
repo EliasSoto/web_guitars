@@ -13,6 +13,7 @@ table {
 }
 
 th, td {
+    font-size: 17px; /* Tamaño de fuente para las celdas */
     height: 40px; /* Altura de las celdas */
     font-weight: bold;
     border-bottom: 1px solid #EEEEEE;
@@ -20,7 +21,7 @@ th, td {
 }
 
 td {
-    font-size: 10px; /* Tamaño de fuente para las celdas */
+    font-size: 13px; /* Tamaño de fuente para las celdas */
     color: #444B59; /* Color de texto para las celdas */
     height: 40px; /* Altura de las celdas */
 }
@@ -29,7 +30,7 @@ td {
     display: block;
     align-items: center;
     align-content: center;
-    width: 80%; /* Ancho de la tabla */
+    width: 85%; /* Ancho de la tabla */
     overflow-x: auto; /* Permite desplazamiento horizontal si es necesario */
     margin: 20px 0; /* Espacio superior e inferior */
     padding: 10px; /* Espacio interno */

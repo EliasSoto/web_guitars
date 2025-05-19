@@ -16,6 +16,19 @@ const useRegisterAdminUser = () => {
     is_admin: false,
   });
 
+  const resetForm = () => {
+  setFormData({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    birth_date: "",
+    rut: "",
+    password: "",
+    is_admin: false,
+  });
+};
+
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -56,7 +69,6 @@ const useRegisterAdminUser = () => {
       setSuccessMessage("Usuario registrado correctamente");
       setError("");
 
-      navigate("/admin");
     } catch (err) {
       setError("Error inesperado al registrar el usuario");
       setSuccessMessage("");
@@ -70,7 +82,8 @@ const useRegisterAdminUser = () => {
     showPassword,
     handleChange,
     handleSubmit,
-    togglePasswordVisibility
+    togglePasswordVisibility,
+    resetForm
   };
 };
 

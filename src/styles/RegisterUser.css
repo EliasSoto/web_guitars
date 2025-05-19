@@ -1,33 +1,9 @@
 
 
-.title-register{
-    display: flex;
-    margin-left: 0px;
-}
 
-.register-main {
-    display: flex;
-    justify-content: center;
-    align-items: left;
-    height: 88vh; /* Cambia la altura de la página de inicio de sesión */ 
-}
-
-.register-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-form{
-    display: flex;
-    width: 110%;
-    flex-direction: column;
-}
- 
 .label-register{
     padding-top: 10px;
-    font-size: 11px; 
+    font-size: 13px; 
     font-weight: bold;
     color: #444B59; /* color de texto */
     margin-bottom: 5px; /* Espacio entre la etiqueta y el campo de entrada */
@@ -40,21 +16,49 @@ form{
     padding: 5px; /* Espacio interno del campo de entrada */
 }
 
+
+
+.checkbox_input {
+  border-radius: 20px;
+  width: 20px;
+  height: 20px;
+  accent-color: #8699DA; /* Color del check */
+  cursor: pointer;
+}
+
+.button-container {
+    text-align: center;
+}
+
 .button-register {
-    background-color: #8699DA; /* color de fondo */
-    color: white; /* color de texto */
-    border-radius: 15px; /* bordes redondeados */
-    padding: 10px 20px; /* Espacio interno del botón */
-    border: none; /* sin borde */
-    cursor: pointer; /* cursor de mano al pasar por encima */
-    font-size: 12px; /* tamaño de fuente */
-    font-weight: bold; /* negrita */
-    margin-top: 30px; /* Espacio entre el botón y el campo de entrada */
-    margin-left: 0px;
-  }
+    background-color: #8699DA;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 20px;
+    width: 60%;
+    transition: background-color 0.3s, transform 0.2s ease; /* transiciones suaves */
+}
 
+.button-register:hover {
+    background-color: #6f84c4; /* un tono más oscuro al pasar el mouse */
+    transform: scale(1.03); /* efecto leve de agrandamiento */
+}
 
-.atras-icon {
-    display: relative;
-    margin-left: -80px;
-} 
+  
+.checkbox-label {
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #444B59; /* color de texto */
+    margin-left: 5px; /* Espacio entre la etiqueta y el campo de entrada */
+    align-content: center;
+}
+
+.checkbox-container {
+    display: flex;
+}

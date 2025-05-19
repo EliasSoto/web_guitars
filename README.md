@@ -13,4 +13,7 @@ If you are developing a production application, we recommend using TypeScript wi
 
 
 sacar iconos de aqui: https://icon-sets.iconify.design/fa-solid/home/
+
+
+npm install react-toastify
 npm install @iconify/react
