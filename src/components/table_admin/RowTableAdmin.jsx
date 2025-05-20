@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 
-export default function UserRow({ user, handleDelete }) {
+export default function UserRow({ user, handleDelete, handleUpdate }) {
   const navigate = useNavigate();
 
     return (
@@ -17,7 +17,7 @@ export default function UserRow({ user, handleDelete }) {
         {/* Cambiar colores despues */}
         <td>
           {/* Cambiar colores despues */}
-          <Icon color='#FFC10C' onClick={() => navigate(`/admin/edit/${user.id}`)}  icon="lucide:edit" width="20" height="20" style={{ cursor: 'pointer' }} />
+          <Icon color='#FFC10C' onClick={() => handleUpdate(user.id)} icon="lucide:edit" width="20" height="20" style={{ cursor: 'pointer' }} />
           <Icon color='#ED3F3F' onClick={() => handleDelete(user.id)} icon="material-symbols:delete-outline-rounded" width="22" height="22" style={{ cursor: 'pointer' }} />
 
         </td>

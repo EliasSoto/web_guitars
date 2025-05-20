@@ -1,6 +1,5 @@
 
 import '../styles/Modal.css';
-import RegisterAdminUserForm from './forms/RegisterAdminUserForm';
 
 export default function Modal({ isOpen, onClose, children }) {
   if (!isOpen) return null;

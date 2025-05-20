@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getAdminUserById, updateAdminUserById } from "../services/userAdminService";
 
-export const useEditAdminUser = (userId, navigate) => {
+export const useEditAdminUser = (userId, navigate, onSuccess) => {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -71,7 +71,8 @@ export const useEditAdminUser = (userId, navigate) => {
 
       setSuccessMessage("Usuario actualizado correctamente");
       setError("");
-      setTimeout(() => navigate("/admin"), 1500);
+      
+      if (onSuccess) onSuccess();
 
     } catch (err) {
       setError("Error inesperado al actualizar el usuario");
@@ -79,12 +80,19 @@ export const useEditAdminUser = (userId, navigate) => {
     }
   };
 
+  const resetStatus = () => {
+  setError("");
+  setSuccessMessage("");
+};
+
+
   return {
     formData,
     error,
     successMessage,
     loading,
     handleChange,
-    handleSubmit
+    handleSubmit,
+    resetStatus
   };
 };
