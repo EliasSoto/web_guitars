@@ -2,7 +2,7 @@ import UserList from '../components/table_admin/UserList';
 import HeaderLogin from '../components/HeaderLogin';
 import "../styles/AdminDashboard.css";
 import Footer from '../components/Footer';
-import Sidebar from '../components/Sidebar';
+import AdminSidebar from '../components/AdminSidebar';
 
 export default function AdminDashboard() {
   return (
@@ -10,7 +10,7 @@ export default function AdminDashboard() {
       <HeaderLogin className="header-login" />
       <main className="main-content-admin">
 
-        <Sidebar />
+        <AdminSidebar />
         
         <section className="main-section-admin">
           <UserList />

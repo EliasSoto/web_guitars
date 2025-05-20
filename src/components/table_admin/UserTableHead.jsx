@@ -10,7 +10,7 @@ export default function UserTableHead() {
           <th>Email</th>
           <th>Teléfono</th>
           <th>RUT</th>
-          <th>Fecha de Nacimiento</th>
+          <th>Fecha de<br />Nacimiento</th>
           <th>Rol</th>
           <th>Acciones</th>
         </tr>
