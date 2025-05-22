@@ -21,9 +21,9 @@ const MainMenu = () => {
       <Header />
 
       <div className="main-content-admin">
-        <aside className="sidebar">
+    
           <Sidebar />
-        </aside>
+       
 
         <main className="main-content-guitarras">
           {Array.from({ length: 33 }).map((_, i) => (

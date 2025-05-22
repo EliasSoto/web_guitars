@@ -1,6 +1,7 @@
 
 import "../styles/Sidebar.css"; 
 import { Icon } from '@iconify/react';
+import { Link } from "react-router-dom";
 
 export default function AdminSidebar () {
 
@@ -11,16 +12,22 @@ export default function AdminSidebar () {
       <nav>
         <ul className="nav-list">
 
-            <li className="select">
+            <Link to="/admin/users" className="select">
+                
                 <Icon className= "icon" icon="fa-solid:users" width="24" height="24" />
                 <p className="text-panel">Usuarios</p>
-            </li>
 
-            <li className="select">
+                {/* <Link className="text-panel" to = "/admin/users">Usuarios</Link> */}
+            </Link>
+
+            <Link to="/admin/guitars" className="select">
                     <Icon className="icon" icon="f7:guitars" width="24" height="24" />
                     <p>Guitarras</p>
-            </li>
+            </Link>
 
+
+
+            {/* Falta agregar los links a las rutas de los componentes */}
             <li className="select">
                     <Icon icon="tdesign:map-location" width="24" height="24" />
                     <p>Direcciones</p>
