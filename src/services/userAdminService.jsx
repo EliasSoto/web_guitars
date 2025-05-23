@@ -54,8 +54,8 @@ export const registerAdminUser = async (first_name, last_name, email, phone, bir
 };
 
 
-// Función para obtener todos los usuarios
-export const getAdminAllUsers = async () => {
+// Función para obtener todos los usuarios (Cambiado por Alvaro)
+export const getAdminPaginatedUsers = async (page = 0, limit = 10) => {
     // Obtener el token de acceso del almacenamiento local
     const token = localStorage.getItem("access_token");
     if (!token) {
@@ -63,7 +63,7 @@ export const getAdminAllUsers = async () => {
       }
 
   try {
-    const response = await fetch(`${urlBase}/admin/usuarios`, {
+    const response = await fetch(`${urlBase}/admin/usuarios?page=${page}&limit=${limit}`, {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -86,7 +86,7 @@ export const getAdminAllUsers = async () => {
 };
 
 
-// Función para obtener usuariopor id
+// Función para obtener usuario por id
 export const getAdminUserById = async (userId) => {
     // Obtener el token de acceso del almacenamiento local
     const token = localStorage.getItem("access_token");
