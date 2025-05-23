@@ -13,6 +13,11 @@ import UpdateAdminUserForm from '../forms/UpdateAdminUserForm.jsx';
 
 const usersPerPage = 10;
 
+const handleLoginSuccess = () => {
+  //Carga user list al iniciar sesion
+  navigate('/admin'); 
+};
+
 const UserList = () => {
   const navigate = useNavigate();
 

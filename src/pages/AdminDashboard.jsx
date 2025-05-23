@@ -19,6 +19,8 @@ export default function AdminDashboard() {
         
         <section className="main-section-admin">
            <Routes>
+            {/* Ruta por defecto */}
+            <Route index element={<UserList />} />
             <Route path="users" element={<UserList /> } />
             
 
