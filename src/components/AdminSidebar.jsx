@@ -2,8 +2,18 @@
 import "../styles/Sidebar.css"; 
 import { Icon } from '@iconify/react';
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { userLogout } from "../services/userAuthService";
 
 export default function AdminSidebar () {
+
+  const navigate = useNavigate();
+
+  /*Funcion para logout */
+  const handleLogout = () => {
+    userLogout();
+    navigate("/login");
+  };
 
   return (
     <aside className="sidebar">
@@ -49,7 +59,7 @@ export default function AdminSidebar () {
                     <p>Administrador</p>
                 </li>
 
-                <li className="select">
+                <li className="select logout-item" onClick={handleLogout}>
                     <Icon icon="grommet-icons:logout" width="24" height="24" />
                     <p>Cerrar Sesión</p>
                 </li>
