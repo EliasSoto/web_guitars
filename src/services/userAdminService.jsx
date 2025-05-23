@@ -58,6 +58,7 @@ export const registerAdminUser = async (first_name, last_name, email, phone, bir
 export const getAdminPaginatedUsers = async (page = 1, limit = 10) => {
     // Obtener el token de acceso del almacenamiento local
     const token = localStorage.getItem("access_token");
+    
     if (!token) {
         return [null, "Acceso no autorizado. Token no encontrado"];
       }
