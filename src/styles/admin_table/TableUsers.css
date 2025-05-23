@@ -44,3 +44,59 @@ td {
     display: flex;
     justify-content: space-between; /* Espacio entre los elementos */
 }
+
+.pagination-controls {
+    display: flex;
+    align-items: center; /* Alinea verticalmente los controles */
+    margin-top: 3vh; /* Espacio superior */
+    gap: 0.8vh; /* Espacio entre los controles */
+}
+
+
+
+.pagination-button {
+  position: relative;
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  color: #555;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+}
+
+.pagination-button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background-color: #3b82f6;
+  transition: width 0.3s ease-in-out;
+  border-radius: 1px;
+}
+
+/* Hover: anima la barra */
+.pagination-button:hover::after {
+  width: 100%;
+}
+
+/* Activo: barra siempre visible */
+.pagination-button.active {
+  color: #3b82f6;
+}
+
+.pagination-button.active::after {
+  width: 100%;
+}
+
+/* Deshabilitado: sin animación ni hover */
+.pagination-button:disabled {
+  color: #aaa;
+  cursor: default;
+}
+
+.pagination-button:disabled::after {
+  display: none;
+}

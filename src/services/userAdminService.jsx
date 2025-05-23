@@ -54,8 +54,8 @@ export const registerAdminUser = async (first_name, last_name, email, phone, bir
 };
 
 
-// Función para obtener todos los usuarios (Cambiado por Alvaro)
-export const getAdminPaginatedUsers = async (page = 0, limit = 10) => {
+// Función para obtener los usuarios por paginación
+export const getAdminPaginatedUsers = async (page = 1, limit = 10) => {
     // Obtener el token de acceso del almacenamiento local
     const token = localStorage.getItem("access_token");
     if (!token) {

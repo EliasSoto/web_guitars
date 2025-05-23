@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useCallback } from 'react';
 import { getAdminPaginatedUsers, deleteAdminUserById } from '../../services/userAdminService.jsx';
 import UserRow from './RowTableAdmin.jsx';
@@ -25,8 +26,9 @@ const UserList = () => {
   const [page, setPage] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
 
-// (Cambiado por Alvaro)
-const fetchUsers = async (page = 0, limit = usersPerPage) => {
+
+  //Necesario para la paginación y guardar en caché
+  const fetchUsers = async (page = 0, limit = usersPerPage) => {
     setLoading(true);
 
     const [data, err] = await getAdminPaginatedUsers(page + 1, limit);
@@ -36,14 +38,33 @@ const fetchUsers = async (page = 0, limit = usersPerPage) => {
     } else {
       setUsers(data.users);
       setTotalUsers(data.total);
+
+      // Guardar en caché
+      sessionStorage.setItem("cachedUsers", JSON.stringify(data));
+      sessionStorage.setItem("cachedPage", page);
     }
 
     setLoading(false);
   };
 
+//Necesario para la paginación y guardar en caché
   useEffect(() => {
-    fetchUsers(page, usersPerPage);
+    const cachedData = sessionStorage.getItem("cachedUsers");
+    const cachedPage = sessionStorage.getItem("cachedPage");
+
+    if (cachedData && Number(cachedPage) === page) {
+      const parsed = JSON.parse(cachedData);
+      setUsers(parsed.users);
+      setTotalUsers(parsed.total);
+      setLoading(false);
+    } else {
+      fetchUsers(page, usersPerPage);
+    }
   }, [page]);
+
+
+
+
 
   const handleDelete = async (userId) => {
     if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
@@ -51,44 +72,53 @@ const fetchUsers = async (page = 0, limit = usersPerPage) => {
       if (err) {
         setError(err);
       } else {
+        sessionStorage.removeItem("cachedUsers");
+        sessionStorage.removeItem("cachedPage");
         fetchUsers(page, usersPerPage);
       }
     }
   };
 
-
-   const handleCloseForm = () => {
+  const handleCloseForm = () => {
     setShowForm(false);
+    sessionStorage.removeItem("cachedUsers");
+    sessionStorage.removeItem("cachedPage");
     fetchUsers(page, usersPerPage);
   };
 
-   const handleFormSuccess = useCallback(async () => {
+  const handleFormSuccess = useCallback(async () => {
+    sessionStorage.removeItem("cachedUsers");
+    sessionStorage.removeItem("cachedPage");
     await fetchUsers(page, usersPerPage);
-}, [page]);
+  }, [page]);
 
   const handleUpdate = (userId) => {
     console.log("ID seleccionado para editar:", userId);
     setSelectedUser(userId);
     setShowForm(true);
     setIsEditing(true);
-  }
+  };
 
   return (
     <div className="table-container">
-
       <div className="table-header">
         <h1>Lista de Usuarios</h1>
-        <Icon onClick={() => {
-          setShowForm(true);
-          setIsEditing(false);
-          setSelectedUser(null);
-         }} 
-         style={{ cursor: 'pointer' }} color="#3563E9" icon="humbleicons:user-add" width="34" height="34" />
+        <Icon
+          onClick={() => {
+            setShowForm(true);
+            setIsEditing(false);
+            setSelectedUser(null);
+          }}
+          style={{ cursor: 'pointer' }}
+          color="#3563E9"
+          icon="humbleicons:user-add"
+          width="34"
+          height="34"
+        />
       </div>
-      
+
       <table>
-        <UserTableHead /> 
-        {/* Cuerpo de la tabla con todos los usuarios */}
+        <UserTableHead />
         <tbody>
           {users.map((user) => (
             <UserRow
@@ -102,18 +132,36 @@ const fetchUsers = async (page = 0, limit = usersPerPage) => {
             />
           ))}
         </tbody>
-
       </table>
 
-          {/* Cambiado por Alvaro */}
-          <div className="pagination-controls">
-            <button disabled={page === 0} onClick={() => setPage(page - 1)}>Anterior</button>
-            <span>Página {page + 1}</span>
-            <button disabled={(page + 1) * usersPerPage >= totalUsers} onClick={() => setPage(page + 1)}>Siguiente</button>
-          </div>
-          
+      {/* Boton de paginación */}
+        <div className="pagination-controls">
+          <button className="pagination-button" disabled={page === 0} onClick={() => setPage(page - 1)}>
+            Anterior
+          </button>
 
-     <Modal isOpen={showForm} onClose={handleCloseForm}>
+          {[...Array(Math.ceil(totalUsers / usersPerPage)).keys()].map((num) => (
+            <button
+              key={num}
+              onClick={() => setPage(num)}
+              className={`pagination-button ${page === num ? 'active' : ''}`}
+            >
+              {num + 1}
+            </button>
+          ))}
+
+          <button
+            className="pagination-button"
+            disabled={(page + 1) * usersPerPage >= totalUsers}
+            onClick={() => setPage(page + 1)}
+          >
+            Siguiente
+          </button>
+        </div>
+
+
+      {/* Modals de edicion y registro */}
+      <Modal isOpen={showForm} onClose={handleCloseForm}>
         {isEditing ? (
           <UpdateAdminUserForm userId={selectedUser} onSuccess={handleFormSuccess} />
         ) : (
@@ -121,10 +169,7 @@ const fetchUsers = async (page = 0, limit = usersPerPage) => {
         )}
       </Modal>
 
-
     </div>
-
-
   );
 };
 
