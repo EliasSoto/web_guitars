@@ -13,6 +13,7 @@ export default function GuitarTableHead() {
         <th>Color</th>
         <th>Fecha de<br />Compra</th>
         <th>Personalizada</th>
+        <th>Tipo de Madera</th>
         <th>Acciones</th>
       </tr>
     </thead>

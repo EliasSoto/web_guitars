@@ -83,7 +83,7 @@ const GuitarList = () => {
         </table>
 
       <div className="pagination-controls">
-        <button disabled={page === 0} onClick={() => setPage(page - 1)}>
+        <button className="pagination-button" disabled={page === 0} onClick={() => setPage(page - 1)}>
           Anterior
         </button>
 
@@ -98,6 +98,7 @@ const GuitarList = () => {
         ))}
 
         <button
+          className="pagination-button"
           disabled={(page + 1) * guitarsPerPage >= totalGuitars}
           onClick={() => setPage(page + 1)}
         >

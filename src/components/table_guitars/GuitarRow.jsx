@@ -2,17 +2,19 @@ import { Icon } from '@iconify/react';
 
 
 export default function GuitarRow({ guitar, handleDelete, handleUpdate }) {
-   
-
+  
   return (
     <tr key={guitar.id}>
       <td>{guitar.id}</td>
       <td>{guitar.model}</td>
       <td>{guitar.brand}</td>
-      <td>{guitar.sale_price} USD</td>
-      <td>{guitar.purchase_price} USD</td>
+      <td>{guitar.sale_price}</td>
+      <td>{guitar.purchase_price}</td>
       <td>{guitar.stock}</td>
+      <td>{guitar.color}</td>
       <td>{formatDate(guitar.purchase_date)}</td>
+      <td>{guitar.wood_type}</td>
+      <td>{guitar.is_custom ? 'Activo' : 'Inactivo'}</td>
 
       <td>
         {/* <Icon

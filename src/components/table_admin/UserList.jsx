@@ -67,10 +67,6 @@ const UserList = () => {
     }
   }, [page]);
 
-
-
-
-
   const handleDelete = async (userId) => {
     if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
       const [, err] = await deleteAdminUserById(userId);
