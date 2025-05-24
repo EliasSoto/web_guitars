@@ -4,11 +4,18 @@ import { Icon } from '@iconify/react';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { userLogout } from "../services/userAuthService";
+import { useState } from "react";
+import Modal from "./Modal";
+import AdminProfileForm from "./forms/AdminProfileForm";
 
 export default function AdminSidebar () {
 
   const navigate = useNavigate();
 
+  const [isProfileModalOpen, setProfileModalOpen] = useState(false);
+  const openProfileModal = () => setProfileModalOpen(true);
+  const closeProfileModal = () => setProfileModalOpen(false);
+  
   /*Funcion para logout */
   const handleLogout = () => {
     userLogout();
@@ -54,7 +61,7 @@ export default function AdminSidebar () {
             </li>
             
             <div className="sesion-container">
-                <li className="select">
+                <li className="select"onClick={openProfileModal} >
                     <Icon icon="ix:user-profile-filled" width="24" height="24" />
                     <p>Administrador</p>
                 </li>
@@ -68,6 +75,9 @@ export default function AdminSidebar () {
         </ul>
         
       </nav>
+      <Modal isOpen={isProfileModalOpen} onClose={closeProfileModal}>
+        <AdminProfileForm onClose={closeProfileModal} />
+      </Modal>
       
     </aside>
   );
