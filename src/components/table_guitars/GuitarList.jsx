@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAdminPaginatedGuitars } from '../../services/guitarAdminService';
+import { getAdminPaginatedGuitars, delelteGuitarById } from '../../services/guitarAdminService';
 
 import GuitarTableHead from './GuitarTableHead';
 import "../../styles/admin_table/TableUsers.css";
@@ -46,10 +46,19 @@ const GuitarList = () => {
     }
   }, [page]);
 
-  const handleDelete = (id) => {
-    console.log(`Eliminar guitarra con ID: ${id}`);
-    // Aquí puedes agregar la lógica de eliminación real
+  const handleDelete = async (guitarId) => {
+    if (window.confirm("¿Estás seguro de que deseas eliminar esta guitarra?")) {
+      const [, err] = await delelteGuitarById(guitarId);
+      if (err) {
+        setError(err);
+      } else {
+        sessionStorage.removeItem("cachedGuitars");
+        sessionStorage.removeItem("cachedGuitarPage");
+        fetchGuitars(page, guitarsPerPage);
+      }
+    }
   };
+  
 
   const handleUpdate = (id) => {
     console.log(`Editar guitarra con ID: ${id}`);

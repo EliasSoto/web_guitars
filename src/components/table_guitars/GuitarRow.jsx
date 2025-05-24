@@ -17,7 +17,7 @@ export default function GuitarRow({ guitar, handleDelete, handleUpdate }) {
       <td>{guitar.is_custom ? 'Activo' : 'Inactivo'}</td>
 
       <td>
-        {/* <Icon
+        <Icon
           color="#FFC10C"
           onClick={() => handleUpdate(guitar.id)}
           icon="lucide:edit"
@@ -32,7 +32,7 @@ export default function GuitarRow({ guitar, handleDelete, handleUpdate }) {
           width="22"
           height="22"
           style={{ cursor: 'pointer' }}
-        /> */}
+        />
       </td>
     </tr>
   );
