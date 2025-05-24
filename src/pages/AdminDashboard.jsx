@@ -6,7 +6,7 @@ import AdminSidebar from '../components/AdminSidebar';
 import { Route, Routes } from 'react-router-dom';
 
 //solo para hacer pruebas
-import GuitarList from '../components/GuitarList';
+import GuitarList from '../components/table_guitars/GuitarList';
 
 export default function AdminDashboard() {
   return (
