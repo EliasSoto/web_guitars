@@ -11,6 +11,8 @@
   transition: background-color 0.3s ease, color 0.3s ease;
   cursor: pointer;
   color: gray;
+  text-decoration: none;
+
 }
 
 /* Efecto al pasar el cursor */
@@ -20,8 +22,20 @@
 }
 
 
+
+
+.select.active {
+  color: #8699DA;
+}
+
+.select.active:hover {
+  color: white; /* Color azul al hacer hover (puedes cambiarlo) */
+}
+
+
 .sesion-container {
   margin-top: 7rem;
   border-top: 1px solid #ddd;
   padding-top: 1rem;
 }
+

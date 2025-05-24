@@ -44,7 +44,7 @@ const useLogin = () => {
 
       // Redirigir al usuario según su rol
       if (data?.user_info?.role === "admin") {
-        navigate("/admin");
+        navigate("/admin/users");
       } else {
         navigate("/");
       }

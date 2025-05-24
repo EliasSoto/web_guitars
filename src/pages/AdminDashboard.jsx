@@ -21,8 +21,8 @@ export default function AdminDashboard() {
            <Routes>
             {/* Ruta por defecto */}
             <Route index element={<UserList />} />
-            <Route path="users" element={<UserList /> } />
-            
+            <Route path="/users" element={<UserList /> } />
+
 
             {/* Rutas para las guitarras solo pruebas por ahora */}
             <Route path="guitars" element={<GuitarList />} /> 
