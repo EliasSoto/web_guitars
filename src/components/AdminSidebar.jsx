@@ -75,6 +75,7 @@ export default function AdminSidebar () {
         </ul>
         
       </nav>
+      
       <Modal isOpen={isProfileModalOpen} onClose={closeProfileModal}>
         <AdminProfileForm onClose={closeProfileModal} />
       </Modal>

@@ -50,6 +50,7 @@ useEffect(() => {
       
         
         <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
+          
               {/* Columna izquierda */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
           <label className="label-register">Nombre</label>
