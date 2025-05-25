@@ -1,14 +1,22 @@
-// GuitarCard.jsx
 import React from "react";
 import "../styles/GuitarCard.css";
 
 const GuitarCard = ({
   model = "Modelo",
   brand = "Marca",
-  price = "100.000",
-  salePrice,
-  imageUrl = "data:image/jpeg;base64,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",
+  sale_price = null,
+  liquidation_price = null,
+  image_link = "",
 }) => {
+  // Función para formatear precios
+  const formatPrice = (price) => {
+    if (!price) return "";
+    return new Intl.NumberFormat('es-CL').format(price);
+  };
+
+  // Determinar si está en liquidación
+  const isLiquidation = liquidation_price && liquidation_price < sale_price;
+
   return (
     <div className="guitar-card">
       <div className="guitar-card-header">
@@ -16,10 +24,7 @@ const GuitarCard = ({
           <h2 className="guitar-card-model">{model}</h2>
           <p className="guitar-card-brand">{brand}</p>
         </div>
-        <button
-          className="guitar-card-wishlist"
-          aria-label="Añadir a favoritos"
-        >
+        <button className="guitar-card-wishlist" aria-label="Añadir a favoritos">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
           </svg>
@@ -28,17 +33,28 @@ const GuitarCard = ({
 
       <div className="guitar-card-image-container">
         <img
-          src={imageUrl}
+          src={image_link || "https://via.placeholder.com/300x200?text=Guitarra"}
           alt={`Guitarra ${model}`}
           className="guitar-card-image"
+          onError={(e) => {
+            e.target.src = "https://via.placeholder.com/300x200?text=Guitarra";
+          }}
         />
+        {isLiquidation && (
+          <div className="liquidation-badge">LIQUIDACIÓN</div>
+        )}
       </div>
 
       <div className="guitar-card-footer">
         <div className="guitar-card-prices">
-          <p className="guitar-card-final-price">${price}</p>
-          {salePrice && <p className="guitar-card-sale-price">${salePrice}</p>}
-          <p className="guitar-card-sale-price">$100.000</p>
+          {isLiquidation ? (
+            <>
+              <p className="guitar-card-original-price">${formatPrice(sale_price)}</p>
+              <p className="guitar-card-liquidation-price">${formatPrice(liquidation_price)}</p>
+            </>
+          ) : (
+            <p className="guitar-card-final-price">${formatPrice(sale_price)}</p>
+          )}
         </div>
         <button className="guitar-card-add-to-cart">Agregar al carro</button>
       </div>
