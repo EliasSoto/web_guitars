@@ -89,7 +89,7 @@ export const updateAdminGuitarById = async (
   }
 
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/guitarras/${guitarId}`, {
+    const response = await fetch(`${API_URL}/admin/guitarras/${guitarId}`, {
       method: "PUT",
       headers: {
         "Accept": "application/json",
@@ -140,7 +140,7 @@ export const getGuitarById = async (guitarId) => {
       }
   
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/guitarras/${guitarId}`, {
+      const response = await fetch(`${API_URL}/admin/guitarras/${guitarId}`, {
         method: "GET",
         headers: {
           "Accept": "application/json",
@@ -186,7 +186,7 @@ export const registerAdminGuitar = async (
       }
   
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/guitarras`, {
+      const response = await fetch(`${API_URL}/admin/guitarras`, {
         method: "POST",
         headers: {
           "Accept": "application/json",

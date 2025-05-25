@@ -1,6 +1,5 @@
 import useRegisterAdminGuitar from "../../hooks/useRegisterAdminGuitar";
 import "../../styles/RegisterAdminUserForm.css";
-import { PasswordInput } from "../PasswordInput";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
@@ -18,7 +17,6 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
   } = useRegisterAdminGuitar();
 
   useEffect(() => {
-
     if (error) {
       if (Array.isArray(error)) {
         error.forEach((err) => toast.error(err.msg));
@@ -34,17 +32,16 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
       if (onSuccess) {
         onSuccess();
       }
-
     }
   }, [error, successMessage, onSuccess]);
 
   return (
-     <div className="register-container">
+    <div className="register-container">
       <header>
-        <h1 className="text-inicia">Registrar nuevo usuario</h1>
+        <h1 className="text-inicia">Registrar nueva guitarra</h1>
       </header>
 
-            <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div
           style={{
             display: "flex",
@@ -55,125 +52,122 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
         >
           {/* Columna izquierda */}
           <div style={{ display: "flex", flexDirection: "column", gap: "1px", flex: 1 }}>
-            <label className="label-register">Nombre</label>
+            <label className="label-register">Modelo</label>
             <input
               className="input-normal"
               type="text"
-              name="first_name"
-              
-              
-              placeholder="Nombres"
-              style={{ outline: "none" }}
-              minLength={2}
-              required
+              name="model"
+              value={formData.model}
+              onChange={handleChange}
             />
 
-            <label className="label-register">Apellido</label>
+            <label className="label-register">Marca</label>
             <input
               className="input-normal"
               type="text"
-              name="last_name"
-              
-              
-              placeholder="Apellidos"
-              style={{ outline: "none" }}
-              minLength={2}
-              required
+              name="brand"
+              value={formData.brand}
+              onChange={handleChange}
             />
 
-            <label className="label-register">Correo</label>
-            <input
-              className="input-normal"
-              type="email"
-              name="email"
-             
-            
-              placeholder="Correo electrónico"
-              style={{ outline: "none" }}
-              required
-            />
-
-            <label className="label-register">Teléfono</label>
+            <label className="label-register">Descripción</label>
             <input
               className="input-normal"
               type="text"
-              name="phone"
-             
-            
-              placeholder="Teléfono"
-              style={{ outline: "none" }}
-              minLength={9}
-              maxLength={9}
-              required
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+            />
+
+            <label className="label-register">Precio de Compra</label>
+            <input
+              className="input-normal"
+              type="number"
+              name="purchase_price"
+              value={formData.purchase_price}
+              onChange={handleChange}
             />
           </div>
 
           {/* Columna del medio */}
           <div style={{ display: "flex", flexDirection: "column", gap: "1px", flex: 1 }}>
-            <label className="label-register">Nueva contraseña</label>
+            <label className="label-register">Precio de Venta</label>
             <input
               className="input-normal"
-              type="password"
-              name="password"
-              
-             
-              placeholder="Nueva contraseña"
+              type="number"
+              name="sale_price"
+              value={formData.sale_price}
+              onChange={handleChange}
             />
 
-            <label className="label-register">Confirmar nueva contraseña</label>
-            <input
-              className="input-normal"
-              type="password"
-              name="confirmPassword"
-              
-           
-              placeholder="Confirmar nueva contraseña"
-            />
-
-            <label className="label-register">Fecha nacimiento</label>
+            <label className="label-register">Fecha de Compra</label>
             <input
               className="input-normal"
               type="date"
-              name="birth_date"
-             
-              readOnly
-              disabled
+              name="purchase_date"
+              value={formData.purchase_date}
+              onChange={handleChange}
             />
 
-            <label className="label-register">Rut</label>
+            <label className="label-register">Tipo de madera</label>
             <input
               className="input-normal"
               type="text"
-              name="rut"
-              
-              readOnly
-              disabled
+              name="wood_type"
+              value={formData.wood_type}
+              onChange={handleChange}
+            />
+
+            <label className="label-register">Color</label>
+            <input
+              className="input-normal"
+              type="text"
+              name="color"
+              value={formData.color}
+              onChange={handleChange}
             />
           </div>
 
           {/* Tercera columna */}
           <div style={{ display: "flex", flexDirection: "column", gap: "1px", flex: 1 }}>
-            <label className="label-register">Rol</label>
+            <label className="label-register">Cantidad</label>
+            <input
+              className="input-normal"
+              type="number"
+              name="stock"
+              value={formData.stock}
+              onChange={handleChange}
+            />
+
+            <label className="label-register">Cantidad de trastes</label>
+            <input
+              className="input-normal"
+              type="number"
+              name="fret_count"
+              value={formData.fret_count}
+              onChange={handleChange}
+            />
+
+            <label className="label-register">IMAGEN</label>
             <input
               className="input-normal"
               type="text"
-              name="role"
-              readOnly
-              disabled
+              name="image_link"
+              placeholder="URL de la imagen"
+              value={formData.image_link}
+              onChange={handleChange}
             />
           </div>
         </div>
 
         <div className="button-container">
           <button className="button-register" type="submit">
-            Registar
+            Registrar
           </button>
         </div>
       </form>
 
-
-
-
+      <ToastContainer position="top-center" autoClose={8000} hideProgressBar/>
     </div>
-  )
+  );
 }
