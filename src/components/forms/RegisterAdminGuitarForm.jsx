@@ -1,19 +1,18 @@
 import useRegisterAdminGuitar from "../../hooks/useRegisterAdminGuitar";
 import "../../styles/RegisterAdminUserForm.css";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useEffect } from 'react';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
 export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) {
   const {
     formData,
     error,
     successMessage,
-    showPassword,
     handleChange,
     handleSubmit,
-    togglePasswordVisibility,
-    resetForm
+    resetForm,
+    clearSuccessMessage, 
   } = useRegisterAdminGuitar();
 
   useEffect(() => {
@@ -32,8 +31,11 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
       if (onSuccess) {
         onSuccess();
       }
+
+      // 👇 Limpiar mensaje luego del toast
+      clearSuccessMessage();
     }
-  }, [error, successMessage, onSuccess]);
+  }, [error, successMessage, onSuccess, clearSuccessMessage]);
 
   return (
     <div className="register-container">
@@ -167,7 +169,7 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
         </div>
       </form>
 
-      <ToastContainer position="top-center" autoClose={8000} hideProgressBar/>
+      <ToastContainer position="top-center" autoClose={8000} hideProgressBar />
     </div>
   );
 }

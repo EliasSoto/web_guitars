@@ -6,68 +6,53 @@ const useRegisterAdminGuitar = () => {
     model: "",
     brand: "",
     description: "",
-    purchase_price: 0,
-    sale_price: 0,
+    purchase_price: "",
+    sale_price: "",
     purchase_date: "",
     wood_type: "",
     image_link: "",
     color: "",
-    stock: 0,
+    stock: "",
     is_custom: false,
-    fret_count: 21, // valor por defecto dentro del rango válido
+    fret_count: "",
   });
+
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const resetForm = () => {
     setFormData({
       model: "",
       brand: "",
       description: "",
-      purchase_price: 0,
-      sale_price: 0,
+      purchase_price: "",
+      sale_price: "",
       purchase_date: "",
       wood_type: "",
       image_link: "",
       color: "",
-      stock: 0,
+      stock: "",
       is_custom: false,
-      fret_count: 21,
+      fret_count: "",
     });
   };
 
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const clearSuccessMessage = () => {
+    setSuccessMessage("");
+  };
 
-    const handleChange = (e) => {
-    const { name, type, checked, value, valueAsNumber } = e.target;
-
-    let parsedValue;
-
-    if (type === "checkbox") {
-      parsedValue = checked;
-    } else if (type === "number") {
-      // Si el usuario borra el input, valueAsNumber será NaN,
-      // entonces asignamos 0 o un valor por defecto
-      parsedValue = isNaN(valueAsNumber) ? 0 : valueAsNumber;
-    } else {
-      parsedValue = value;
-    }
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: parsedValue,
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-
-
-
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
-
     try {
-      console.log("Sending data to bad:", JSON.stringify(formData, null, 2));
 
       const [data, registerError] = await registerAdminGuitar(
         formData.model,
@@ -84,7 +69,6 @@ const useRegisterAdminGuitar = () => {
         formData.fret_count
       );
 
-
       if (registerError) {
         setError(registerError);
         setSuccessMessage("");
@@ -93,7 +77,6 @@ const useRegisterAdminGuitar = () => {
 
       setSuccessMessage("Guitarra registrada correctamente");
       setError("");
-      resetForm();
     } catch (err) {
       setError("Error inesperado al registrar la guitarra");
       setSuccessMessage("");
@@ -107,6 +90,7 @@ const useRegisterAdminGuitar = () => {
     handleChange,
     handleSubmit,
     resetForm,
+    clearSuccessMessage, 
   };
 };
 
