@@ -62,12 +62,12 @@ const useRegisterAdminGuitar = () => {
 
 
   const handleSubmit = async (e) => {
-    console.log("handleSubmit called with formData:", formData);
+
     e.preventDefault();
 
 
     try {
-      console.log("Sending data to backend:", JSON.stringify(formData, null, 2));
+      console.log("Sending data to bad:", JSON.stringify(formData, null, 2));
 
       const [data, registerError] = await registerAdminGuitar(
         formData.model,
