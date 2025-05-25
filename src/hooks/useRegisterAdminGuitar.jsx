@@ -8,16 +8,13 @@ const useRegisterAdminGuitar = () => {
     description: "",
     purchase_price: 0,
     sale_price: 0,
-    net_price: 0,
-    iva: 0,
-    liquidation_price: 0,
     purchase_date: "",
     wood_type: "",
     image_link: "",
     color: "",
     stock: 0,
     is_custom: false,
-    fret_count: 0,
+    fret_count: 21, // valor por defecto dentro del rango válido
   });
 
   const resetForm = () => {
@@ -27,50 +24,66 @@ const useRegisterAdminGuitar = () => {
       description: "",
       purchase_price: 0,
       sale_price: 0,
-      net_price: 0,
-      iva: 0,
-      liquidation_price: 0,
       purchase_date: "",
       wood_type: "",
       image_link: "",
       color: "",
       stock: 0,
       is_custom: false,
-      fret_count: 0,
+      fret_count: 21,
     });
   };
 
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
+    const handleChange = (e) => {
+    const { name, type, checked, value, valueAsNumber } = e.target;
+
+    let parsedValue;
+
+    if (type === "checkbox") {
+      parsedValue = checked;
+    } else if (type === "number") {
+      // Si el usuario borra el input, valueAsNumber será NaN,
+      // entonces asignamos 0 o un valor por defecto
+      parsedValue = isNaN(valueAsNumber) ? 0 : valueAsNumber;
+    } else {
+      parsedValue = value;
+    }
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: parsedValue,
     }));
   };
 
+
+
+
   const handleSubmit = async (e) => {
+    console.log("handleSubmit called with formData:", formData);
     e.preventDefault();
+
+
     try {
+      console.log("Sending data to backend:", JSON.stringify(formData, null, 2));
+
       const [data, registerError] = await registerAdminGuitar(
         formData.model,
         formData.brand,
         formData.description,
-        Number(formData.purchase_price),
-        Number(formData.sale_price),
-        Number(formData.net_price),
-        Number(formData.iva),
-        Number(formData.liquidation_price),
+        formData.purchase_price,
+        formData.sale_price,
         formData.purchase_date,
         formData.wood_type,
         formData.image_link,
         formData.color,
-        Number(formData.stock),
+        formData.stock,
         formData.is_custom,
-        Number(formData.fret_count)
+        formData.fret_count
       );
+
 
       if (registerError) {
         setError(registerError);
