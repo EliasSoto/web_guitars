@@ -1,25 +1,17 @@
 
-import "../styles/Sidebar.css"; 
+import "../styles/Sidebar.css";
 import { Icon } from '@iconify/react';
 import { NavLink, useNavigate } from "react-router-dom";
 import { userLogout } from "../services/userAuthService";
-import { useState, useCallback } from "react";
-import Modal from "./Modal";
-import AdminProfileForm from "./forms/AdminProfileForm";
 
-export default function AdminSidebar () {
+export default function AdminSidebar ({ openProfileModal}) {
+
   const navigate = useNavigate();
-  const [isProfileModalOpen, setProfileModalOpen] = useState(false);
-  const openProfileModal = () => setProfileModalOpen(true);
-  const closeProfileModal = () => setProfileModalOpen(false);
-  const [page, setPage] = useState(0);
-  const [users, setUsers] = useState([]);
-  
+
   const handleLogout = () => {
     userLogout();
     navigate("/login");
   };
-  
 
   return (
     <aside className="sidebar">
@@ -79,15 +71,10 @@ export default function AdminSidebar () {
               <p>Cerrar Sesión</p>
             </li>
           </div>
-
-
+          
         </ul>
-     
+
       </nav>
-      
-        <Modal isOpen={isProfileModalOpen} onClose={closeProfileModal}>
-          <AdminProfileForm  />
-        </Modal>
 
     </aside>
   );

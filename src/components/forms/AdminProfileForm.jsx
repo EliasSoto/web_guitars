@@ -40,7 +40,7 @@ export default function AdminProfileForm({ onClose, onSuccess }) {
       resetStatus(); // Resetea el estado después de mostrar el mensaje de éxito
      
     }
-  }, [error, successMessage, onClose, resetStatus, onSuccess]);
+  }, [error, successMessage, onClose, resetStatus]);
 
   return (
     <div className="register-container">

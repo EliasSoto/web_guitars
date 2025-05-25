@@ -1,103 +1,36 @@
 
-import { useEffect, useState, useCallback } from 'react';
-import { getAdminPaginatedUsers, deleteAdminUserById } from '../../services/userAdminService.jsx';
 import UserRow from './RowTableAdmin.jsx';
 import UserTableHead from './UserTableHead.jsx'; 
 import "../../styles/admin_table/TableUsers.css";
 import { Icon } from '@iconify/react';
-import { useNavigate } from "react-router-dom";
-
 import Modal from '../Modal.jsx';
 import RegisterAdminUserForm from '../forms/RegisterAdminUserForm.jsx';
 import UpdateAdminUserForm from '../forms/UpdateAdminUserForm.jsx';
+import useAdminUsers from '../../hooks/useAdminUsers.jsx';
+
 
 const usersPerPage = 10;
 
-const handleLoginSuccess = () => {
-  //Carga user list al iniciar sesion
-  navigate('/admin'); 
-};
+const UserList = ({
+  users,
+  totalUsers,
+  page,
+  setPage,
+  loading,
+  error,
+  selectedUser,
+  setSelectedUser,
+  showForm,
+  isEditing,
+  setShowForm,
+  setShowDetail,
+  setIsEditing,
+  handleDelete,
+  handleCloseForm,
+  handleFormSuccess,
+  handleUpdate,
+}) => {
 
-const UserList = () => {
-  const navigate = useNavigate();
-
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [showDetail, setShowDetail] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [page, setPage] = useState(0);
-  const [totalUsers, setTotalUsers] = useState(0);
-
-
-  //Necesario para la paginación y guardar en caché
-  const fetchUsers = async (page = 0, limit = usersPerPage) => {
-    setLoading(true);
-
-    const [data, err] = await getAdminPaginatedUsers(page + 1, limit);
-
-    if (err) {
-      setError(err);
-    } else {
-      setUsers(data.users);
-      setTotalUsers(data.total);
-
-      // Guardar en caché
-      sessionStorage.setItem("cachedUsers", JSON.stringify(data));
-      sessionStorage.setItem("cachedPage", page);
-    }
-
-    setLoading(false);
-  };
-
-//Necesario para la paginación y guardar en caché
-  useEffect(() => {
-    const cachedData = sessionStorage.getItem("cachedUsers");
-    const cachedPage = sessionStorage.getItem("cachedPage");
-
-    if (cachedData && Number(cachedPage) === page) {
-      const parsed = JSON.parse(cachedData);
-      setUsers(parsed.users);
-      setTotalUsers(parsed.total);
-      setLoading(false);
-    } else {
-      fetchUsers(page, usersPerPage);
-    }
-  }, [page]);
-
-  const handleDelete = async (userId) => {
-    if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
-      const [, err] = await deleteAdminUserById(userId);
-      if (err) {
-        setError(err);
-      } else {
-        sessionStorage.removeItem("cachedUsers");
-        sessionStorage.removeItem("cachedPage");
-        fetchUsers(page, usersPerPage);
-      }
-    }
-  };
-
-  const handleCloseForm = () => {
-    setShowForm(false);
-    sessionStorage.removeItem("cachedUsers");
-    sessionStorage.removeItem("cachedPage");
-    fetchUsers(page, usersPerPage);
-  };
-
-  const handleFormSuccess = useCallback(async () => {
-    sessionStorage.removeItem("cachedUsers");
-    sessionStorage.removeItem("cachedPage");
-    await fetchUsers(page, usersPerPage);
-  }, [page]);
-
-  const handleUpdate = (userId) => {
-    setSelectedUser(userId);
-    setShowForm(true);
-    setIsEditing(true);
-  };
 
   return (
     <div className="table-container">
