@@ -33,11 +33,11 @@ const GuitarCard = ({
 
       <div className="guitar-card-image-container">
         <img
-          src={image_link || "https://via.placeholder.com/300x200?text=Guitarra"}
+          src={image_link || "https://www.ibanez.com/common/product_artist_file/file/p_region_RG550DX_1P_01_DYB.png"}
           alt={`Guitarra ${model}`}
           className="guitar-card-image"
           onError={(e) => {
-            e.target.src = "https://via.placeholder.com/300x200?text=Guitarra";
+            e.target.src = "https://www.ibanez.com/common/product_artist_file/file/p_region_RG550DX_1P_01_DYB.png";
           }}
         />
         {isLiquidation && (
