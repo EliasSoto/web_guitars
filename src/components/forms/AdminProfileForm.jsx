@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AdminProfileForm({ onClose }) {
+export default function AdminProfileForm({ onClose, onSuccess }) {
   const navigate = useNavigate();
 
   const {
@@ -15,6 +15,7 @@ export default function AdminProfileForm({ onClose }) {
     handleSubmit,
     loading,
     resetStatus, // asumo que el hook tiene esta función para limpiar errores/mensajes
+
   } = useEditUserProfile(navigate);
 
   useEffect(() => {
@@ -24,14 +25,22 @@ export default function AdminProfileForm({ onClose }) {
       } else {
         toast.error(error);
       }
+
       resetStatus();
+
     }
+
     if (successMessage) {
       toast.success(successMessage);
-      resetStatus();
-      onClose?.(); // Cierra el modal si se edita correctamente
+      
+      if (onSuccess) {
+        onSuccess(); // Llama a la función onClose si se proporciona
+      }
+
+      resetStatus(); // Resetea el estado después de mostrar el mensaje de éxito
+     
     }
-  }, [error, successMessage, onClose, resetStatus]);
+  }, [error, successMessage, onClose, resetStatus, onSuccess]);
 
   return (
     <div className="register-container">

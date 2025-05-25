@@ -146,15 +146,6 @@ export default function UpdateAdminUserForm({ userId, onSuccess, onClose }) {
         </div>
       </form>
 
-      {/* {error && (
-        <p style={{ color: "red" }}>
-          {Array.isArray(error)
-            ? error.map((err, index) => <span key={index}>{err.msg}<br /></span>)
-            : error}
-        </p>
-      )}
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>} */}
-
       <ToastContainer position="top-center" autoClose={8000} hideProgressBar />
     </div>
   );
