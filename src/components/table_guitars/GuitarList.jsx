@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAdminPaginatedGuitars, delelteGuitarById } from '../../services/guitarAdminService';
+import { getAdminPaginatedGuitars, deleteGuitarById } from '../../services/guitarAdminService';
 
 import GuitarTableHead from './GuitarTableHead';
 import "../../styles/admin_table/TableUsers.css";
@@ -7,10 +7,16 @@ import { Icon } from '@iconify/react';
 
 import GuitarRow from './GuitarRow';
 
+import Modal from '../Modal';
+import RegisterAdminGuitarForm from '../forms/RegisterAdminGuitarForm';
+
 const guitarsPerPage = 10;
 
 const GuitarList = () => {
   const [guitars, setGuitars] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedGuitar, setSelectedGuitar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(0);
@@ -48,7 +54,7 @@ const GuitarList = () => {
 
   const handleDelete = async (guitarId) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar esta guitarra?")) {
-      const [, err] = await delelteGuitarById(guitarId);
+      const [, err] = await deleteGuitarById(guitarId);
       if (err) {
         setError(err);
       } else {
@@ -60,16 +66,37 @@ const GuitarList = () => {
   };
   
 
-  const handleUpdate = (id) => {
-    console.log(`Editar guitarra con ID: ${id}`);
-    // Aquí puedes redirigir a una página de edición o abrir un modal
+  const handleUpdate = (guitarId) => {
+    setSelectedGuitar(guitarId);
+    setShowForm(true);
+    setIsEditing(true);
   };
+
+  const handleCloseForm = () => {
+    setShowForm(false);
+    sessionStorage.removeItem("cachedGuitars");
+    sessionStorage.removeItem("cachedGuitarPage");
+    fetchGuitars(page, guitarsPerPage);
+  };
+
+  const handleFormSuccess = async () => {
+    sessionStorage.removeItem("cachedGuitars");
+    sessionStorage.removeItem("cachedGuitarPage");
+    await fetchGuitars(page, guitarsPerPage);
+  };
+
+
 
   return (
     <div className="table-container">
       <div className="table-header">
         <h1>Lista de Guitarras</h1>
         <Icon
+          onClick={() => {
+            setShowForm(true);
+            setIsEditing(false);
+            setSelectedGuitar(null);
+          }}
           icon="mdi:guitar-acoustic"
           width="34"
           height="34"
@@ -114,6 +141,15 @@ const GuitarList = () => {
           Siguiente
         </button>
       </div>
+
+      <Modal isOpen={showForm} onClose={handleCloseForm}>
+        {isEditing ? (
+          <UpdateAdminGuitarForm guitarId={selectedGuitar} onSuccess={handleFormSuccess} />
+        ) : (
+          <RegisterAdminGuitarForm onSuccess={handleFormSuccess} />
+        )}
+      </Modal>
+
     </div>
   );
 };

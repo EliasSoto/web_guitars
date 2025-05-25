@@ -5,6 +5,8 @@ export const useEditUserProfile = (navigate) => {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
+    birth_date: "",
+    is_admin: "",
     email: "",
     phone: "",
     rut: "",
@@ -29,6 +31,8 @@ export const useEditUserProfile = (navigate) => {
         ...prev,
         first_name: data.first_name || "",
         last_name: data.last_name || "",
+        birth_date: data.birth_date ? data.birth_date.split('/').reverse().join('-') : "",
+        is_admin: data.is_admin || "",
         email: data.email || "",
         phone: data.phone || "",
         rut: data.rut || ""
@@ -50,13 +54,11 @@ export const useEditUserProfile = (navigate) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar que las contraseñas coincidan si se están cambiando
     if (formData.password && formData.password !== formData.confirmPassword) {
       setError("Las contraseñas no coinciden");
       return;
     }
 
-    // Preparar los datos para enviar (excluyendo confirmPassword)
     const { confirmPassword, ...userUpdate } = formData;
 
     if (userUpdate.birth_date) {
@@ -75,7 +77,6 @@ export const useEditUserProfile = (navigate) => {
 
       setSuccessMessage("Perfil actualizado correctamente");
       setError("");
-      // Limpiar campos de contraseña después de actualizar
       setFormData(prev => ({
         ...prev,
         password: "",
@@ -89,12 +90,19 @@ export const useEditUserProfile = (navigate) => {
     }
   };
 
+  // Nueva función para limpiar estados de error y éxito
+  const resetStatus = () => {
+    setError("");
+    setSuccessMessage("");
+  };
+
   return {
     formData,
     error,
     successMessage,
     loading,
     handleChange,
-    handleSubmit
+    handleSubmit,
+    resetStatus  // <-- devolver esta función para usarla fuera
   };
 };

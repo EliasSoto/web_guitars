@@ -76,12 +76,16 @@ export default function AdminSidebar () {
               <p>Cerrar Sesión</p>
             </li>
           </div>
-        </ul>
-      </nav>
 
-      <Modal isOpen={isProfileModalOpen} onClose={closeProfileModal}>
-        <AdminProfileForm onClose={closeProfileModal} />
-      </Modal>
+
+        </ul>
+     
+      </nav>
+      
+        <Modal isOpen={isProfileModalOpen} onClose={closeProfileModal}>
+          <AdminProfileForm onClose={closeProfileModal} />
+        </Modal>
+
     </aside>
   );
 };

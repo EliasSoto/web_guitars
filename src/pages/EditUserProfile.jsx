@@ -5,6 +5,16 @@ import "../styles/RegisterUser.css";
 import { useNavigate, Link } from "react-router-dom";
 import { useEditUserProfile } from "../hooks/useEditUserProfile";
 
+
+//BORRAR ESTE UNA VEZ QUE FUNCIONE SE CREE LA PAGE PARA GESTIONAR PERFIL DE USUARIO NORMAL
+//BORRAR ESTE UNA VEZ QUE FUNCIONE SE CREE LA PAGE PARA GESTIONAR PERFIL DE USUARIO NORMAL
+//BORRAR ESTE UNA VEZ QUE FUNCIONE SE CREE LA PAGE PARA GESTIONAR PERFIL DE USUARIO NORMAL
+//BORRAR ESTE UNA VEZ QUE FUNCIONE SE CREE LA PAGE PARA GESTIONAR PERFIL DE USUARIO NORMAL
+//BORRAR ESTE UNA VEZ QUE FUNCIONE SE CREE LA PAGE PARA GESTIONAR PERFIL DE USUARIO NORMAL
+//BORRAR ESTE UNA VEZ QUE FUNCIONE SE CREE LA PAGE PARA GESTIONAR PERFIL DE USUARIO NORMAL
+//BORRAR ESTE UNA VEZ QUE FUNCIONE SE CREE LA PAGE PARA GESTIONAR PERFIL DE USUARIO NORMAL
+//BORRAR ESTE UNA VEZ QUE FUNCIONE SE CREE LA PAGE PARA GESTIONAR PERFIL DE USUARIO NORMAL
+
 const EditUserProfile = () => {
   const navigate = useNavigate();
   const {
@@ -30,7 +40,7 @@ const EditUserProfile = () => {
           </div>
 
           <form onSubmit={handleSubmit}>
-            <label className="label-register">Nombre</label>
+            <label className="label-register">Nomre</label>
             <input
               className="input-normal"
               type="text"

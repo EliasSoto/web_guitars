@@ -1,18 +1,11 @@
-
 import { useNavigate } from "react-router-dom";
-import { useEditAdminUser } from "../../hooks/useEditAdminUser";
+import { useEditUserProfile } from "../../hooks/useEditUserProfile";
 import { useEffect } from "react";
-import "../../styles/RegisterAdminUserForm.css";
-import { toast, ToastContainer } from 'react-toastify';
-import { PasswordInput } from "../PasswordInput";
-
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function AdminProfileForm({ onClose }) {
   const navigate = useNavigate();
-
-  const storedUser = JSON.parse(localStorage.getItem("user_info"));
-  const userId = storedUser?._id;
 
   const {
     formData,
@@ -20,12 +13,17 @@ export default function AdminProfileForm({ onClose }) {
     successMessage,
     handleChange,
     handleSubmit,
-    resetStatus
-  } = useEditAdminUser(userId, navigate);
+    loading,
+    resetStatus, // asumo que el hook tiene esta función para limpiar errores/mensajes
+  } = useEditUserProfile(navigate);
 
   useEffect(() => {
     if (error) {
-      Array.isArray(error) ? error.forEach((err) => toast.error(err.msg)) : toast.error(error);
+      if (Array.isArray(error)) {
+        error.forEach((err) => toast.error(err.msg));
+      } else {
+        toast.error(error);
+      }
       resetStatus();
     }
     if (successMessage) {
@@ -33,76 +31,146 @@ export default function AdminProfileForm({ onClose }) {
       resetStatus();
       onClose?.(); // Cierra el modal si se edita correctamente
     }
-  }, [error, successMessage, onClose]);
+  }, [error, successMessage, onClose, resetStatus]);
 
   return (
     <div className="register-container">
       <header>
         <h1 className="text-inicia">Editar Perfil</h1>
       </header>
+
       <form onSubmit={handleSubmit}>
-        {/* ... inputs como antes (nombre, apellido, etc) ... */}
-         <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
-                  
-                      {/* Columna izquierda */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "40px",
+            flexWrap: "wrap",
+            marginBottom: "20px",
+          }}
+        >
+          {/* Columna izquierda */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "1px", flex: 1 }}>
+            <label className="label-register">Nombre</label>
+            <input
+              className="input-normal"
+              type="text"
+              name="first_name"
+              value={formData.first_name}
+              onChange={handleChange}
+              placeholder="Nombres"
+              style={{ outline: "none" }}
+              minLength={2}
+              required
+            />
 
-                    
-                    <label className="label-register">Nombre</label>
-                    <input
-                      className="input-normal"
-                      type="text"
-                      name="first_name"
-                      value={formData.first_name}
-                      onChange={handleChange}
-                      placeholder="Nombres"
-                      style={{ outline: 'none' }}
-                      minLength={2}
-                      required
-                    />
-          
-                
-          
-                    
-                  </div>
-          
-                  {/* Columna derecha */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
-                  
-          
-                    <label className="label-register">Fecha nacimiento</label>
-                    <input
-                      className="input-normal"
-                      type="date"
-                      name="birth_date"
-                      value={formData.birth_date}
-                      onChange={handleChange}
-                      style={{ outline: 'none' }}
-                    />
-          
-                
-                
-                  
-                  </div>
-                </div>
-        
+            <label className="label-register">Apellido</label>
+            <input
+              className="input-normal"
+              type="text"
+              name="last_name"
+              value={formData.last_name}
+              onChange={handleChange}
+              placeholder="Apellidos"
+              style={{ outline: "none" }}
+              minLength={2}
+              required
+            />
 
+            <label className="label-register">Correo</label>
+            <input
+              className="input-normal"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Correo electrónico"
+              style={{ outline: "none" }}
+              required
+            />
 
-        
-                <div className="button-container">
-                    <button className="button-register">Registrar</button>
-                </div>
-        
+            <label className="label-register">Teléfono</label>
+            <input
+              className="input-normal"
+              type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Teléfono"
+              style={{ outline: "none" }}
+              minLength={9}
+              maxLength={9}
+              required
+            />
+          </div>
 
+          {/* Columna del medio */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "1px", flex: 1 }}>
+            <label className="label-register">Nueva contraseña</label>
+            <input
+              className="input-normal"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Nueva contraseña"
+            />
 
+            <label className="label-register">Confirmar nueva contraseña</label>
+            <input
+              className="input-normal"
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="Confirmar nueva contraseña"
+            />
 
+            <label className="label-register">Fecha nacimiento</label>
+            <input
+              className="input-normal"
+              type="date"
+              name="birth_date"
+              value={formData.birth_date}
+              readOnly
+              disabled
+            />
 
+            <label className="label-register">Rut</label>
+            <input
+              className="input-normal"
+              type="text"
+              name="rut"
+              value={formData.rut}
+              readOnly
+              disabled
+            />
+          </div>
 
+          {/* Tercera columna */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "1px", flex: 1 }}>
+            <label className="label-register">Rol</label>
+            <input
+              className="input-normal"
+              type="text"
+              name="role"
+              value={
+                formData.is_admin === true || formData.is_admin === "true"
+                  ? "Administrador"
+                  : "Usuario"
+              }
+              readOnly
+              disabled
+            />
+          </div>
+        </div>
 
-
-
-
+        <div className="button-container">
+          <button className="button-register" type="submit" disabled={loading}>
+            {loading ? "Actualizando..." : "Actualizar perfil"}
+          </button>
+        </div>
       </form>
+
       <ToastContainer position="top-center" autoClose={8000} hideProgressBar />
     </div>
   );

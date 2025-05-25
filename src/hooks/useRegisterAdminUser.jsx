@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { registerAdminUser } from "../services/userAdminService";
-import { useNavigate } from "react-router-dom";
+
 
 const useRegisterAdminUser = () => {
-  const navigate = useNavigate();
+
 
   const [formData, setFormData] = useState({
     first_name: "",

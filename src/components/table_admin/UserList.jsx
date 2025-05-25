@@ -94,7 +94,6 @@ const UserList = () => {
   }, [page]);
 
   const handleUpdate = (userId) => {
-    console.log("ID seleccionado para editar:", userId);
     setSelectedUser(userId);
     setShowForm(true);
     setIsEditing(true);
