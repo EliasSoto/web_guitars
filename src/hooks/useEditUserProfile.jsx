@@ -82,7 +82,7 @@ export const useEditUserProfile = (navigate) => {
         password: "",
         confirmPassword: ""
       }));
-      setTimeout(() => navigate("/perfil"), 1500);
+      //setTimeout(() => navigate("/perfil"), 1500);
 
     } catch (err) {
       setError("Error inesperado al actualizar el perfil");
