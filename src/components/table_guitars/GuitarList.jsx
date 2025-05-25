@@ -9,6 +9,7 @@ import GuitarRow from './GuitarRow';
 
 import Modal from '../Modal';
 import RegisterAdminGuitarForm from '../forms/RegisterAdminGuitarForm';
+import UpdateAdminGuitarForm from '../forms/UpdateAdminGuitarForm';
 
 const guitarsPerPage = 10;
 
@@ -97,7 +98,8 @@ const GuitarList = () => {
             setIsEditing(false);
             setSelectedGuitar(null);
           }}
-          icon="mdi:guitar-acoustic"
+          style={{ cursor: 'pointer' }}
+          icon="mdi:guitar-electric"
           width="34"
           height="34"
           color="#3563E9"

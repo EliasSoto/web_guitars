@@ -3,10 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { isAuthenticated, userLogout } from '../services/userAuthService';
 import { Icon } from '@iconify/react';
 import '../styles/ProfileDropdown.css';
-
+import { getUserFirstNameLocal } from '../utils/userUtils';
 
 const DropdownButton = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [userFirstName, setUserFirstName] = useState(null);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
   const [isClosing, setIsClosing] = useState(false);
@@ -47,17 +48,12 @@ const DropdownButton = () => {
     };
   }, []);
   
-  const [userFirstName, setUserFirstName] = useState(null);
-
-   // Obtener el usuario desde localStorage
-   useEffect(() => {
-    const userData = localStorage.getItem('user_info');
-    if (userData) {
-      const user = JSON.parse(userData);
-      const firstName = user.fullname.split(' ')[0];
-      setUserFirstName(firstName); 
-    }
+  useEffect(() => {
+    const firstName = getUserFirstNameLocal();
+    setUserFirstName(firstName);
   }, []);
+
+
   
 
   return (

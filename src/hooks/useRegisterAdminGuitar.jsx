@@ -42,12 +42,18 @@ const useRegisterAdminGuitar = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
+  const { name, value } = e.target;
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+
+  // Limpiar errores al escribir
+  setError(null);
+  setSuccessMessage(""); 
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

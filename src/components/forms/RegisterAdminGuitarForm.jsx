@@ -3,6 +3,7 @@ import "../../styles/RegisterAdminUserForm.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
+import ImageUploader from "../ImageUploader"; // Asegúrate de que la ruta sea correcta
 
 export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) {
   const {
@@ -32,7 +33,6 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
         onSuccess();
       }
 
-      // 👇 Limpiar mensaje luego del toast
       clearSuccessMessage();
     }
   }, [error, successMessage, onSuccess, clearSuccessMessage]);
@@ -150,15 +150,19 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               onChange={handleChange}
             />
 
-            <label className="label-register">IMAGEN</label>
-            <input
-              className="input-normal"
-              type="text"
-              name="image_link"
-              placeholder="URL de la imagen"
-              value={formData.image_link}
-              onChange={handleChange}
+            <label className="label-register">Imagen</label>
+            <ImageUploader
+              onUploadSuccess={(url) => {
+                handleChange({
+                  target: {
+                    name: "image_link",
+                    value: url,
+                  },
+                });
+              }}
+              initialImageUrl={formData.image_link}
             />
+            
           </div>
         </div>
 

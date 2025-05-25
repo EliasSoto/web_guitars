@@ -1,0 +1,78 @@
+.image-uploader-container {
+  font-family: Arial, sans-serif;
+  width: 8.8vh;
+  height: 8.8vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.image-upload-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 8.8vh;
+  border: 2px dashed #8699DA;
+  border-radius: 8px;
+  color: #333;
+  user-select: none;
+  height: 8.8vh; /* altura fija para centrar verticalmente */
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.image-upload-label.uploading {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.spacer {
+  width: 2px;
+  height: 2px;
+  flex-shrink: 0;
+}
+
+.icon-wrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+}
+
+.file-input {
+  display: none;
+}
+
+.upload-error {
+  color: red;
+  margin-top: 8px;
+}
+
+.image-preview-wrapper {
+  position: relative;
+}
+
+.image-preview {
+  width: 8.8vh;
+  height: 8.8vh;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.remove-image-button {
+  position: absolute;
+  top: 4px;               /* Agrega top para que no quede muy arriba */
+  right: 4px;             /* Cambia right a 4px para que esté pegado a la imagen */
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;     /* Mejor para un botón circular */
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 24px;
+  text-align: center;
+}

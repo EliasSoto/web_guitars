@@ -28,7 +28,7 @@ export default function UpdateAdminUserForm({ userId, onSuccess, onClose }) {
         // Sirve para resetear el error después de mostrarlo
         resetStatus();
 
-        }
+      }
 
         if (successMessage) {
         toast.success(successMessage);
