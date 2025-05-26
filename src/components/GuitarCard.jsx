@@ -1,17 +1,19 @@
 import React from "react";
 import "../styles/GuitarCard.css";
+import { useCart } from "../contexts/CartContext";
 
-const GuitarCard = ({
-  model = "Modelo",
-  brand = "Marca",
-  sale_price = null,
-  liquidation_price = null,
-  image_link = "",
-}) => {
-  // Función para formatear precios
-  const formatPrice = (price) => {
-    if (!price) return "";
-    return new Intl.NumberFormat('es-CL').format(price);
+const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_link }) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart({
+      id,
+      model,
+      brand,
+      sale_price,
+      liquidation_price,
+      image_link
+    });
   };
 
   // Determinar si está en liquidación
@@ -49,14 +51,14 @@ const GuitarCard = ({
         <div className="guitar-card-prices">
           {isLiquidation ? (
             <>
-              <p className="guitar-card-original-price">${formatPrice(sale_price)}</p>
-              <p className="guitar-card-liquidation-price">${formatPrice(liquidation_price)}</p>
+              <p className="guitar-card-original-price">${(sale_price)}</p>
+              <p className="guitar-card-liquidation-price">${(liquidation_price)}</p>
             </>
           ) : (
-            <p className="guitar-card-final-price">${formatPrice(sale_price)}</p>
+            <p className="guitar-card-final-price">${(sale_price)}</p>
           )}
         </div>
-        <button className="guitar-card-add-to-cart">Agregar al carro</button>
+        <button className="guitar-card-add-to-cart" onClick={handleAddToCart}>Agregar al carro</button>
       </div>
     </div>
   );

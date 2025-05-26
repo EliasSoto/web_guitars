@@ -3,8 +3,11 @@ import { isAuthenticated } from '../services/userAuthService';
 import "../styles/Header.css";
 import ProfileDropdown from './ProfileDropdown';
 import { Icon } from '@iconify/react';
+import { useCart } from '../contexts/CartContext';
+import CartModal from './CartModal';
 
 export default function Header() {
+    const { cartItems, setIsCartOpen } = useCart();
   return (
     <header className="header-main">
       
@@ -26,7 +29,14 @@ export default function Header() {
       <div className='icons-container'>
           
           <Icon icon="fa-solid:home" width="22" height="22" color="#808080" />
-          <Icon icon="mynaui:cart-solid" width="22" height="22" color="#808080" />
+
+              <div className="cart-icon-container" onClick={() => setIsCartOpen(true)}>
+                <Icon icon="mynaui:cart-solid" width="22" height="22" color="#000000" />
+                {cartItems.length > 0 && (
+                  <span className="cart-badge">{cartItems.length}</span>
+                )}
+              </div>
+
           <Icon icon="tabler:bell-filled" width="22" height="22" color="#808080" />
           
           {/* <Icon icon="qlementine-icons:user-16" width="22" height="22" color="#808080" /> */}
@@ -50,7 +60,7 @@ export default function Header() {
       </div>
 
       
-
+      <CartModal />
     </header>
   );
 }

@@ -7,9 +7,11 @@ import LoginPage from "./pages/LoginPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import EditUserProfile from "./pages/EditUserProfile";
 import RegisterAdminUserForm from "./components/forms/RegisterAdminUserForm";
+import { CartProvider } from "./contexts/CartContext";
 
 const App = () => {
   return (
+    <CartProvider>
     <Router>
       <Routes>
         <Route path="/" element={<MainMenu />} />
@@ -22,6 +24,7 @@ const App = () => {
 
       </Routes>
     </Router>
+    </CartProvider>
   );
 };
 

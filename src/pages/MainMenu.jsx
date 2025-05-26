@@ -55,6 +55,7 @@ const MainMenu = () => {
             guitars.map((guitar) => (
               <GuitarCard
                 key={guitar.id}
+                id={guitar.id}
                 model={guitar.model}
                 brand={guitar.brand}
                 sale_price={guitar.sale_price}
