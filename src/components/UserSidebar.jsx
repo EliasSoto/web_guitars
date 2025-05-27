@@ -48,7 +48,7 @@ export default function UserSidebar ({ openProfileModal}) {
             to="/profile/orders"
             className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
           >
-            <Icon icon="material-symbols:local-shipping-outline-sharp" width="24" height="24" />
+            <Icon icon="streamline:shipment-download" width="24" height="24" />
             <p>Pedidos</p>
           </NavLink>
 
@@ -56,7 +56,7 @@ export default function UserSidebar ({ openProfileModal}) {
             to="/profile/shipments"
             className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
           >
-            <Icon icon="streamline:shipment-download" width="24" height="24" />
+            <Icon icon="material-symbols:local-shipping-outline-sharp" width="24" height="24" />
             <p>Envíos</p>
           </NavLink>
 

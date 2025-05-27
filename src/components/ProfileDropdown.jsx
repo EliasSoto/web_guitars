@@ -70,9 +70,9 @@ const DropdownButton = () => {
             <Icon icon="mdi:account" className="user-tab-icon" />
             Mi perfil
           </Link>
-          <Link to="/editar-perfil" className="user-tab-item" onClick={() => setIsOpen(false)}>
-            <Icon icon="mdi:pencil" className="user-tab-icon" />
-            Editar perfil
+          <Link to="/profile/orders" className="user-tab-item" onClick={() => setIsOpen(false)}>
+            <Icon icon="streamline:shipment-download" className="user-tab-icon" />
+            Pedidos
           </Link>
           <div className="user-tab-item logout" onClick={handleLogout}>
             <Icon icon="mdi:logout" className="user-tab-icon" />

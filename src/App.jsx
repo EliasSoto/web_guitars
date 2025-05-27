@@ -4,9 +4,6 @@ import MainMenu from "./pages/MainMenu";
 import RegisterUser from "./pages/RegisterUser";
 import AdminDashboard from "./pages/AdminDashboard";
 import LoginPage from "./pages/LoginPage";
-import UserProfilePage from "./pages/UserProfilePage";
-import EditUserProfile from "./pages/EditUserProfile";
-import RegisterAdminUserForm from "./components/forms/RegisterAdminUserForm";
 import { CartProvider } from "./contexts/CartContext";
 import UserProfileMenu from "./pages/UserProfileMenu";
 
@@ -19,8 +16,6 @@ const App = () => {
         <Route path="/register" element={<RegisterUser />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
-        <Route path="/admin/register" element={<RegisterAdminUserForm />} />
-        <Route path="/editar-perfil" element={<EditUserProfile />} />
         <Route path="/profile/*" element={<UserProfileMenu />} />
       </Routes>
     </Router>

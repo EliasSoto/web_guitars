@@ -4,7 +4,6 @@ import { userLogout } from "../services/userAuthService";
 import { getGuitars } from "../services/userNormalService"; // Importa tu servicio
 import Footer from "../components/Footer.jsx";
 import Header from "../components/Header.jsx";
-import Sidebar from "../components/Sidebar.jsx";
 import "../styles/AdminDashboard.css";
 import GuitarCard from "../components/GuitarCard.jsx";
 import "../styles/MainMenu.css";
@@ -34,17 +33,11 @@ const MainMenu = () => {
     fetchGuitars();
   }, []);
 
-  const handleLogout = () => {
-    userLogout();
-    navigate("/login");
-  };
-
   return (
     <div className="admin-dashboard">
       <Header />
 
       <div className="main-content-admin">
-        <Sidebar />
 
         <main className="main-content-guitarras">
           {loading ? (
