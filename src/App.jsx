@@ -8,6 +8,7 @@ import UserProfilePage from "./pages/UserProfilePage";
 import EditUserProfile from "./pages/EditUserProfile";
 import RegisterAdminUserForm from "./components/forms/RegisterAdminUserForm";
 import { CartProvider } from "./contexts/CartContext";
+import UserProfileMenu from "./pages/UserProfileMenu";
 
 const App = () => {
   return (
@@ -19,9 +20,8 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
         <Route path="/admin/register" element={<RegisterAdminUserForm />} />
-        <Route path="/perfil" element={<UserProfilePage />} />
         <Route path="/editar-perfil" element={<EditUserProfile />} />
-
+        <Route path="/profile/*" element={<UserProfileMenu />} />
       </Routes>
     </Router>
     </CartProvider>

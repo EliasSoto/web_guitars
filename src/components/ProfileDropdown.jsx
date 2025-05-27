@@ -66,7 +66,7 @@ const DropdownButton = () => {
       
       {(isOpen || isClosing) && (
         <div className={`user-tab-modal ${isClosing ? 'fade-out' : 'fade-in'}`}>
-          <Link to="/perfil" className="user-tab-item" onClick={() => setIsOpen(false)}>
+          <Link to="/profile/user-data" className="user-tab-item" onClick={() => setIsOpen(false)}>
             <Icon icon="mdi:account" className="user-tab-icon" />
             Mi perfil
           </Link>
