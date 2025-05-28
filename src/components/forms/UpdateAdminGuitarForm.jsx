@@ -67,6 +67,8 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               name="model"
               value={form.model}
               onChange={handleChange}
+              minLength={2}
+              required
             />
 
             <label className="label-register">Marca</label>
@@ -76,6 +78,8 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               name="brand"
               value={form.brand}
               onChange={handleChange}
+              minLength={2}
+              required
             />
 
             <label className="label-register">Descripción</label>
@@ -85,6 +89,8 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               name="description"
               value={form.description}
               onChange={handleChange}
+              minLength={10}
+              required
             />
 
             <label className="label-register">Precio de Compra</label>
@@ -94,6 +100,8 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               name="purchase_price"
               value={form.purchase_price}
               onChange={handleChange}
+              min={1}
+              required
             />
           </div>
 
@@ -106,6 +114,8 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               name="sale_price"
               value={form.sale_price}
               onChange={handleChange}
+              min={1}
+              required
             />
 
             <label className="label-register">Fecha de Compra</label>
@@ -115,6 +125,7 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               name="purchase_date"
               value={form.purchase_date}
               onChange={handleChange}
+              required
             />
 
             <label className="label-register">Tipo de madera</label>
@@ -124,6 +135,8 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               name="wood_type"
               value={form.wood_type}
               onChange={handleChange}
+              minLength={2}
+              required
             />
 
             <label className="label-register">Color</label>
@@ -133,6 +146,8 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               name="color"
               value={form.color}
               onChange={handleChange}
+              minLength={2}
+              required
             />
           </div>
 
@@ -145,6 +160,8 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               name="stock"
               value={form.stock}
               onChange={handleChange}
+              min={0}
+              required
             />
 
             <label className="label-register">Cantidad de trastes</label>
@@ -154,6 +171,9 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               name="fret_count"
               value={form.fret_count}
               onChange={handleChange}
+              min={21}
+              max={24}
+              required
             />
 
             <label className="label-register">Imagen</label>

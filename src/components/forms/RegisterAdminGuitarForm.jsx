@@ -61,6 +61,8 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               name="model"
               value={formData.model}
               onChange={handleChange}
+              minLength={2}
+              required
             />
 
             <label className="label-register">Marca</label>
@@ -68,8 +70,9 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               className="input-normal"
               type="text"
               name="brand"
-              value={formData.brand}
               onChange={handleChange}
+              minLength={2}
+              required
             />
 
             <label className="label-register">Descripción</label>
@@ -77,8 +80,9 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               className="input-normal"
               type="text"
               name="description"
-              value={formData.description}
               onChange={handleChange}
+              minLength={10}
+              required
             />
 
             <label className="label-register">Precio de Compra</label>
@@ -88,6 +92,8 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               name="purchase_price"
               value={formData.purchase_price}
               onChange={handleChange}
+              min={1}
+              required
             />
           </div>
 
@@ -100,6 +106,8 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               name="sale_price"
               value={formData.sale_price}
               onChange={handleChange}
+              min={1}
+              required
             />
 
             <label className="label-register">Fecha de Compra</label>
@@ -109,6 +117,7 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               name="purchase_date"
               value={formData.purchase_date}
               onChange={handleChange}
+              required
             />
 
             <label className="label-register">Tipo de madera</label>
@@ -118,6 +127,8 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               name="wood_type"
               value={formData.wood_type}
               onChange={handleChange}
+              minLength={2}
+              required
             />
 
             <label className="label-register">Color</label>
@@ -127,6 +138,8 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               name="color"
               value={formData.color}
               onChange={handleChange}
+              minLength={2}
+              required
             />
           </div>
 
@@ -139,6 +152,8 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               name="stock"
               value={formData.stock}
               onChange={handleChange}
+              min={0}
+              required
             />
 
             <label className="label-register">Cantidad de trastes</label>
@@ -148,6 +163,9 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               name="fret_count"
               value={formData.fret_count}
               onChange={handleChange}
+              min={21}
+              max={24}
+              required
             />
 
             <label className="label-register">Imagen</label>
