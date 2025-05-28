@@ -106,7 +106,7 @@ export const updateCurrentUser = async (userUpdate) => {
   };
 
 // Función para obtener guitarras paginadas
-export const getGuitars = async (page = 1, limit = 10) => {
+export const getGuitars = async (page = 1, limit = 20) => {
   try {
     const response = await fetch(`${urlBase}/guitarras?page=${page}&limit=${limit}`, {
       method: "GET",
@@ -126,5 +126,19 @@ export const getGuitars = async (page = 1, limit = 10) => {
     return [data, null]; // Devuelve { guitars: [], total: X }
   } catch (error) {
     return [null, "Error al conectar con el servidor"];
+  }
+};
+
+export const getGuitarById = async (guitarId) => {
+  try {
+    const response = await fetch(`${API_URL}/guitarras/${guitarId}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    return await parseResponse(response);
+  } catch (error) {
+    return [null, error.message || "Error al conectar con el servidor"];
   }
 };

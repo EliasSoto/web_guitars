@@ -120,8 +120,6 @@
 
 
 
-
-
 .guitar-card-final-price {
     font-size: 16px;
     font-weight: bold;
@@ -131,11 +129,19 @@
 
 
 .guitar-card-sale-price {
-    font-size: 14px;
-    color: #999;
-    text-decoration: line-through;
-    margin: 5px 0 0 0;
+  font-size: 14px;
+  color: #999;
+  text-decoration: line-through;
+  margin: 0;
 }
+
+.guitar-card-liquidation-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #db4442;
+  margin: 0;
+}
+
 
 
 

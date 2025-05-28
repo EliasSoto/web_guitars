@@ -49,7 +49,12 @@ export const CartProvider = ({ children }) => {
 
   // Función para calcular el total
   const cartTotal = cartItems.reduce(
-    (total, item) => total + (item.sale_price * item.quantity),
+    (total, item) => {
+      const price = item.liquidation_price && item.liquidation_price < item.sale_price
+        ? item.liquidation_price
+        : item.sale_price;
+      return total + price * item.quantity;
+    },
     0
   );
 

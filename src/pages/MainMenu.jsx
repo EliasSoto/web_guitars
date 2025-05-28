@@ -17,7 +17,7 @@ const MainMenu = () => {
   useEffect(() => {
     const fetchGuitars = async () => {
       try {
-        const [data, err] = await getGuitars(); // Usa tu servicio real
+        const [data, err] = await getGuitars();
         if (err) {
           setError(err);
         } else {
@@ -52,6 +52,7 @@ const MainMenu = () => {
                 model={guitar.model}
                 brand={guitar.brand}
                 sale_price={guitar.sale_price}
+                liquidation_price={guitar.liquidation_price}
                 purchase_price={guitar.purchase_price}
                 image_link={guitar.image_link}
               />
