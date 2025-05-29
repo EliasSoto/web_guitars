@@ -22,18 +22,3 @@ const parseResponse = async (response) => {
     return [data, null];
 };
 
-export const getAdminPaginatedAddresses = async (page = 1, limit = 10) => {
-    try {
-        const token = getToken();
-        const response = await fetch(`${API_URL}/admin/direcciones?page=${page}&limit=${limit}`, {
-            method: "GET",
-            headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        return await parseResponse(response);
-    } catch (error) {
-        return [null, error.message || "Error al conectar con el servidor"];
-    }
-};
