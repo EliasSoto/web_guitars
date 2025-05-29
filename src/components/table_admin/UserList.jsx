@@ -44,8 +44,6 @@ const UserList = ({
     const [data, err] = await getAddressById(userId);
     if (err || !data || data.length === 0) {
       toast.info('Este usuario no tiene direcciones.');
-      // No abrir modal si hay error o no hay direcciones
-      // Opcional: puedes mostrar un mensaje aquí si quieres
       return;
     }
     setAddressUserId(userId);
@@ -123,7 +121,7 @@ const UserList = ({
           <RegisterAdminUserForm onSuccess={handleFormSuccess} />
         )}
       </Modal>
-      <ToastContainer position="top-center" autoClose={8000} hideProgressBar/>
+      <ToastContainer position="top-center" autoClose={900} hideProgressBar/>
 
       <Modal isOpen={showAddresses} onClose={() => setShowAddresses(false)}>
         <AddressList userId={addressUserId} userName={addressUserName} />
