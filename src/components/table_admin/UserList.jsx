@@ -9,6 +9,8 @@ import UpdateAdminUserForm from '../forms/UpdateAdminUserForm.jsx';
 import useAdminUsers from '../../hooks/useAdminUsers.jsx';
 import { useState } from 'react';
 import AddressList from '../table_adress/AddressList.jsx';
+import { getAddressById } from '../../services/addressAdminService'; // <---- Importa aquí
+import { toast, ToastContainer } from "react-toastify";
 
 
 const usersPerPage = 10;
@@ -37,11 +39,19 @@ const UserList = ({
   const [addressUserId, setAddressUserId] = useState(null);
   const [addressUserName, setAddressUserName] = useState('');
 
-  const handleViewAddresses = (userId, userName) => {
-    setShowAddresses(true);
+  const handleViewAddresses = async (userId, userName) => {
+    // consulta direcciones antes de abrir modal
+    const [data, err] = await getAddressById(userId);
+    if (err || !data || data.length === 0) {
+      toast.info('Este usuario no tiene direcciones.');
+      // No abrir modal si hay error o no hay direcciones
+      // Opcional: puedes mostrar un mensaje aquí si quieres
+      return;
+    }
     setAddressUserId(userId);
     setAddressUserName(userName);
-  } 
+    setShowAddresses(true);
+  };
 
 
   return (
@@ -113,6 +123,7 @@ const UserList = ({
           <RegisterAdminUserForm onSuccess={handleFormSuccess} />
         )}
       </Modal>
+      <ToastContainer position="top-center" autoClose={8000} hideProgressBar/>
 
       <Modal isOpen={showAddresses} onClose={() => setShowAddresses(false)}>
         <AddressList userId={addressUserId} userName={addressUserName} />

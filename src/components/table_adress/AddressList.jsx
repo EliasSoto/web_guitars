@@ -17,6 +17,7 @@ const AddressList = ({ userId, userName }) => {
       const [data, err] = await getAddressById(userId);
       if (err) {
         setError(err);
+        
       } else {
         setAddresses(data);
       }
