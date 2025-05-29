@@ -45,14 +45,6 @@ export default function AdminSidebar ({ openProfileModal}) {
           </NavLink>
 
           <NavLink
-            to="/admin/addresses"
-            className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
-          >
-            <Icon icon="tdesign:map-location" width="24" height="24" />
-            <p>Direcciones</p>
-          </NavLink>
-
-          <NavLink
             to="/admin/shipments"
             className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
           >
