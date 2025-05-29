@@ -8,7 +8,7 @@ import RegisterAdminUserForm from '../forms/RegisterAdminUserForm.jsx';
 import UpdateAdminUserForm from '../forms/UpdateAdminUserForm.jsx';
 import useAdminUsers from '../../hooks/useAdminUsers.jsx';
 import { useState } from 'react';
-import AddressList from '../table_adress/AddressList.jsx';
+import AddressList from '../table_address/AddressList.jsx';
 import { getAddressById } from '../../services/addressAdminService'; // <---- Importa aquí
 import { toast, ToastContainer } from "react-toastify";
 
