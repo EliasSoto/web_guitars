@@ -33,16 +33,13 @@ const MainMenu = () => {
     fetchGuitars();
   }, []);
 
-  return (
+ return (
     <div className="admin-dashboard">
       <Header />
 
       <div className="main-content-admin">
-
         <main className="main-content-guitarras">
-          {loading ? (
-            <div className="loading-spinner">Cargando guitarras...</div>
-          ) : error ? (
+          {!loading && error ? (
             <div className="error-message">{error}</div>
           ) : (
             guitars.map((guitar) => (
