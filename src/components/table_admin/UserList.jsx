@@ -7,6 +7,8 @@ import Modal from '../Modal.jsx';
 import RegisterAdminUserForm from '../forms/RegisterAdminUserForm.jsx';
 import UpdateAdminUserForm from '../forms/UpdateAdminUserForm.jsx';
 import useAdminUsers from '../../hooks/useAdminUsers.jsx';
+import { useState } from 'react';
+import AddressList from '../table_adress/AddressList.jsx';
 
 
 const usersPerPage = 10;
@@ -30,6 +32,16 @@ const UserList = ({
   handleFormSuccess,
   handleUpdate,
 }) => {
+
+  const [showAddresses, setShowAddresses] = useState(false);
+  const [addressUserId, setAddressUserId] = useState(null);
+  const [addressUserName, setAddressUserName] = useState('');
+
+  const handleViewAddresses = (userId, userName) => {
+    setShowAddresses(true);
+    setAddressUserId(userId);
+    setAddressUserName(userName);
+  } 
 
 
   return (
@@ -62,6 +74,7 @@ const UserList = ({
               setShowForm={setShowForm}
               handleDelete={handleDelete}
               handleUpdate={handleUpdate}
+              onViewAddresses={handleViewAddresses}
             />
           ))}
         </tbody>
@@ -92,7 +105,6 @@ const UserList = ({
           </button>
         </div>
 
-
       {/* Modals de edicion y registro */}
       <Modal isOpen={showForm} onClose={handleCloseForm}>
         {isEditing ? (
@@ -100,6 +112,10 @@ const UserList = ({
         ) : (
           <RegisterAdminUserForm onSuccess={handleFormSuccess} />
         )}
+      </Modal>
+
+      <Modal isOpen={showAddresses} onClose={() => setShowAddresses(false)}>
+        <AddressList userId={addressUserId} userName={addressUserName} />
       </Modal>
 
     </div>
