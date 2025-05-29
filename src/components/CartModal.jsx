@@ -1,7 +1,6 @@
-// components/CartModal.jsx
-import React from 'react';
 import { useCart } from '../contexts/CartContext';
 import '../styles/CartModal.css';
+import { useNavigate } from 'react-router-dom';
 
 const CartModal = () => {
   const {
@@ -12,6 +11,8 @@ const CartModal = () => {
     isCartOpen,
     setIsCartOpen
   } = useCart();
+
+  const navigate = useNavigate();
 
   if (!isCartOpen) return null;
 
@@ -101,8 +102,8 @@ const CartModal = () => {
             <button 
               className="checkout-button"
               onClick={() => {
-                // Aquí puedes agregar la lógica para proceder al pago
-                console.log('Proceder al pago', cartItems);
+                setIsCartOpen(false);
+                navigate('/checkout');
               }}
             >
               Proceder al pago

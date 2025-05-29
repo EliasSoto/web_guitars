@@ -6,6 +6,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import LoginPage from "./pages/LoginPage";
 import { CartProvider } from "./contexts/CartContext";
 import UserProfileMenu from "./pages/UserProfileMenu";
+import CheckoutPage from "./pages/CheckoutPage";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
         <Route path="/profile/*" element={<UserProfileMenu />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
       </Routes>
     </Router>
     </CartProvider>
