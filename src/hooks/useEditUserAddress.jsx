@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getUserAddressById, updateAddress } from "../services/userNormalService";
 
-export const useEditUserAddress = (addressId) => {
+export const useEditUserAddress = (addressId, handleUpdateGlobal) => {
   const [formData, setFormData] = useState({
     street_name: "",
     region: "",
@@ -58,11 +58,23 @@ export const useEditUserAddress = (addressId) => {
     if (updateError) {
       setError(updateError);
       setSuccessMessage("");
-    } else {
-      setSuccessMessage("Dirección actualizada correctamente");
-      setError("");
+      setLoading(false);
+      return;
     }
 
+    // Aquí uso la función global para refrescar la lista completa
+    if (handleUpdateGlobal) {
+      const errorGlobal = await handleUpdateGlobal(addressId, formData);
+      if (errorGlobal) {
+        setError(errorGlobal);
+        setSuccessMessage("");
+        setLoading(false);
+        return;
+      }
+    }
+
+    setSuccessMessage("Dirección actualizada correctamente");
+    setError("");
     setLoading(false);
   };
 

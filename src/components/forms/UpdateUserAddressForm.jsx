@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { useEditUserAddress } from "../../hooks/useEditUserAddress";
 import { toast, ToastContainer } from "react-toastify";
-import "../../styles/RegisterAdminUserForm.css"; // Reutilizado por estilo
+import "../../styles/RegisterAdminUserForm.css";
+import { useNavigate } from "react-router-dom";
+
 
 export default function UpdateUserAddressForm({ addressId, onSuccess }) {
   const regiones = [
@@ -22,15 +24,16 @@ export default function UpdateUserAddressForm({ addressId, onSuccess }) {
     "Aysén del General Carlos Ibáñez del Campo",
     "Magallanes y de la Antártica Chilena"
   ];
+  const navigate = useNavigate();
 
   const {
     formData,
-    handleChange,
-    handleSubmit,
     error,
     successMessage,
-    resetStatus,
-  } = useEditUserAddress(addressId);
+    handleChange,
+    handleSubmit,
+    resetStatus
+  } = useEditUserAddress(addressId, navigate);
 
   useEffect(() => {
     if (error) {

@@ -4,12 +4,23 @@ import AddressTableHead from "./AddressTableHead";
 import "../../styles/admin_table/TableUsers.css";
 import Modal from "../Modal";
 import UpdateUserAddressForm from "../forms/UpdateUserAddressForm";
+import RegisterUserAddressForm from "../forms/RegisterUserAddressForm"; // <- Asegúrate de tenerlo
 import { toast, ToastContainer } from "react-toastify";
-import { deleteAddress } from "../../services/userNormalService";
+import { Icon } from '@iconify/react';
+import useUserAddress from "../../hooks/useUserAddress";
 
-export default function UserAddressList({ userId, userName, addresses, loading, handleDelete, handleUpdate, handleFormSuccess }) {
+export default function UserAddressList({ userId, userName }) {
+  const {
+    addresses,
+    loading,
+    handleDelete,
+    handleUpdate,
+    handleCreate,
+  } = useUserAddress();
+
   const [editingAddressId, setEditingAddressId] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
 
   const handleEditClick = (addressId) => {
     setEditingAddressId(addressId);
@@ -17,11 +28,9 @@ export default function UserAddressList({ userId, userName, addresses, loading, 
   };
 
   const handleDeleteClick = async (addressId) => {
-  const [data, error] = await deleteAddress(addressId);
-
+    const error = await handleDelete(addressId);
     if (error) {
-    toast.error(error);
-
+      toast.error(error);
     } else {
       toast.success("Dirección eliminada correctamente.");
     }
@@ -29,13 +38,24 @@ export default function UserAddressList({ userId, userName, addresses, loading, 
 
   const handleEditSuccess = () => {
     setShowEditModal(false);
-    handleFormSuccess();
+  };
+
+  const handleRegisterSuccess = () => {
+    setShowRegisterModal(false);
   };
 
   return (
     <div className="table-container">
       <div className="table-header">
         <h2>Direcciones de {userName}</h2>
+        <Icon
+          onClick={() => setShowRegisterModal(true)}
+          style={{ cursor: 'pointer' }}
+          color="#3563E9"
+          icon="humbleicons:user-add"
+          width="34"
+          height="34"
+        />
       </div>
 
       {loading ? (
@@ -57,10 +77,17 @@ export default function UserAddressList({ userId, userName, addresses, loading, 
           </tbody>
         </table>
       )}
-      <ToastContainer position="top-center" autoClose={900} hideProgressBar/>
+
+      <ToastContainer position="top-center" autoClose={900} hideProgressBar />
+
       {/* Modal para editar dirección */}
       <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)}>
         <UpdateUserAddressForm addressId={editingAddressId} onSuccess={handleEditSuccess} />
+      </Modal>
+
+      {/* Modal para registrar dirección */}
+      <Modal isOpen={showRegisterModal} onClose={() => setShowRegisterModal(false)}>
+        <RegisterUserAddressForm userId={userId} onSuccess={handleRegisterSuccess} />
       </Modal>
     </div>
   );
