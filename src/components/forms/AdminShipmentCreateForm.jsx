@@ -8,7 +8,7 @@ export default function AdminShipmentCreateForm({ onSubmit }) {
     price: "",
     shipping_provider: "",
     is_immediate_delivery: false,
-    order_ids: [""], // puedes usar un campo de texto para múltiples IDs separados por comas
+    order_ids: [""],
   });
 
   const handleChange = (e) => {
@@ -31,118 +31,110 @@ export default function AdminShipmentCreateForm({ onSubmit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="shipping-form">
-      <h2>Formulario de Envío</h2>
+    <div className="register-container">
+      <header>
+        <h1 className="text-inicia">Formulario de Envío</h1>
+      </header>
 
-      <label>Fecha de Envío</label>
-      <input
-        type="date"
-        name="shipment_date"
-        value={formData.shipment_date}
-        onChange={handleChange}
-        required
-      />
+      <form onSubmit={handleSubmit}>
+        <div
+          style={{
+            display: "flex",
+            gap: "40px",
+            flexWrap: "wrap",
+            marginBottom: "20px",
+          }}
+        >
+          {/* Columna izquierda */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "1px", flex: 1 }}>
+            <label className="label-register">Fecha de Envío</label>
+            <input
+              className="input-normal"
+              type="date"
+              name="shipment_date"
+              value={formData.shipment_date}
+              onChange={handleChange}
+              required
+            />
 
-      <label>Estado del seguimiento</label>
-      <select
-        name="tracking_status"
-        value={formData.tracking_status}
-        onChange={handleChange}
-      >
-        <option value="procesando">Procesando</option>
-        <option value="enviado">Enviado</option>
-        <option value="entregado">Entregado</option>
-        <option value="cancelado">Cancelado</option>
-      </select>
+            <label className="label-register">Fecha de entrega</label>
+            <input
+              className="input-normal"
+              type="date"
+              name="delivery_date"
+              value={formData.delivery_date}
+              onChange={handleChange}
+              required
+            />
 
-      <label>Fecha de entrega</label>
-      <input
-        type="date"
-        name="delivery_date"
-        value={formData.delivery_date}
-        onChange={handleChange}
-        required
-      />
+            <label className="label-register">Precio del envío</label>
+            <input
+              className="input-normal"
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              min={0}
+              step="0.01"
+              required
+            />
+          </div>
 
-      <label>Precio del envío</label>
-      <input
-        type="number"
-        name="price"
-        value={formData.price}
-        onChange={handleChange}
-        min={0}
-        step="0.01"
-        required
-      />
+          {/* Columna derecha */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "1px", flex: 1 }}>
+            <label className="label-register">Estado del seguimiento</label>
+            <select
+              className="input-normal"
+              name="tracking_status"
+              value={formData.tracking_status}
+              onChange={handleChange}
+            >
+              <option value="procesando">Procesando</option>
+              <option value="enviado">Enviado</option>
+              <option value="entregado">Entregado</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
 
-      <label>Proveedor</label>
-      <input
-        type="text"
-        name="shipping_provider"
-        value={formData.shipping_provider}
-        onChange={handleChange}
-        required
-      />
+            <label className="label-register">Proveedor</label>
+            <input
+              className="input-normal"
+              type="text"
+              name="shipping_provider"
+              value={formData.shipping_provider}
+              onChange={handleChange}
+              required
+            />
 
-      <label>
-        <input
-          type="checkbox"
-          name="is_immediate_delivery"
-          checked={formData.is_immediate_delivery}
-          onChange={handleChange}
-        />
-        Entrega inmediata
-      </label>
+            <label className="label-register">
+              <input
+                type="checkbox"
+                name="is_immediate_delivery"
+                checked={formData.is_immediate_delivery}
+                onChange={handleChange}
+                style={{ marginRight: "8px" }}
+              />
+              Entrega inmediata
+            </label>
 
-      <label>ID(s) del Pedido (separados por coma)</label>
-      <input
-        type="text"
-        name="order_ids"
-        value={formData.order_ids.join(", ")}
-        onChange={handleChange}
-        placeholder="Ej: 1, 2, 3"
-        required
-      />
+            <label className="label-register">ID(s) del Pedido (separados por coma)</label>
+            <input
+              className="input-normal"
+              type="text"
+              name="order_ids"
+              value={formData.order_ids.join(", ")}
+              onChange={handleChange}
+              placeholder="Ej: 1, 2, 3"
+              required
+            />
+          </div>
+        </div>
 
-      <button type="submit">Guardar Envío</button>
-
-      <style>{`
-        .shipping-form {
-          max-width: 400px;
-          margin: 1rem auto;
-          padding: 1.5rem;
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          background-color: #fafafa;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        .shipping-form h2 {
-          margin-bottom: 1rem;
-          text-align: center;
-        }
-
-        .shipping-form input,
-        .shipping-form select {
-          padding: 0.5rem;
-          font-size: 1rem;
-        }
-
-        .shipping-form button {
-          background-color: #4caf50;
-          color: white;
-          padding: 0.5rem;
-          font-weight: bold;
-          border: none;
-          cursor: pointer;
-        }
-
-        .shipping-form button:hover {
-          background-color: #45a049;
-        }
-      `}</style>
-    </form>
+        <div className="button-container">
+          <button className="button-register" type="submit">
+            Guardar Envío
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

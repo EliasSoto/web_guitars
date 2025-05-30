@@ -116,8 +116,12 @@ const OrderList = () => {
       </div>
 
       <Modal isOpen={showDetails} onClose={() => setShowDetails(false)}>
-        <ProductOrdersList orderId={selectedOrderId} />
-      </Modal>
+  <ProductOrdersList
+    orderId={selectedOrderId}
+    onSendOrder={handleOpenShipmentForm} // 👈 aquí está el fix
+  />
+</Modal>
+
 
       <Modal isOpen={showShipmentForm} onClose={() => setShowShipmentForm(false)}>
         <AdminShipmentCreateForm
