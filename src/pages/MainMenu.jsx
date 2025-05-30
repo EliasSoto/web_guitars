@@ -7,6 +7,7 @@ import Header from "../components/Header.jsx";
 import "../styles/AdminDashboard.css";
 import GuitarCard from "../components/GuitarCard.jsx";
 import "../styles/MainMenu.css";
+import { ToastContainer } from "react-toastify";
 
 const MainMenu = () => {
   const navigate = useNavigate();
@@ -62,8 +63,11 @@ const MainMenu = () => {
       <footer className="footer">
         <Footer />
       </footer>
+      <ToastContainer position="top-center" autoClose={500} hideProgressBar />
     </div>
   );
 };
+
+
 
 export default MainMenu;

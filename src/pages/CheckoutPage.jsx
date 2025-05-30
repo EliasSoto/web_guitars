@@ -141,8 +141,6 @@ const CheckoutPage = () => {
         </div>
       </div>
       <Footer />
-
-      <ToastContainer position="top-center" autoClose={8000} hideProgressBar />
     </div>
   );
 };

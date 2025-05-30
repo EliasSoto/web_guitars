@@ -40,7 +40,7 @@ export default function useCheckout() {
   }));
 
   const orderData = {
-    status: "pendiente",
+    status: "procesado",
     payment_method: paymentMethod,
     items
   };
@@ -53,11 +53,10 @@ export default function useCheckout() {
   }
 
   toast.success('Compra realizada exitosamente!');
-  console.log('Pedido creado:', data);
   clearCart();
   setTimeout(() => {
     navigate('/profile/orders');
-  }, 5000);
+  }, 2000);
 };
 
   const handleRemoveItem = (id) => {

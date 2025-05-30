@@ -35,11 +35,20 @@ export const CartProvider = ({ children }) => {
       removeFromCart(id);
       return;
     }
-    setCartItems(prevItems =>
-      prevItems.map(item =>
+
+    setCartItems(prevItems => {
+      const itemToUpdate = prevItems.find(item => item.id === id);
+      if (!itemToUpdate) return prevItems;
+
+      if (quantity > itemToUpdate.stock) {
+        // No actualizamos cantidad porque excede stock
+        return prevItems;
+      }
+
+      return prevItems.map(item =>
         item.id === id ? { ...item, quantity } : item
-      )
-    );
+      );
+    });
   };
 
   // Función para limpiar el carrito
@@ -94,13 +103,12 @@ export const CartProvider = ({ children }) => {
       const existingItem = prevItems.find(item => item.id === guitar.id);
 
       if (existingItem) {
-          console.log(`Cantidad en carrito: ${existingItem.quantity}, Stock disponible: ${guitar.stock}`);
-
+        // Si el item ya existe, se verifica si la cantidad supera el stock
         if (existingItem.quantity >= guitar.stock) {
-          toast.error("No puedes agregar más unidades, no hay suficiente stock.");
           return prevItems;
         }
 
+        // Se actualiza la cantidad del item existente
         return prevItems.map(item =>
           item.id === guitar.id
             ? { ...item, quantity: item.quantity + 1 }
@@ -108,15 +116,27 @@ export const CartProvider = ({ children }) => {
         );
       }
 
-      // Si no está en el carrito, asegurarse que hay al menos 1 en stock
-      if (guitar.stock < 1) {
-        toast.error("Este producto no tiene stock disponible.");
-        return prevItems;
-      }
-
+      // Se agrega un nuevo item al carrito
       return [...prevItems, { ...guitar, quantity: 1 }];
     });
+
+    const existingItem = cartItems.find(item => item.id === guitar.id);
+
+    if (existingItem) {
+      if (existingItem.quantity >= guitar.stock) {
+        toast.error("No puedes agregar más unidades, no hay suficiente stock.");
+      } else {
+        toast.success("Cantidad actualizada en el carrito.");
+      }
+    } else {
+      if (guitar.stock < 1) {
+        toast.error("Este producto no tiene stock disponible.");
+      } else {
+        toast.success("Producto agregado al carrito.");
+      }
+    }
   };
+
 
   return (
     <CartContext.Provider
