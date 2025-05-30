@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getOrderByIdAdmin } from "../../services/orderAdminService";
 import "../../styles/admin_table/TableUsers.css";
 
-export default function ProductOrdersList ({ orderId }) {
+export default function ProductOrdersList ({ orderId, onSendOrder }) {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -54,7 +54,7 @@ const fetchOrder = async () => {
           <div style={{ marginTop: "1rem", display: "flex", gap: "1rem" }}>
             <br />
 
-        <button className="btn-enviar" onClick={() => console.log("Enviado")}>
+        <button className="btn-enviar" onClick={() => onSendOrder(order.id)}>
           Enviar pedido
         </button>
         
