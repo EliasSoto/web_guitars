@@ -12,6 +12,7 @@ import AdminSidebar from '../components/AdminSidebar';
 import { Route, Routes } from 'react-router-dom';
 import GuitarList from '../components/table_guitars/GuitarList';
 import OrderAdminList from '../components/table_admin_orders/OrderAdminList';
+import ShipmentAdminList from '../components/table_admin_shipments/ShipmentAdminList';
 
 import useAdminUsers from '../hooks/useAdminUsers';
 
@@ -42,6 +43,7 @@ export default function AdminDashboard() {
             <Route path="/users" element={<UserList {...adminUsersProps}/>} />
             <Route path="guitars" element={<GuitarList />} />
             <Route path="orders" element={<OrderAdminList />} />
+            <Route path="shipments" element={<ShipmentAdminList />} />
           </Routes>
         </section>
       </main>
