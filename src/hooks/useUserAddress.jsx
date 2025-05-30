@@ -14,25 +14,26 @@ export const useUserAddress = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
+ const fetchAddresses = async () => {
+  setLoading(true);
 
-      const [allData, allError] = await getAllUserAddresses();
-      const [activeData, activeError] = await getActiveAddress();
+  const [allData, allError] = await getAllUserAddresses();
+  const [activeData, activeError] = await getActiveAddress();
 
-      if (allError || activeError) {
-        setError(allError || activeError);
-      } else {
-        setAddresses(allData);
-        setActiveAddress(activeData);
-      }
+  if (allError || activeError) {
+    setError(allError || activeError);
+  } else {
+    setAddresses(allData);
+    setActiveAddress(activeData);
+  }
 
-      setLoading(false);
-    };
+  setLoading(false);
+};
 
-    fetchData();
-  }, []);
+useEffect(() => {
+  fetchAddresses();
+}, []);
+
 
   const handleCreate = async (newAddress) => {
     const [, err] = await createAddress(newAddress);
@@ -87,5 +88,6 @@ export const useUserAddress = () => {
     handleUpdate,
     handleDelete,
     handleActivate,
+    fetchAddresses
   };
 };

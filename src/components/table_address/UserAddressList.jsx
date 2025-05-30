@@ -13,6 +13,7 @@ export default function UserAddressList({ userId, userName }) {
   const {
     addresses,
     loading,
+    fetchAddresses,
     handleDelete,
     handleUpdate,
     handleCreate,
@@ -36,13 +37,14 @@ export default function UserAddressList({ userId, userName }) {
     }
   };
 
-  const handleEditSuccess = () => {
-    setShowEditModal(false);
+  const handleEditSuccess = async () => {
+    await fetchAddresses();
   };
 
-  const handleRegisterSuccess = () => {
-    setShowRegisterModal(false);
+  const handleRegisterSuccess = async () => {
+    await fetchAddresses(); // <- Debe venir del hook useUserAddress
   };
+
 
   return (
     <div className="table-container">
@@ -59,9 +61,9 @@ export default function UserAddressList({ userId, userName }) {
       </div>
 
       {loading ? (
-        <p>Cargando direcciones...</p>
+        <p></p>
       ) : addresses.length === 0 ? (
-        <p>No tiene direcciones registradas.</p>
+        <p></p>
       ) : (
         <table>
           <AddressTableHead />
@@ -77,8 +79,6 @@ export default function UserAddressList({ userId, userName }) {
           </tbody>
         </table>
       )}
-
-      <ToastContainer position="top-center" autoClose={900} hideProgressBar />
 
       {/* Modal para editar dirección */}
       <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)}>

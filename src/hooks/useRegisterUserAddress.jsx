@@ -53,6 +53,10 @@ const useRegisterUserAddress = (userId, totalAddresses = 0) => {
     resetForm();
   };
 
+  const clearSuccessMessage = () => {
+    setSuccessMessage("");
+  }
+
   return {
     formData,
     error,
@@ -60,6 +64,7 @@ const useRegisterUserAddress = (userId, totalAddresses = 0) => {
     handleChange,
     handleSubmit,
     resetForm,
+    clearSuccessMessage
   };
 };
 

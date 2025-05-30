@@ -26,12 +26,23 @@ export default function RegisterUserAddressForm({ onSuccess, userId, totalAddres
   const {
     formData,
     handleChange,
-    handleSubmit,
+    handleSubmit: handleInternalSubmit,
     error,
     successMessage,
     resetForm,
     clearSuccessMessage, 
   } = useRegisterUserAddress(userId, totalAddresses);
+
+  // El submit que pasaremos al form
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await handleInternalSubmit(e); // Ejecuta la lógica de registro
+
+    // Si no hay error, avisa al padre que fue exitoso
+    if (!error && onSuccess) {
+      onSuccess();
+    }
+  };
 
   useEffect(() => {
     if (error) {
@@ -44,15 +55,10 @@ export default function RegisterUserAddressForm({ onSuccess, userId, totalAddres
 
     if (successMessage) {
       toast.success(successMessage);
-      resetForm();
-
-      if (onSuccess) {
-        onSuccess();
-      }
-
-      clearSuccessMessage();
+      resetForm();          // Limpia formulario
+      clearSuccessMessage(); // Limpia mensaje para no repetir toast
     }
-  }, [error, successMessage, onSuccess, clearSuccessMessage]);
+  }, [error, successMessage, resetForm, clearSuccessMessage]);
 
   return (
     <div className="register-container">
@@ -128,21 +134,21 @@ export default function RegisterUserAddressForm({ onSuccess, userId, totalAddres
 
             <label className="label-register">¿Dirección activa?</label>
             <div className="checkbox-container">
-            <input
-              type="checkbox"
-              className="checkbox_input"
-              name="is_active"
-              checked={formData.is_active}
-              onChange={handleChange}
-              disabled={totalAddresses === 0}
-            />
-            <label className="checkbox-label">
-              {formData.is_active && totalAddresses === 0
-                ? "Sí (Será la dirección predeterminada)"
-                : formData.is_active
-                ? "Sí"
-                : "No"}
-            </label>
+              <input
+                type="checkbox"
+                className="checkbox_input"
+                name="is_active"
+                checked={formData.is_active}
+                onChange={handleChange}
+                disabled={totalAddresses === 0}
+              />
+              <label className="checkbox-label">
+                {formData.is_active && totalAddresses === 0
+                  ? "Sí (Será la dirección predeterminada)"
+                  : formData.is_active
+                  ? "Sí"
+                  : "No"}
+              </label>
             </div>
           </div>
         </div>
