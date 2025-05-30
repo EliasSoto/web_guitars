@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from 'react';
 import UserProfileData from '../components/forms/UserProfileData';
 import UserAddressList from '../components/table_address/UserAddressList';
 import OrderList from '../components/table_orders/OrderList';
-
+import ShipmentList from '../components/table_shipments/ShipmentList';
 
 import useNormalUser from '../hooks/useNormalUsers';
 import { useUserAddress } from '../hooks/useUserAddress';
@@ -34,6 +34,7 @@ export default function UserProfileMenu() {
             <Route path="/user-data" element={<UserProfileData {...userData} />} />
             <Route path="/address" element={<UserAddressList  userId={user?.id}  userName={user?.first_name + ' ' + user?.last_name}  {...addressProps}/>} />
             <Route path="/orders" element={<OrderList userName={user?.first_name + ' ' + user?.last_name} />}/>
+            <Route path="/shipments" element={<ShipmentList userName={user?.first_name + ' ' + user?.last_name} />}/>
           </Routes>
         </section>
       </main>
