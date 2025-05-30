@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { getAdminUserById } from "../../services/userAdminService";
 
-export default function OrderRow({ order }) {
+export default function OrderRow({ order, onViewDetails }) {
   const [userName, setUserName] = useState();
 
   useEffect(() => {
@@ -42,6 +42,18 @@ export default function OrderRow({ order }) {
       <td>{order.status}</td>
       <td>{order.total_price}</td>
       <td>{totalQuantity}</td>
+
+      <td className="action-icons">
+        <Icon
+          icon="icon-park-outline:preview-open"
+          width={22}
+          height={22}
+          color="#3563E9"
+          style={{ cursor: "pointer" }}
+          onClick={() => onViewDetails(order.id)}
+        />
+      </td>
+      
     </tr>
   );
 }
