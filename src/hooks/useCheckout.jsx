@@ -33,8 +33,17 @@ export default function useCheckout() {
     }
     toast.success('Compra confirmada exitosamente!');
     
-    console.log('Compra confirmada', { cartItems, paymentMethod });
+  const items = cartItems.map(item => ({
+    guitar_id: item.id,
+    quantity: item.quantity
+  }));
+
+  const orderData = {
+    status: "pendiente",
+    payment_method: paymentMethod,
+    items
   };
+};
 
   const handleRemoveItem = (id) => {
     removeFromCart(id);
