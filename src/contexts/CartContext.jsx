@@ -1,6 +1,6 @@
-// src/contexts/CartContext.jsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { isAuthenticated } from '../services/userAuthService';
+import { toast } from 'react-toastify';
 
 const CartContext = createContext();
 
@@ -17,7 +17,7 @@ export const CartProvider = ({ children }) => {
       const cartData = sessionStorage.getItem(getCartKey());
       return cartData ? JSON.parse(cartData) : [];
     } catch (error) {
-      console.error('Error loading initial cart:', error);
+      console.error('Fallo al cargar el carrito:', error);
       return [];
     }
   });
@@ -63,7 +63,7 @@ export const CartProvider = ({ children }) => {
     try {
       sessionStorage.setItem(getCartKey(), JSON.stringify(cartItems));
     } catch (error) {
-      console.error('Error saving cart:', error);
+      console.error('Error al guardar el carrito:', error);
     }
   }, [cartItems]);
 
@@ -74,7 +74,7 @@ export const CartProvider = ({ children }) => {
         const newCart = sessionStorage.getItem(getCartKey());
         setCartItems(newCart ? JSON.parse(newCart) : []);
       } catch (error) {
-        console.error('Error handling auth change:', error);
+        console.error('Error al manejar los cambios de autenticación:', error);
       }
     };
 
@@ -92,13 +92,28 @@ export const CartProvider = ({ children }) => {
   const addToCart = (guitar) => {
     setCartItems(prevItems => {
       const existingItem = prevItems.find(item => item.id === guitar.id);
+
       if (existingItem) {
+          console.log(`Cantidad en carrito: ${existingItem.quantity}, Stock disponible: ${guitar.stock}`);
+
+        if (existingItem.quantity >= guitar.stock) {
+          toast.error("No puedes agregar más unidades, no hay suficiente stock.");
+          return prevItems;
+        }
+
         return prevItems.map(item =>
-          item.id === guitar.id 
+          item.id === guitar.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
+
+      // Si no está en el carrito, asegurarse que hay al menos 1 en stock
+      if (guitar.stock < 1) {
+        toast.error("Este producto no tiene stock disponible.");
+        return prevItems;
+      }
+
       return [...prevItems, { ...guitar, quantity: 1 }];
     });
   };

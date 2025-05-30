@@ -3,11 +3,13 @@ import { useCart } from '../contexts/CartContext';
 import { useUserAddress } from './useUserAddress';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { createOrderUser } from '../services/userOrderService';
+import { useNavigate } from 'react-router-dom';
 
 export default function useCheckout() {
-  const { cartItems, cartTotal, removeFromCart } = useCart();
-
+  const { cartItems, cartTotal, removeFromCart, clearCart } = useCart();
   const { activeAddress, loading } = useUserAddress();
+  const navigate = useNavigate();
 
   const [address, setAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
@@ -22,7 +24,7 @@ export default function useCheckout() {
     setPaymentMethod(e.target.value);
   };
 
-  const handleConfirmPurchase = () => {
+  const handleConfirmPurchase = async () => {
     if (!address) {
       toast.error('Debe ingresar una dirección de envío.');
       return;
@@ -31,7 +33,6 @@ export default function useCheckout() {
       toast.error('Por favor, seleccione un método de pago.');
       return;
     }
-    toast.success('Compra confirmada exitosamente!');
     
   const items = cartItems.map(item => ({
     guitar_id: item.id,
@@ -43,6 +44,20 @@ export default function useCheckout() {
     payment_method: paymentMethod,
     items
   };
+
+  const [data, error] = await createOrderUser(orderData);
+
+  if (error) {
+    toast.error(`Error al crear el pedido: ${error}`);
+    return;
+  }
+
+  toast.success('Compra realizada exitosamente!');
+  console.log('Pedido creado:', data);
+  clearCart();
+  setTimeout(() => {
+    navigate('/profile/orders');
+  }, 5000);
 };
 
   const handleRemoveItem = (id) => {

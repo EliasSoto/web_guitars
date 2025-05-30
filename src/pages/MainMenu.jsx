@@ -52,6 +52,7 @@ const MainMenu = () => {
                 liquidation_price={guitar.liquidation_price}
                 purchase_price={guitar.purchase_price}
                 image_link={guitar.image_link}
+                stock={guitar.stock}
               />
             ))
           )}

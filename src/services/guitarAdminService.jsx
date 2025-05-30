@@ -26,7 +26,7 @@ const parseResponse = async (response) => {
 export const getAdminPaginatedGuitars = async (page = 1, limit = 10) => {
   try {
     const token = getToken();
-    const response = await fetch(`${API_URL}/guitarras?page=${page}&limit=${limit}`, {
+    const response = await fetch(`${API_URL}/admin/guitarras?page=${page}&limit=${limit}`, {
       method: "GET",
       headers: {
         Accept: "application/json",

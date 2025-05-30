@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/GuitarCard.css";
 import { useCart } from "../contexts/CartContext";
 
-const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_link }) => {
+const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_link, stock }) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -12,7 +12,8 @@ const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_lin
       brand,
       sale_price,
       liquidation_price,
-      image_link
+      image_link, 
+      stock
     });
   };
 
