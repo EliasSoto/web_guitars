@@ -5,7 +5,7 @@ import ProfileDropdown from './ProfileDropdown';
 import { Icon } from '@iconify/react';
 import { useCart } from '../contexts/CartContext';
 import CartModal from './CartModal';
-import useUserAddress from '../hooks/useUserAddress'; // Importa tu hook
+import { useUserAddress } from '../hooks/useUserAddress'; // Importa tu hook
 
 export default function Header() {
   const { cartItems, setIsCartOpen } = useCart();

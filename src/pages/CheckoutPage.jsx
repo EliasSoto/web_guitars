@@ -4,8 +4,9 @@ import { useCart } from '../contexts/CartContext';
 import Footer from "../components/Footer.jsx";
 import HeaderLogin from "../components/HeaderLogin.jsx";
 import useCheckout from '../hooks/useCheckout';
-import useUserAddress from '../hooks/useUserAddress';
+import { useUserAddress } from '../hooks/useUserAddress';
 import '../styles/CheckoutPage.css';
+import { ToastContainer } from 'react-toastify';
 
 
 const CheckoutPage = () => {
@@ -13,12 +14,12 @@ const CheckoutPage = () => {
     cartItems,
     cartTotal,
     paymentMethod,
+    address,
+    loading,
     handlePaymentChange,
     handleConfirmPurchase,
     handleRemoveItem
   } = useCheckout();
-
-  const { activeAddress, loading } = useUserAddress();
 
   return (
     <div className="checkout-page">
@@ -84,8 +85,8 @@ const CheckoutPage = () => {
             <h3>Dirección de envío</h3>
             {loading ? (
               <p>Cargando dirección...</p>
-            ) : activeAddress ? (
-              <p className="address-shown">{activeAddress.street_name}</p>
+            ) : address ? (
+              <p className="address-shown">{address}</p>
             ) : (
               <p>
                 No tienes una dirección activa. 
@@ -140,6 +141,8 @@ const CheckoutPage = () => {
         </div>
       </div>
       <Footer />
+
+      <ToastContainer position="top-center" autoClose={8000} hideProgressBar />
     </div>
   );
 };

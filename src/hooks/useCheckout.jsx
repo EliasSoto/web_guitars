@@ -1,24 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../contexts/CartContext';
+import { useUserAddress } from './useUserAddress';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function useCheckout() {
   const { cartItems, cartTotal, removeFromCart } = useCart();
 
+  const { activeAddress, loading } = useUserAddress();
+
   const [address, setAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
+
+  useEffect(() => {
+    if (activeAddress) {
+      setAddress(activeAddress.street_name);
+    }
+  }, [activeAddress]);
 
   const handlePaymentChange = (e) => {
     setPaymentMethod(e.target.value);
   };
 
   const handleConfirmPurchase = () => {
-    if (!address || !paymentMethod) {
-      alert('Por favor, completa todos los campos antes de continuar.');
+    if (!address) {
+      toast.error('Debe ingresar una dirección de envío.');
       return;
     }
-
-    // Aquí va la lógica para enviar los datos al backend
-    console.log('Compra confirmada', { cartItems, address, paymentMethod });
+    if (!paymentMethod) {
+      toast.error('Por favor, seleccione un método de pago.');
+      return;
+    }
+    toast.success('Compra confirmada exitosamente!');
+    
+    console.log('Compra confirmada', { cartItems, paymentMethod });
   };
 
   const handleRemoveItem = (id) => {
@@ -29,7 +44,7 @@ export default function useCheckout() {
     cartItems,
     cartTotal,
     address,
-    setAddress,
+    loading,
     paymentMethod,
     handlePaymentChange,
     handleConfirmPurchase,

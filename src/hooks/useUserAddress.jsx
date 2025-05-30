@@ -7,10 +7,8 @@ import {
   deleteAddress,
   activateAddress,
 } from "../services/userNormalService";
-import { isAuthenticated } from "../services/userAuthService";
 
-
-const useUserAddress = () => {
+export const useUserAddress = () => {
   const [addresses, setAddresses] = useState([]);
   const [activeAddress, setActiveAddress] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -91,6 +89,3 @@ const useUserAddress = () => {
     handleActivate,
   };
 };
-
-
-export default useUserAddress;

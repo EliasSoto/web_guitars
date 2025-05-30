@@ -10,7 +10,7 @@ import UserAddressList from '../components/table_address/UserAddressList';
 
 
 import useNormalUser from '../hooks/useNormalUsers';
-import useUserAddress from '../hooks/useUserAddress';
+import { useUserAddress } from '../hooks/useUserAddress';
 
 import "../styles/UserProfileMenu.css";
 

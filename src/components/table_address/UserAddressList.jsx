@@ -7,7 +7,7 @@ import UpdateUserAddressForm from "../forms/UpdateUserAddressForm";
 import RegisterUserAddressForm from "../forms/RegisterUserAddressForm"; // <- Asegúrate de tenerlo
 import { toast, ToastContainer } from "react-toastify";
 import { Icon } from '@iconify/react';
-import useUserAddress from "../../hooks/useUserAddress";
+import { useUserAddress } from "../../hooks/useUserAddress";
 
 export default function UserAddressList({ userId, userName }) {
   const {
