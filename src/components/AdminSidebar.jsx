@@ -45,6 +45,15 @@ export default function AdminSidebar ({ openProfileModal}) {
           </NavLink>
 
           <NavLink
+            to="/admin/orders"
+            className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
+          >
+            <Icon icon="fluent-mdl2:reservation-orders" width="24" height="24" />
+            <p>Ordenes</p>
+          </NavLink>
+
+
+          <NavLink
             to="/admin/shipments"
             className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
           >
