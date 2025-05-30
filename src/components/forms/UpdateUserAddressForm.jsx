@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function UpdateUserAddressForm({ addressId, onSuccess }) {
+
   const regiones = [
     "Arica y Parinacota",
     "Tarapacá",
@@ -35,22 +36,30 @@ export default function UpdateUserAddressForm({ addressId, onSuccess }) {
     resetStatus
   } = useEditUserAddress(addressId, navigate);
 
-  useEffect(() => {
-    if (error) {
+    useEffect(() => {
+      if (error) {
       if (Array.isArray(error)) {
-        error.forEach((err) => toast.error(err.msg));
+          error.forEach((err) => toast.error(err.msg));
       } else {
-        toast.error(error);
+          toast.error(error);
       }
+
+      // Sirve para resetear el error después de mostrarlo
       resetStatus();
+
     }
 
-    if (successMessage) {
+      if (successMessage) {
       toast.success(successMessage);
-      if (onSuccess) onSuccess();
+
+      if (onSuccess) {
+          onSuccess();
+      }
+
+      // Sirve para resetear el mensaje de éxito después de mostrarlo
       resetStatus();
-    }
-  }, [error, successMessage, onSuccess]);
+
+      }    }, [error, successMessage, onSuccess]);
 
   return (
     <div className="register-container">
@@ -123,7 +132,6 @@ export default function UpdateUserAddressForm({ addressId, onSuccess }) {
               placeholder="Ej: Casa, Trabajo, etc."
               required
             />
-
             <label className="label-register">¿Dirección activa?</label>
             <div className="checkbox-container">
               <input
@@ -132,10 +140,9 @@ export default function UpdateUserAddressForm({ addressId, onSuccess }) {
                 name="is_active"
                 checked={formData.is_active}
                 onChange={handleChange}
-                disabled={formData.is_active}
               />
               <label className="checkbox-label">
-                {formData.is_active ? "Sí (no editable)" : "No"}
+                {formData.is_active ? "Sí" : "No"}
               </label>
             </div>
           </div>

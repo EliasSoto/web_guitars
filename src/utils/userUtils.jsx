@@ -1,4 +1,5 @@
 
+
 export const getUserFirstNameLocal = () => {
   const userData = localStorage.getItem('user_info');
   if (userData) {
@@ -10,4 +11,17 @@ export const getUserFirstNameLocal = () => {
     }
   }
   return null;
+};
+
+export const getActiveAddress = async () => {
+  try {
+    const [data, error] = await getActiveAddress();
+    if (!error && data) {
+      return data;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error fetching active address:", error);
+    return null;
+  }
 };

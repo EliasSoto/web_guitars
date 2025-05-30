@@ -4,6 +4,7 @@ import { useCart } from '../contexts/CartContext';
 import Footer from "../components/Footer.jsx";
 import HeaderLogin from "../components/HeaderLogin.jsx";
 import useCheckout from '../hooks/useCheckout';
+import useUserAddress from '../hooks/useUserAddress';
 import '../styles/CheckoutPage.css';
 
 
@@ -11,13 +12,13 @@ const CheckoutPage = () => {
   const {
     cartItems,
     cartTotal,
-    address,
-    setAddress,
     paymentMethod,
     handlePaymentChange,
     handleConfirmPurchase,
     handleRemoveItem
   } = useCheckout();
+
+  const { activeAddress, loading } = useUserAddress();
 
   return (
     <div className="checkout-page">
@@ -81,8 +82,10 @@ const CheckoutPage = () => {
           
           <div className="checkout-section">
             <h3>Dirección de envío</h3>
-            {address ? (
-              <p className="address-shown">{address}</p>
+            {loading ? (
+              <p>Cargando dirección...</p>
+            ) : activeAddress ? (
+              <p className="address-shown">{activeAddress.street_name}</p>
             ) : (
               <p>
                 No tienes una dirección activa. 

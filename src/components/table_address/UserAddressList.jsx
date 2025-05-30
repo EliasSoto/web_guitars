@@ -52,16 +52,16 @@ export default function UserAddressList({ userId, userName }) {
           onClick={() => setShowRegisterModal(true)}
           style={{ cursor: 'pointer' }}
           color="#3563E9"
-          icon="humbleicons:user-add"
-          width="34"
-          height="34"
+          icon="qlementine-icons:address-book-add-16"
+          width="26"
+          height="26"
         />
       </div>
 
       {loading ? (
         <p>Cargando direcciones...</p>
       ) : addresses.length === 0 ? (
-        <p>Este usuario no tiene direcciones registradas.</p>
+        <p>No tiene direcciones registradas.</p>
       ) : (
         <table>
           <AddressTableHead />
@@ -87,7 +87,7 @@ export default function UserAddressList({ userId, userName }) {
 
       {/* Modal para registrar dirección */}
       <Modal isOpen={showRegisterModal} onClose={() => setShowRegisterModal(false)}>
-        <RegisterUserAddressForm userId={userId} onSuccess={handleRegisterSuccess} />
+        <RegisterUserAddressForm userId={userId} onSuccess={handleRegisterSuccess} totalAddresses={addresses.length} />
       </Modal>
     </div>
   );

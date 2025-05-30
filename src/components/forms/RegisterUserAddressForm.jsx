@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import useRegisterUserAddress from "../../hooks/useRegisterUserAddress";
 import { toast, ToastContainer } from "react-toastify";
-import "../../styles/RegisterAdminUserForm.css"; // Reutilizado para estilo consistente
+import "../../styles/RegisterAdminUserForm.css";
 
-export default function RegisterUserAddressForm({ onSuccess }) {
+export default function RegisterUserAddressForm({ onSuccess, userId, totalAddresses  }) {
   const regiones = [
     "Arica y Parinacota",
     "Tarapacá",
@@ -29,12 +29,11 @@ export default function RegisterUserAddressForm({ onSuccess }) {
     handleSubmit,
     error,
     successMessage,
-    resetStatus,
     resetForm,
-  } = useRegisterUserAddress();
+    clearSuccessMessage, 
+  } = useRegisterUserAddress(userId, totalAddresses);
 
   useEffect(() => {
-
     if (error) {
       if (Array.isArray(error)) {
         error.forEach((err) => toast.error(err.msg));
@@ -51,8 +50,9 @@ export default function RegisterUserAddressForm({ onSuccess }) {
         onSuccess();
       }
 
+      clearSuccessMessage();
     }
-  }, [error, successMessage, onSuccess]);
+  }, [error, successMessage, onSuccess, clearSuccessMessage]);
 
   return (
     <div className="register-container">
@@ -128,16 +128,21 @@ export default function RegisterUserAddressForm({ onSuccess }) {
 
             <label className="label-register">¿Dirección activa?</label>
             <div className="checkbox-container">
-              <input
-                type="checkbox"
-                className="checkbox_input"
-                name="is_active"
-                checked={formData.is_active}
-                onChange={handleChange}
-              />
-              <label className="checkbox-label">
-                {formData.is_active ? "Sí" : "No"}
-              </label>
+            <input
+              type="checkbox"
+              className="checkbox_input"
+              name="is_active"
+              checked={formData.is_active}
+              onChange={handleChange}
+              disabled={totalAddresses === 0}
+            />
+            <label className="checkbox-label">
+              {formData.is_active && totalAddresses === 0
+                ? "Sí (Será la dirección predeterminada)"
+                : formData.is_active
+                ? "Sí"
+                : "No"}
+            </label>
             </div>
           </div>
         </div>

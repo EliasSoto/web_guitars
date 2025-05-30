@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { createAddress } from "../services/userNormalService";
 
-const useRegisterUserAddress = (userId) => {
+const useRegisterUserAddress = (userId, totalAddresses = 0) => {
   const [formData, setFormData] = useState({
     street_name: "",
     region: "",
     commune: "",
     directions: "",
     address_type: "",
-    is_active: true,
+    is_active: totalAddresses === 0,
     user_id: userId,
   });
 
@@ -22,7 +22,7 @@ const useRegisterUserAddress = (userId) => {
       commune: "",
       directions: "",
       address_type: "",
-      is_active: true,
+      is_active: totalAddresses === 0,
       user_id: userId,
     });
   };
