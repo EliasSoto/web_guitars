@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createOrderUser } from '../services/userOrderService';
 import { useNavigate } from 'react-router-dom';
+import { createUserShipment } from '../services/useShipmentService';
 
 export default function useCheckout() {
   const { cartItems, cartTotal, removeFromCart, clearCart } = useCart();
@@ -33,31 +34,44 @@ export default function useCheckout() {
       toast.error('Por favor, seleccione un método de pago.');
       return;
     }
-    
-  const items = cartItems.map(item => ({
-    guitar_id: item.id,
-    quantity: item.quantity
-  }));
 
-  const orderData = {
-    status: "procesado",
-    payment_method: paymentMethod,
-    items
+    const items = cartItems.map(item => ({
+      guitar_id: item.id,
+      quantity: item.quantity
+    }));
+
+    const orderData = {
+      status: "procesado",
+      payment_method: paymentMethod,
+      items
+    };
+
+    const [data, error] = await createOrderUser(orderData);
+    console.log("Datos a enviar al crear pedido:", orderData);
+
+    if (error) {
+      toast.error(`Error al crear el pedido: ${error}`);
+      return;
+    }
+
+    // Extraer IDs de los pedidos creados
+    const orderIds = Array.isArray(data) ? data.map(order => order.id) : [data.id];
+
+    // Crear shipment con los order_ids
+    const [shipmentData, shipmentError] = await createUserShipment({ order_ids: orderIds });
+    console.log("Shipment Data:", shipmentData);
+
+    if (shipmentError) {
+      toast.error(`Error al crear el envío: ${shipmentError}`);
+      return;
+    }
+
+    toast.success('Compra y envío realizados exitosamente!');
+    clearCart();
+    setTimeout(() => {
+      navigate('/profile/orders');
+    }, 2000);
   };
-
-  const [data, error] = await createOrderUser(orderData);
-
-  if (error) {
-    toast.error(`Error al crear el pedido: ${error}`);
-    return;
-  }
-
-  toast.success('Compra realizada exitosamente!');
-  clearCart();
-  setTimeout(() => {
-    navigate('/profile/orders');
-  }, 2000);
-};
 
   const handleRemoveItem = (id) => {
     removeFromCart(id);

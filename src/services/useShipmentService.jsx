@@ -65,3 +65,21 @@ export const getUserShipmentsPaginated = async (page = 1, limit = 10) => {
     return [null, error.message || "Error al conectar con el servidor"];
   }
 };
+
+export const updateUserShipment = async (shipmentId, shipmentData) => {
+  try {
+    const token = getToken();
+    const response = await fetch(`${API_URL}/usuarios/envios/${shipmentId}`, {
+      method: "PUT", // O PATCH si ese es tu método
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(shipmentData),
+    });
+    return await parseResponse(response);
+  } catch (error) {
+    return [null, error.message || "Error al conectar con el servidor"];
+  }
+};

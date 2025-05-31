@@ -1,18 +1,18 @@
-import useRegisterAdminShipment from "../../hooks/useRegisterAdminShipment";
+import useEditAdminShipment from "../../hooks/useEditAdminShipment";
 
-export default function AdminShipmentCreateForm({ onSubmit }) {
+export default function UpdateAdminShipmentForm({ onSubmit, orderId }) {
   const {
     formData,
     error,
     successMessage,
     handleChange,
     handleSubmit,
-  } = useRegisterAdminShipment(onSubmit);
+  } = useEditAdminShipment(onSubmit, orderId);
 
   return (
     <div className="register-container">
       <header>
-        <h1 className="text-inicia">Formulario de Envío</h1>
+        <h1 className="text-inicia">Formulario de Envío {orderId}</h1>
       </header>
 
       <form onSubmit={handleSubmit}>
@@ -49,25 +49,6 @@ export default function AdminShipmentCreateForm({ onSubmit }) {
               disabled={formData.is_immediate_delivery}
               required
             />
-          </div>
-
-          {/* Columna derecha */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "1px", flex: 1 }}>
-            <label className="label-register">Estado del seguimiento</label>
-            <select
-              className="input-normal"
-              name="tracking_status"
-              value={formData.tracking_status}
-              onChange={handleChange}
-              disabled={formData.is_immediate_delivery}
-            >
-              <option value="enviado">Enviado</option>
-              {formData.tracking_status === "entregado" && (
-                <option value="entregado" hidden>
-                  Entregado
-                </option>
-              )}
-            </select>
 
             <label className="label-register">Proveedor</label>
             <input
@@ -94,10 +75,11 @@ export default function AdminShipmentCreateForm({ onSubmit }) {
               Entrega inmediata
             </label>
           </div>
+          
         </div>
 
         <div className="button-container">
-          <button className="button-register" type="submit">
+          <button className="button-register" type="submit" style={{ width: "100%" }}>
             Guardar Envío
           </button>
         </div>

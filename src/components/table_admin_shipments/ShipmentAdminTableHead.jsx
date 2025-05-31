@@ -9,7 +9,7 @@ export default function ShipmentTableHead() {
         <th>Fecha de Envío</th>
         <th>Fecha de Entrega</th>
         <th>Estado de Seguimiento</th>
-        <th>Precio</th>
+        <th>Precio Envío</th>
         <th>Proveedor de Envío</th>
         <th>Entrega Inmediata</th>
         <th>Acciones</th>

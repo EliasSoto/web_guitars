@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { registerAdminShipment } from "../services/shipmentAdminService";
+import { updateShipmentsByOrderId } from "../services/shipmentAdminService";
 
-const useRegisterAdminShipment = (onSuccess) => {
+const useEditAdminShipment = (onSuccess, orderId) => {
   const [formData, setFormData] = useState({
-    tracking_status: "procesando",
     delivery_date: "",
     price: "",
     shipping_provider: "",
@@ -16,7 +15,6 @@ const useRegisterAdminShipment = (onSuccess) => {
 
   const resetForm = () => {
     setFormData({
-      tracking_status: "procesando",
       delivery_date: "",
       price: "",
       shipping_provider: "",
@@ -45,7 +43,6 @@ const useRegisterAdminShipment = (onSuccess) => {
         is_immediate_delivery: checked,
         delivery_date: checked ? today : "",
         price: checked ? "0" : "",
-        tracking_status: checked ? "entregado" : "procesando",
         shipping_provider: checked ? "Inmediato" : "",
       }));
     } else {
@@ -62,18 +59,15 @@ const useRegisterAdminShipment = (onSuccess) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const parsedOrderIds = formData.order_ids.map(id => parseInt(id));
-
     try {
-      const [data, registerError] = await registerAdminShipment({
-        tracking_status: formData.tracking_status,
+      const [data, registerError] = await updateShipmentsByOrderId(orderId,{
+        tracking_status: "enviado",
+        shipment_date: new Date().toISOString().split("T")[0],
         delivery_date: formData.delivery_date,
-        price: formData.price,
+        price: parseFloat(formData.price),
         shipping_provider: formData.shipping_provider,
-        is_immediate_delivery: formData.is_immediate_delivery,
-        order_ids: parsedOrderIds,
+        is_immediate_delivery: formData.is_immediate_delivery
       });
-      console.log("Data received:", formData);
 
       if (registerError) {
         setError(registerError);
@@ -102,4 +96,4 @@ const useRegisterAdminShipment = (onSuccess) => {
   };
 };
 
-export default useRegisterAdminShipment;
+export default useEditAdminShipment;

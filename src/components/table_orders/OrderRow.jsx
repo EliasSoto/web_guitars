@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 
-export default function OrderRow({ order }) {
+export default function OrderRow({ order, onViewDetails }) {
   return (
     <tr>
       <td>{order.id}</td>
@@ -10,11 +10,12 @@ export default function OrderRow({ order }) {
       <td>{order.payment_method}</td>
       <td className="action-icons">
         <Icon
-          icon="lucide:edit"
-          width={20}
-          height={20}
-          color="#FFC10C"
-          style={{ cursor: "pointer", marginRight: "8px" }}
+          icon="icon-park-outline:preview-open"
+          width={22}
+          height={22}
+          color="#3563E9"
+          style={{ cursor: "pointer" }}
+          onClick={() => onViewDetails(order.id)}
         />
       </td>
     </tr>

@@ -44,6 +44,7 @@ export default function OrderRow({ order, onViewDetails }) {
       <td>{totalQuantity}</td>
 
       <td className="action-icons">
+      {order.status === "procesado" && (
         <Icon
           icon="icon-park-outline:preview-open"
           width={22}
@@ -52,6 +53,7 @@ export default function OrderRow({ order, onViewDetails }) {
           style={{ cursor: "pointer" }}
           onClick={() => onViewDetails(order.id)}
         />
+      )}
       </td>
       
     </tr>

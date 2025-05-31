@@ -9,7 +9,7 @@ import ProductOrdersList from "../table_product_orders/ProductOrdersList";
 import Modal from "../Modal";
 import { toast, ToastContainer } from "react-toastify";
 import "../../styles/admin_table/TableUsers.css";
-import AdminShipmentCreateForm from "../forms/AdminShipmentCreateForm";
+import UpdateAdminShipmentForm from "../forms/UpdateAdminShipmentForm";
 
 const ordersPerPage = 10;
 
@@ -75,7 +75,7 @@ const OrderList = () => {
   return (
     <div className="table-container">
       <div className="table-header">
-        <h1>Lista de Pedidos</h1>
+        <h1>Lista de Órdenes</h1>
       </div>
 
       <table>
@@ -116,15 +116,16 @@ const OrderList = () => {
       </div>
 
       <Modal isOpen={showDetails} onClose={() => setShowDetails(false)}>
-  <ProductOrdersList
-    orderId={selectedOrderId}
-    onSendOrder={handleOpenShipmentForm} // 👈 aquí está el fix
-  />
-</Modal>
+        <ProductOrdersList
+          orderId={selectedOrderId}
+          onSendOrder={handleOpenShipmentForm}
+          isAdmin={true}
+        />
+      </Modal>
 
 
       <Modal isOpen={showShipmentForm} onClose={() => setShowShipmentForm(false)}>
-        <AdminShipmentCreateForm
+        <UpdateAdminShipmentForm
           orderId={selectedOrderId}
           onClose={() => {
             setShowShipmentForm(false);

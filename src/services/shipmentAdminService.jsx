@@ -95,17 +95,18 @@ export const deleteShipmentByIdAdmin = async (shipmentId) => {
   }
 };
 
-export const updateShipmentStatusAdmin = async (shipmentId, newStatus) => {
+
+export const createUserShipment = async (shipmentData) => {
   try {
     const token = getToken();
-    const response = await fetch(`${API_URL}/admin/envios/${shipmentId}/estado`, {
-      method: "PUT",
+    const response = await fetch(`${API_URL}/usuarios/envios`, {
+      method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ new_status: newStatus })
+      body: JSON.stringify(shipmentData),
     });
     return await parseResponse(response);
   } catch (error) {
@@ -113,11 +114,11 @@ export const updateShipmentStatusAdmin = async (shipmentId, newStatus) => {
   }
 };
 
-export const registerAdminShipment = async (shipmentData) => {
+export const updateShipmentsByOrderId = async (orderId, shipmentData) => {
   try {
     const token = getToken();
-    const response = await fetch(`${API_URL}/admin/envios`, {
-      method: "POST",
+    const response = await fetch(`${API_URL}/admin/envios/pedidos/${orderId}`, {
+      method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

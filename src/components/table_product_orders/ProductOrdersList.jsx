@@ -2,16 +2,22 @@ import TableProductHead from "./TableProductHead";
 import ProductOrdersRow from "./ProductOrdersRow";
 import { useEffect, useState } from "react";
 import { getOrderByIdAdmin } from "../../services/orderAdminService";
+import { getUserOrderById } from "../../services/userOrderService";
 import "../../styles/admin_table/TableUsers.css";
 
-export default function ProductOrdersList ({ orderId, onSendOrder }) {
+export default function ProductOrdersList ({ orderId, onSendOrder, isAdmin= false }) {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
 const fetchOrder = async () => {
-  setLoading(true);
-  const [data, err] = await getOrderByIdAdmin(orderId);
+    setLoading(true);
+    let data, err;
+    if (isAdmin) {
+      [data, err] = await getOrderByIdAdmin(orderId);
+    } else {
+      [data, err] = await getUserOrderById(orderId);
+    }
 
   if (err) {
     setError(err);
@@ -53,10 +59,13 @@ const fetchOrder = async () => {
       </table>
           <div style={{ marginTop: "1rem", display: "flex", gap: "1rem" }}>
             <br />
+        
+        { isAdmin === true && (
+          <button className="btn-enviar" onClick={() => onSendOrder(order.id)}>
+            Enviar pedido
+          </button>
+        )}
 
-        <button className="btn-enviar" onClick={() => onSendOrder(order.id)}>
-          Enviar pedido
-        </button>
         
       </div>
 

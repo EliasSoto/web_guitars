@@ -50,7 +50,7 @@ export default function ShipmentAdminList() {
       </div>
 
       {loading ? (
-        <p>Cargando envíos...</p>
+        <p></p>
       ) : error ? (
         <p style={{ color: "red" }}>Error: {error}</p>
       ) : shipments.length === 0 ? (

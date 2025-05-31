@@ -1,9 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import OrderRow from "./OrderRow";
 import OrderTableHead from "./OrderTableHead";
 import "../../styles/admin_table/TableUsers.css";
 import { useUserOrder } from "../../hooks/useUserOrder";
 import { getUserOrdersPaginated } from "../../services/userOrderService";
+import { getUserOrderById } from "../../services/userOrderService";
+import { toast } from "react-toastify";
+
+import Modal from "../Modal";
+import ProductOrdersList from "../table_product_orders/ProductOrdersList";
 
 const ordersPerPage = 10;
 
@@ -19,6 +24,9 @@ export default function OrderList({ userName }) {
     setLoading,
     setError,
   } = useUserOrder();
+
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
 
   const fetchOrders = async (page = 1, limit = ordersPerPage) => {
     setLoading(true);
@@ -36,10 +44,21 @@ export default function OrderList({ userName }) {
     setLoading(false);
   };
 
+  const handleViewDetails = async (orderId) => {
+    const [data, err] = await getUserOrderById(orderId);
+    if (err || !data) {
+      toast.error("No se pudo obtener detalles del pedido.");
+      return;
+    }
+
+    setSelectedOrderId(orderId);
+    setShowDetails(true);
+  };
+
   useEffect(() => {
     const cachedData = sessionStorage.getItem("cachedOrders");
     const cachedPage = Number(sessionStorage.getItem("cachedOrderPage"));
-  
+
     if (cachedData && cachedPage === page) {
       const parsed = JSON.parse(cachedData);
       setOrders(parsed.orders);
@@ -53,11 +72,11 @@ export default function OrderList({ userName }) {
   return (
     <div className="table-container">
       <div className="table-header">
-        <h2>Órdenes de {userName}</h2>
+        <h2>Pedidos de {userName}</h2>
       </div>
 
       {loading ? (
-        <p>Cargando órdenes...</p>
+        <p></p>
       ) : orders.length === 0 ? (
         <p>No se encontraron órdenes.</p>
       ) : (
@@ -66,7 +85,11 @@ export default function OrderList({ userName }) {
             <OrderTableHead />
             <tbody>
               {orders.map((order) => (
-                <OrderRow key={order.id} order={order} />
+                <OrderRow
+                  key={order.id}
+                  order={order}
+                  onViewDetails={handleViewDetails}
+                />
               ))}
             </tbody>
           </table>
@@ -100,6 +123,10 @@ export default function OrderList({ userName }) {
               Siguiente
             </button>
           </div>
+
+          <Modal isOpen={showDetails} onClose={() => setShowDetails(false)}>
+            <ProductOrdersList orderId={selectedOrderId} isAdmin={false} />
+          </Modal>
         </>
       )}
     </div>

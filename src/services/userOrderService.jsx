@@ -62,3 +62,19 @@ export const getUserOrdersPaginated = async (page = 1, limit = 10) => {
     return [null, error.message || "Error al conectar con el servidor"];
   }
 };
+
+export const getUserOrderById = async (orderId) => {
+  try {
+    const token = getToken();
+    const response = await fetch(`${API_URL}/usuarios/pedidos/${orderId}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      }
+    });
+    return await parseResponse(response);
+  } catch (error) {
+    return [null, error.message || "Error al conectar con el servidor"];
+  }
+};
