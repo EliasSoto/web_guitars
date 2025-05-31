@@ -5,13 +5,13 @@ export default function ShipmentAdminTableHead() {
     <thead className="table-head">
       <tr>
         <th>ID Envío</th>
-        <th>Nombre Usuario</th>
         <th>Fecha de Envío</th>
         <th>Fecha de Entrega</th>
         <th>Estado de Seguimiento</th>
         <th>Precio</th>
         <th>Proveedor de Envío</th>
         <th>Entrega Inmediata</th>
+        <th>Acciones</th>
       </tr>
     </thead>
   );

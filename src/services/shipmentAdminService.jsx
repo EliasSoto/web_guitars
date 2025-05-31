@@ -112,3 +112,21 @@ export const updateShipmentStatusAdmin = async (shipmentId, newStatus) => {
     return [null, error.message || "Error al conectar con el servidor"];
   }
 };
+
+export const registerAdminShipment = async (shipmentData) => {
+  try {
+    const token = getToken();
+    const response = await fetch(`${API_URL}/admin/envios`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(shipmentData),
+    });
+    return await parseResponse(response);
+  } catch (error) {
+    return [null, error.message || "Error al conectar con el servidor"];
+  }
+};

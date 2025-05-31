@@ -1,34 +1,13 @@
-import { useState } from "react";
+import useRegisterAdminShipment from "../../hooks/useRegisterAdminShipment";
 
 export default function AdminShipmentCreateForm({ onSubmit }) {
-  const [formData, setFormData] = useState({
-    shipment_date: "",
-    tracking_status: "procesando",
-    delivery_date: "",
-    price: "",
-    shipping_provider: "",
-    is_immediate_delivery: false,
-    order_ids: [""],
-  });
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    if (name === "order_ids") {
-      const ids = value.split(",").map((id) => parseInt(id.trim()));
-      setFormData({ ...formData, order_ids: ids });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: type === "checkbox" ? checked : value,
-      });
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (onSubmit) onSubmit(formData);
-  };
+  const {
+    formData,
+    error,
+    successMessage,
+    handleChange,
+    handleSubmit,
+  } = useRegisterAdminShipment(onSubmit);
 
   return (
     <div className="register-container">
@@ -47,16 +26,6 @@ export default function AdminShipmentCreateForm({ onSubmit }) {
         >
           {/* Columna izquierda */}
           <div style={{ display: "flex", flexDirection: "column", gap: "1px", flex: 1 }}>
-            <label className="label-register">Fecha de Envío</label>
-            <input
-              className="input-normal"
-              type="date"
-              name="shipment_date"
-              value={formData.shipment_date}
-              onChange={handleChange}
-              required
-            />
-
             <label className="label-register">Fecha de entrega</label>
             <input
               className="input-normal"
@@ -64,6 +33,8 @@ export default function AdminShipmentCreateForm({ onSubmit }) {
               name="delivery_date"
               value={formData.delivery_date}
               onChange={handleChange}
+              min={new Date().toISOString().split("T")[0]}
+              disabled={formData.is_immediate_delivery}
               required
             />
 
@@ -75,7 +46,7 @@ export default function AdminShipmentCreateForm({ onSubmit }) {
               value={formData.price}
               onChange={handleChange}
               min={0}
-              step="0.01"
+              disabled={formData.is_immediate_delivery}
               required
             />
           </div>
@@ -88,11 +59,14 @@ export default function AdminShipmentCreateForm({ onSubmit }) {
               name="tracking_status"
               value={formData.tracking_status}
               onChange={handleChange}
+              disabled={formData.is_immediate_delivery}
             >
-              <option value="procesando">Procesando</option>
               <option value="enviado">Enviado</option>
-              <option value="entregado">Entregado</option>
-              <option value="cancelado">Cancelado</option>
+              {formData.tracking_status === "entregado" && (
+                <option value="entregado" hidden>
+                  Entregado
+                </option>
+              )}
             </select>
 
             <label className="label-register">Proveedor</label>
@@ -102,6 +76,10 @@ export default function AdminShipmentCreateForm({ onSubmit }) {
               name="shipping_provider"
               value={formData.shipping_provider}
               onChange={handleChange}
+              placeholder="Correos, DHL, FedEx"
+              minLength={2}
+              maxLength={50}
+              disabled={formData.is_immediate_delivery}
               required
             />
 
@@ -115,17 +93,6 @@ export default function AdminShipmentCreateForm({ onSubmit }) {
               />
               Entrega inmediata
             </label>
-
-            <label className="label-register">ID(s) del Pedido (separados por coma)</label>
-            <input
-              className="input-normal"
-              type="text"
-              name="order_ids"
-              value={formData.order_ids.join(", ")}
-              onChange={handleChange}
-              placeholder="Ej: 1, 2, 3"
-              required
-            />
           </div>
         </div>
 
@@ -134,6 +101,9 @@ export default function AdminShipmentCreateForm({ onSubmit }) {
             Guardar Envío
           </button>
         </div>
+
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       </form>
     </div>
   );
