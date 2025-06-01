@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "../../styles/admin_table/TableUsers.css";
 import UpdateAdminShipmentForm from "../forms/UpdateAdminShipmentForm";
 import { Icon } from "@iconify/react";
+import { getShipmentStatusByOrderIdAdmin } from "../../services/shipmentAdminService";
 
 const ordersPerPage = 10;
 
@@ -17,6 +18,7 @@ const OrderList = () => {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
+  const [shipmentStatuses, setShipmentStatuses] = useState({});
 
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
@@ -28,6 +30,21 @@ const OrderList = () => {
     setShowShipmentForm(true);
   };
 
+  const fetchShipmentStatuses = async (ordersList) => {
+    const statuses = {};
+    await Promise.all(
+      ordersList.map(async (order) => {
+        const [data, err] = await getShipmentStatusByOrderIdAdmin(order.id);
+        if (!err && data?.tracking_status) {
+          statuses[order.id] = data.tracking_status;
+        } else {
+          statuses[order.id] = null;
+        }
+      })
+    );
+    setShipmentStatuses(statuses);
+  };
+
 
   const fetchOrders = async (page = 0, limit = ordersPerPage) => {
     setLoading(true);
@@ -35,9 +52,12 @@ const OrderList = () => {
 
     if (err) {
       setError(err);
+      setOrders([]);
+      setShipmentStatuses({});
     } else {
       setOrders(data.orders);
       setTotalOrders(data.total);
+      fetchShipmentStatuses(data.orders);
     }
 
     setLoading(false);
@@ -79,7 +99,7 @@ const OrderList = () => {
             <OrderAdminTableHead />
             <tbody>
               {orders.map((order) => (
-                <OrderAdminRow key={order.id} order={order} onViewDetails={handleViewDetails} />
+                <OrderAdminRow key={order.id} order={order} onViewDetails={handleViewDetails} shipmentStatus={shipmentStatuses[order.id]}/>
               ))}
             </tbody>
           </table>

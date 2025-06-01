@@ -131,3 +131,19 @@ export const updateShipmentsByOrderId = async (orderId, shipmentData) => {
     return [null, error.message || "Error al conectar con el servidor"];
   }
 };
+
+export const getShipmentStatusByOrderIdAdmin = async (orderId) => {
+  try {
+    const token = getToken();
+    const response = await fetch(`${API_URL}/admin/envios/estado/${orderId}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await parseResponse(response);
+  } catch (error) {
+    return [null, error.message || "Error al conectar con el servidor"];
+  }
+};

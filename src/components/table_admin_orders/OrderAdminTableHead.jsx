@@ -1,4 +1,3 @@
-
 export default function OrderTableHead() {
   return (
     <thead className="table-head">
@@ -7,9 +6,10 @@ export default function OrderTableHead() {
         <th>Nombre del Usuario</th>       
         <th>Fecha Pedido</th>       
         <th>Método de Pago</th>        
-        <th>Estado</th>          
+        <th>Estado</th>
+        <th>Estado de Envío</th>    
         <th>Precio Total</th>         
-        <th>Cantidad de Productos</th>          
+        <th>Cantidad de Productos</th>  
         <th>Acciones</th>            
       </tr>
     </thead>
