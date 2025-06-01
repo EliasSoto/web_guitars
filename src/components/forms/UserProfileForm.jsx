@@ -111,6 +111,9 @@ export default function UserProfileForm({ onClose, onSuccess }) {
               style={{ outline: "none" }}
               minLength={9}
               maxLength={9}
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/\D/g, "");
+              }}
               required
             />
           </div>

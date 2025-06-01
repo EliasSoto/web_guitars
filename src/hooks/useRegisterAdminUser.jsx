@@ -39,6 +39,10 @@ const useRegisterAdminUser = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    
+    // Evita actualizar el campo si el valor es solo espacios
+    if (value.trim() === "" && value.length > 0) return;
+
     setFormData(prev => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value

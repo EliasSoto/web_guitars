@@ -101,7 +101,7 @@ const CartModal = () => {
               </div>
             </div>
             <button 
-              className="checkout-button"
+              className="confirm-button"
               onClick={() => {
                 setIsCartOpen(false);
                 navigate('/checkout');

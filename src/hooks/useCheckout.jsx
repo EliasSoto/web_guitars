@@ -25,53 +25,56 @@ export default function useCheckout() {
     setPaymentMethod(e.target.value);
   };
 
-  const handleConfirmPurchase = async () => {
-    if (!address) {
-      toast.error('Debe ingresar una dirección de envío.');
-      return;
-    }
-    if (!paymentMethod) {
-      toast.error('Por favor, seleccione un método de pago.');
-      return;
-    }
+const handleConfirmPurchase = async () => {
+  if (cartItems.length === 0) {
+    toast.error('El carrito está vacío. Agrega productos antes de continuar.');
+    return;
+  }
 
-    const items = cartItems.map(item => ({
-      guitar_id: item.id,
-      quantity: item.quantity
-    }));
+  if (!address) {
+    toast.error('Debe ingresar una dirección de envío.');
+    return;
+  }
 
-    const orderData = {
-      status: "procesado",
-      payment_method: paymentMethod,
-      items
-    };
+  if (!paymentMethod || paymentMethod.trim() === '') {
+    toast.error('Por favor, seleccione un método de pago.');
+    return;
+  }
 
-    const [data, error] = await createOrderUser(orderData);
-    console.log("Datos a enviar al crear pedido:", orderData);
+  const items = cartItems.map(item => ({
+    guitar_id: item.id,
+    quantity: item.quantity
+  }));
 
-    if (error) {
-      toast.error(`Error al crear el pedido: ${error}`);
-      return;
-    }
-
-    // Extraer IDs de los pedidos creados
-    const orderIds = Array.isArray(data) ? data.map(order => order.id) : [data.id];
-
-    // Crear shipment con los order_ids
-    const [shipmentData, shipmentError] = await createUserShipment({ order_ids: orderIds });
-    console.log("Shipment Data:", shipmentData);
-
-    if (shipmentError) {
-      toast.error(`Error al crear el envío: ${shipmentError}`);
-      return;
-    }
-
-    toast.success('Compra y envío realizados exitosamente!');
-    clearCart();
-    setTimeout(() => {
-      navigate('/profile/orders');
-    }, 2000);
+  const orderData = {
+    status: "procesado",
+    payment_method: paymentMethod,
+    items
   };
+
+  const [data, error] = await createOrderUser(orderData);
+
+  if (error) {
+    toast.error(`Error al crear el pedido: ${error}`);
+    return;
+  }
+
+  const orderIds = Array.isArray(data) ? data.map(order => order.id) : [data.id];
+
+  const [shipmentData, shipmentError] = await createUserShipment({ order_ids: orderIds });
+
+  if (shipmentError) {
+    toast.error(`Error al crear el envío: ${shipmentError}`);
+    return;
+  }
+
+  toast.success('Compra y envío realizados exitosamente!');
+  clearCart();
+  setTimeout(() => {
+    navigate('/profile/orders');
+  }, 1000);
+};
+
 
   const handleRemoveItem = (id) => {
     removeFromCart(id);

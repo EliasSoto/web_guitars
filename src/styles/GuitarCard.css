@@ -78,7 +78,7 @@
 
 .guitar-card-add-to-cart {
     width: 55%; 
-    background-color: #3b82f6;
+    background-color: #8699DA;
     color: white;
     border: none;
     border-radius: 6px;
@@ -123,7 +123,7 @@
 
 
 .guitar-card-add-to-cart:hover {
-    background-color: #2563eb;
+    background-color: #596fb1;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
 }

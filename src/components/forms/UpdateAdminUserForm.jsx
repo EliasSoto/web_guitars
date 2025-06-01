@@ -112,6 +112,9 @@ export default function UpdateAdminUserForm({ userId, onSuccess, onClose }) {
               placeholder="Teléfono"
               minLength={9}
               maxLength={9}
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/\D/g, "");
+              }}
               required
             />
 

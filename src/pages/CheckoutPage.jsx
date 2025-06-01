@@ -146,7 +146,6 @@ const CheckoutPage = () => {
             <button 
               className="confirm-button" 
               onClick={handleConfirmPurchase}
-              disabled={!address || !paymentMethod || cartItems.length === 0}
             >
               Confirmar Compra
             </button>
