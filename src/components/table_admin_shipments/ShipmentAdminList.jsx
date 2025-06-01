@@ -41,7 +41,7 @@ export default function ShipmentAdminList() {
       {loading ? (
         <div className="loading-container">
           <Icon icon="line-md:loading-loop" width="40" height="40" className="loading-icon" />
-          <p>Cargando pedidos...</p>
+          <p>Cargando envíos...</p>
         </div>
       ) : error ? (
         <p style={{ color: "red" }}>Error: {error}</p>
