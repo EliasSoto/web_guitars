@@ -8,7 +8,7 @@ import { Icon } from "@iconify/react";
 
 const shipmentsPerPage = 10;
 
-export default function ShipmentList({ userName }) {
+export default function ShipmentList() {
   const {
     shipments,
     setShipments,
@@ -42,7 +42,7 @@ export default function ShipmentList({ userName }) {
   return (
     <div className="table-container">
       <div className="table-header">
-        <h2>Envíos de {userName}</h2>
+        <h2>Tus Envíos</h2>
       </div>
 
       {loading ? (

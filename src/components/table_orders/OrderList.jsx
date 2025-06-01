@@ -13,7 +13,7 @@ import { Icon } from "@iconify/react";
 
 const ordersPerPage = 10;
 
-export default function OrderList({ userName }) {
+export default function OrderList() {
   const {
     orders,
     setOrders,
@@ -60,7 +60,7 @@ export default function OrderList({ userName }) {
   return (
     <div className="table-container">
       <div className="table-header">
-        <h2>Pedidos de {userName}</h2>
+        <h2>Tus Pedidos</h2>
       </div>
 
       {loading ? (

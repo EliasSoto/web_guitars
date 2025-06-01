@@ -32,9 +32,9 @@ export default function UserProfileMenu() {
           <Routes>
             <Route index element={<UserProfileData {...userData} />} />
             <Route path="/user-data" element={<UserProfileData {...userData} />} />
-            <Route path="/address" element={<UserAddressList  userId={user?.id}  userName={user?.first_name + ' ' + user?.last_name}  {...addressProps}/>} />
-            <Route path="/orders" element={<OrderList userName={user?.first_name + ' ' + user?.last_name} />}/>
-            <Route path="/shipments" element={<ShipmentList userName={user?.first_name + ' ' + user?.last_name} />}/>
+            <Route path="/address" element={<UserAddressList  userId={user?.id}  {...addressProps}/>} />
+            <Route path="/orders" element={<OrderList/>}/>
+            <Route path="/shipments" element={<ShipmentList/>}/>
           </Routes>
         </section>
       </main>

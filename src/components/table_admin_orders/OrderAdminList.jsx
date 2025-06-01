@@ -9,6 +9,7 @@ import "../../styles/admin_table/TableUsers.css";
 import UpdateAdminShipmentForm from "../forms/UpdateAdminShipmentForm";
 import { Icon } from "@iconify/react";
 import { getShipmentStatusByOrderIdAdmin } from "../../services/shipmentAdminService";
+import { getUserFullNameById } from "../../services/userAdminService";
 
 const ordersPerPage = 10;
 
@@ -18,11 +19,12 @@ const OrderList = () => {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
+
   const [shipmentStatuses, setShipmentStatuses] = useState({});
+  const [userNames, setUserNames] = useState({});
 
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
-
   const [showShipmentForm, setShowShipmentForm] = useState(false);
 
   const handleOpenShipmentForm = (orderId) => {
@@ -35,16 +37,22 @@ const OrderList = () => {
     await Promise.all(
       ordersList.map(async (order) => {
         const [data, err] = await getShipmentStatusByOrderIdAdmin(order.id);
-        if (!err && data?.tracking_status) {
-          statuses[order.id] = data.tracking_status;
-        } else {
-          statuses[order.id] = null;
-        }
+        statuses[order.id] = (!err && data?.tracking_status) ? data.tracking_status : "No disponible";
       })
     );
     setShipmentStatuses(statuses);
   };
 
+  const fetchUserNames = async (ordersList) => {
+    const names = {};
+    await Promise.all(
+      ordersList.map(async (order) => {
+        const [name, error] = await getUserFullNameById(order.user_id);
+        names[order.id] = !error ? name : "Usuario no encontrado";
+      })
+    );
+    setUserNames(names);
+  };
 
   const fetchOrders = async (page = 0, limit = ordersPerPage) => {
     setLoading(true);
@@ -54,10 +62,14 @@ const OrderList = () => {
       setError(err);
       setOrders([]);
       setShipmentStatuses({});
+      setUserNames({});
     } else {
       setOrders(data.orders);
       setTotalOrders(data.total);
-      fetchShipmentStatuses(data.orders);
+      await Promise.all([
+        fetchShipmentStatuses(data.orders),
+        fetchUserNames(data.orders)
+      ]);
     }
 
     setLoading(false);
@@ -69,7 +81,6 @@ const OrderList = () => {
       toast.error("No se pudo obtener detalles del pedido.");
       return;
     }
-
     setSelectedOrderId(orderId);
     setShowDetails(true);
   };
@@ -99,7 +110,13 @@ const OrderList = () => {
             <OrderAdminTableHead />
             <tbody>
               {orders.map((order) => (
-                <OrderAdminRow key={order.id} order={order} onViewDetails={handleViewDetails} shipmentStatus={shipmentStatuses[order.id]}/>
+                <OrderAdminRow
+                  key={order.id}
+                  order={order}
+                  onViewDetails={handleViewDetails}
+                  shipmentStatus={shipmentStatuses[order.id]}
+                  userName={userNames[order.id]}
+                />
               ))}
             </tbody>
           </table>
@@ -134,7 +151,6 @@ const OrderList = () => {
         </>
       )}
 
-      {/* Modal para ver detalles del pedido */}
       <Modal isOpen={showDetails} onClose={() => setShowDetails(false)}>
         <ProductOrdersList
           orderId={selectedOrderId}
@@ -143,7 +159,6 @@ const OrderList = () => {
         />
       </Modal>
 
-      {/* Modal para actualizar envío */}
       <Modal isOpen={showShipmentForm} onClose={() => setShowShipmentForm(false)}>
         <UpdateAdminShipmentForm
           orderId={selectedOrderId}

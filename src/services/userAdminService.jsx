@@ -199,3 +199,33 @@ export const updateAdminUserById = async (userId, first_name, last_name, email, 
     return [null, "Error al conectar con el servidor"];
   }
 };
+
+// Función para obtener el nombre completo de un usuario por su ID (solo admin)
+export const getUserFullNameById = async (userId) => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+        return [null, "Acceso no autorizado. Token no encontrado"];
+    }
+
+    try {
+        const response = await fetch(`${urlBase}/admin/usuarios/nombre/${userId}/`, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        });
+
+        const text = await response.text();
+        const data = text ? JSON.parse(text) : {};
+
+        if (!response.ok) {
+            const errorMessage = data?.detail || "Error al obtener el nombre completo";
+            return [null, errorMessage];
+        }
+
+        return [data.full_name, null];
+    } catch (error) {
+        return [null, "Error al conectar con el servidor"];
+    }
+};

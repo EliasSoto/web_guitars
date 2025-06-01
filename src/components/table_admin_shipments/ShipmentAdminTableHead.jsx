@@ -12,7 +12,6 @@ export default function ShipmentTableHead() {
         <th>Precio Envío</th>
         <th>Proveedor de Envío</th>
         <th>Entrega Inmediata</th>
-        <th>Acciones</th>
       </tr>
     </thead>
   );

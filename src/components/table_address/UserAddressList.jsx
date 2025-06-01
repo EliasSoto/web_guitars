@@ -9,7 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { Icon } from '@iconify/react';
 import { useUserAddress } from "../../hooks/useUserAddress";
 
-export default function UserAddressList({ userId, userName }) {
+export default function UserAddressList({ userId }) {
   const {
     addresses,
     loading,
@@ -49,7 +49,7 @@ export default function UserAddressList({ userId, userName }) {
   return (
     <div className="table-container">
       <div className="table-header">
-        <h2>Direcciones de {userName}</h2>
+        <h2>Tus Direcciones</h2>
         <Icon
           onClick={() => setShowRegisterModal(true)}
           style={{ cursor: 'pointer' }}

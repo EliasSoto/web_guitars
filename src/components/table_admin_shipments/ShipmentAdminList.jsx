@@ -4,15 +4,29 @@ import ShipmentAdminTableHead from "./ShipmentAdminTableHead";
 import ShipmentAdminRow from "./ShipmentAdminRow";
 import "../../styles/admin_table/TableUsers.css";
 import { Icon } from "@iconify/react";
+import { getUserFullNameById } from "../../services/userAdminService";
 
 const shipmentsPerPage = 10;
 
 export default function ShipmentAdminList() {
   const [shipments, setShipments] = useState([]);
+  const [userNames, setUserNames] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+
+  const fetchUserNames = async (shipmentsList) => {
+    const names = {};
+    await Promise.all(
+      shipmentsList.map(async (shipment) => {
+        const userId = shipment.user_id;
+        const [name, error] = await getUserFullNameById(userId);
+        names[shipment.id] = !error ? name : "Usuario no encontrado";
+      })
+    );
+    setUserNames(names);
+  };
 
   const fetchShipments = async (page = 1, limit = shipmentsPerPage) => {
     setLoading(true);
@@ -20,9 +34,12 @@ export default function ShipmentAdminList() {
 
     if (err) {
       setError(err);
+      setShipments([]);
+      setUserNames({});
     } else {
       setShipments(data.shipments);
       setTotal(data.total);
+      await fetchUserNames(data.shipments);
     }
 
     setLoading(false);
@@ -53,7 +70,11 @@ export default function ShipmentAdminList() {
             <ShipmentAdminTableHead />
             <tbody>
               {shipments.map((shipment) => (
-                <ShipmentAdminRow key={shipment.id} shipment={shipment} />
+                <ShipmentAdminRow
+                  key={shipment.id}
+                  shipment={shipment}
+                  userName={userNames[shipment.id]}
+                />
               ))}
             </tbody>
           </table>
