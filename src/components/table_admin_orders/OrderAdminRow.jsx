@@ -17,7 +17,7 @@ export default function OrderRow({ order, onViewDetails, shipmentStatus, userNam
       <td>{order.total_price}</td>
       <td>{totalQuantity}</td>
       <td className="action-icons">
-        {order.status === "procesado" && (
+        {order.status === "pagado" && (
           <Icon
             icon="icon-park-outline:preview-open"
             width={22}

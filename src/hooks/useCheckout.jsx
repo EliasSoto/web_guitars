@@ -47,7 +47,7 @@ const handleConfirmPurchase = async () => {
   }));
 
   const orderData = {
-    status: "procesado",
+    status: "pagado",
     payment_method: paymentMethod,
     items
   };
