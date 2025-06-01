@@ -41,11 +41,12 @@ const CartModal = () => {
               <div key={`${item.id}-${item.addedAt || 0}`} className="cart-item">
                 <div className="cart-item-image-container">
                   <img 
-                    src={item.image_link} 
+                    src={item.image_link || 'https://www.ibanez.com/common/product_artist_file/file/p_region_RG550DX_1P_01_DYB.png'} 
                     alt={`${item.brand} ${item.model}`} 
                     className="cart-item-image"
                     onError={(e) => {
                       e.target.src = 'https://www.ibanez.com/common/product_artist_file/file/p_region_RG550DX_1P_01_DYB.png';
+                      e.target.onerror = null; 
                     }}
                   />
                 </div>

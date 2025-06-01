@@ -38,29 +38,6 @@
     margin-top: 4px;
 }
 
-.guitar-card-wishlist {
-    color: #ccc;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    transition: color 0.2s;
-    display: flex;
-    align-items: center;
-}
-
-
-.guitar-card-wishlist svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
-}
-
-.guitar-card-wishlist:hover {
-    color: #ff0000;
-}
-
-
 .guitar-card-image-container {
     height: 190px;
     display: flex;
