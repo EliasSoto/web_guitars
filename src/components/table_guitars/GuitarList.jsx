@@ -32,25 +32,12 @@ const GuitarList = () => {
     } else {
       setGuitars(data.guitars);
       setTotalGuitars(data.total);
-
-      sessionStorage.setItem("cachedGuitars", JSON.stringify(data));
-      sessionStorage.setItem("cachedGuitarPage", page);
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    const cachedData = sessionStorage.getItem("cachedGuitars");
-    const cachedPage = sessionStorage.getItem("cachedGuitarPage");
-
-    if (cachedData && Number(cachedPage) === page) {
-      const parsed = JSON.parse(cachedData);
-      setGuitars(parsed.guitars);
-      setTotalGuitars(parsed.total);
-      setLoading(false);
-    } else {
-      fetchGuitars(page, guitarsPerPage);
-    }
+    fetchGuitars(page, guitarsPerPage);
   }, [page]);
 
   const handleDelete = async (guitarId) => {
@@ -59,13 +46,10 @@ const GuitarList = () => {
       if (err) {
         setError(err);
       } else {
-        sessionStorage.removeItem("cachedGuitars");
-        sessionStorage.removeItem("cachedGuitarPage");
         fetchGuitars(page, guitarsPerPage);
       }
     }
   };
-  
 
   const handleUpdate = (guitarId) => {
     setSelectedGuitar(guitarId);
@@ -75,18 +59,12 @@ const GuitarList = () => {
 
   const handleCloseForm = () => {
     setShowForm(false);
-    sessionStorage.removeItem("cachedGuitars");
-    sessionStorage.removeItem("cachedGuitarPage");
     fetchGuitars(page, guitarsPerPage);
   };
 
   const handleFormSuccess = async () => {
-    sessionStorage.removeItem("cachedGuitars");
-    sessionStorage.removeItem("cachedGuitarPage");
     await fetchGuitars(page, guitarsPerPage);
   };
-
-
 
   return (
     <div className="table-container">
@@ -106,44 +84,58 @@ const GuitarList = () => {
         />
       </div>
 
-        <table>
-          <GuitarTableHead />
-          <tbody>
-            {guitars.map((guitar) => (
-              <GuitarRow
-                key={guitar.id}
-                guitar={guitar}
-                handleDelete={handleDelete}
-                handleUpdate={handleUpdate}
-              />
+      {loading ? (
+        <div className="loading-container">
+          <Icon icon="line-md:loading-loop" width="40" height="40" className="loading-icon" />
+          <p>Cargando guitarras...</p>
+        </div>
+      ) : error ? (
+        <p style={{ color: 'red' }}>Error: {error}</p>
+      ) : guitars.length === 0 ? (
+        <p>No se encontraron guitarras.</p>
+      ) : (
+        <>
+          <table>
+            <GuitarTableHead />
+            <tbody>
+              {guitars.map((guitar) => (
+                <GuitarRow
+                  key={guitar.id}
+                  guitar={guitar}
+                  handleDelete={handleDelete}
+                  handleUpdate={handleUpdate}
+                />
+              ))}
+            </tbody>
+          </table>
+
+          <div className="pagination-controls">
+            <button className="pagination-button" disabled={page === 0} onClick={() => setPage(page - 1)}>
+              Anterior
+            </button>
+
+            {[...Array(Math.ceil(totalGuitars / guitarsPerPage)).keys()].map((num) => (
+              <button
+                key={num}
+                onClick={() => setPage(num)}
+                className={`pagination-button ${page === num ? 'active' : ''}`}
+              >
+                {num + 1}
+              </button>
             ))}
-          </tbody>
-        </table>
 
-      <div className="pagination-controls">
-        <button className="pagination-button" disabled={page === 0} onClick={() => setPage(page - 1)}>
-          Anterior
-        </button>
+            <button
+              className="pagination-button"
+              disabled={(page + 1) * guitarsPerPage >= totalGuitars}
+              onClick={() => setPage(page + 1)}
+            >
+              Siguiente
+            </button>
+          </div>
+        </>
+      )}
 
-        {[...Array(Math.ceil(totalGuitars / guitarsPerPage)).keys()].map((num) => (
-          <button
-            key={num}
-            onClick={() => setPage(num)}
-            className={`pagination-button ${page === num ? 'active' : ''}`}
-          >
-            {num + 1}
-          </button>
-        ))}
-
-        <button
-          className="pagination-button"
-          disabled={(page + 1) * guitarsPerPage >= totalGuitars}
-          onClick={() => setPage(page + 1)}
-        >
-          Siguiente
-        </button>
-      </div>
-
+      {/* Modal para formulario de registro o actualización de guitarra */}
       <Modal isOpen={showForm} onClose={handleCloseForm}>
         {isEditing ? (
           <UpdateAdminGuitarForm guitarId={selectedGuitar} onSuccess={handleFormSuccess} />

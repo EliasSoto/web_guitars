@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 import Modal from "../Modal";
 import ProductOrdersList from "../table_product_orders/ProductOrdersList";
+import { Icon } from "@iconify/react";
 
 const ordersPerPage = 10;
 
@@ -37,9 +38,6 @@ export default function OrderList({ userName }) {
     } else {
       setOrders(data.orders);
       setTotal(data.total);
-
-      sessionStorage.setItem("cachedOrders", JSON.stringify(data));
-      sessionStorage.setItem("cachedOrderPage", page);
     }
     setLoading(false);
   };
@@ -56,17 +54,7 @@ export default function OrderList({ userName }) {
   };
 
   useEffect(() => {
-    const cachedData = sessionStorage.getItem("cachedOrders");
-    const cachedPage = Number(sessionStorage.getItem("cachedOrderPage"));
-
-    if (cachedData && cachedPage === page) {
-      const parsed = JSON.parse(cachedData);
-      setOrders(parsed.orders);
-      setTotal(parsed.total);
-      setLoading(false);
-    } else {
-      fetchOrders(page, ordersPerPage);
-    }
+    fetchOrders(page, ordersPerPage);
   }, [page]);
 
   return (
@@ -76,7 +64,10 @@ export default function OrderList({ userName }) {
       </div>
 
       {loading ? (
-        <p></p>
+        <div className="loading-container">
+          <Icon icon="line-md:loading-loop" width="40" height="40" className="loading-icon"/>
+          <p>Cargando pedidos...</p>
+        </div>
       ) : orders.length === 0 ? (
         <p>No se encontraron órdenes.</p>
       ) : (
@@ -124,6 +115,7 @@ export default function OrderList({ userName }) {
             </button>
           </div>
 
+          {/* Modal para mostrar detalles del pedido */}
           <Modal isOpen={showDetails} onClose={() => setShowDetails(false)}>
             <ProductOrdersList orderId={selectedOrderId} isAdmin={false} />
           </Modal>

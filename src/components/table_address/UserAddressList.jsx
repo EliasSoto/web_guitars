@@ -61,7 +61,10 @@ export default function UserAddressList({ userId, userName }) {
       </div>
 
       {loading ? (
-        <p></p>
+        <div className="loading-container">
+          <Icon icon="line-md:loading-loop" width="40" height="40" className="loading-icon"/>
+          <p>Cargando direcciones...</p>
+        </div>
       ) : addresses.length === 0 ? (
         <p></p>
       ) : (

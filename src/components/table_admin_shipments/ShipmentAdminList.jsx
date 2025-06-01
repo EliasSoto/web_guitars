@@ -3,6 +3,7 @@ import { getAdminPaginatedShipments } from "../../services/shipmentAdminService"
 import ShipmentAdminTableHead from "./ShipmentAdminTableHead";
 import ShipmentAdminRow from "./ShipmentAdminRow";
 import "../../styles/admin_table/TableUsers.css";
+import { Icon } from "@iconify/react";
 
 const shipmentsPerPage = 10;
 
@@ -22,25 +23,13 @@ export default function ShipmentAdminList() {
     } else {
       setShipments(data.shipments);
       setTotal(data.total);
-      sessionStorage.setItem("cachedAdminShipments", JSON.stringify(data));
-      sessionStorage.setItem("cachedAdminShipmentPage", page);
     }
 
     setLoading(false);
   };
 
   useEffect(() => {
-    const cachedData = sessionStorage.getItem("cachedAdminShipments");
-    const cachedPage = Number(sessionStorage.getItem("cachedAdminShipmentPage"));
-
-    if (cachedData && cachedPage === page) {
-      const parsed = JSON.parse(cachedData);
-      setShipments(parsed.shipments);
-      setTotal(parsed.total);
-      setLoading(false);
-    } else {
-      fetchShipments(page, shipmentsPerPage);
-    }
+    fetchShipments(page, shipmentsPerPage);
   }, [page]);
 
   return (
@@ -50,7 +39,10 @@ export default function ShipmentAdminList() {
       </div>
 
       {loading ? (
-        <p></p>
+        <div className="loading-container">
+          <Icon icon="line-md:loading-loop" width="40" height="40" className="loading-icon" />
+          <p>Cargando pedidos...</p>
+        </div>
       ) : error ? (
         <p style={{ color: "red" }}>Error: {error}</p>
       ) : shipments.length === 0 ? (

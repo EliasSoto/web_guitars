@@ -4,6 +4,7 @@ import ShipmentTableHead from "./ShipmentTableHead";
 import "../../styles/admin_table/TableUsers.css";
 import { useUserShipment } from "../../hooks/useUserShipment";
 import { getUserShipmentsPaginated } from "../../services/useShipmentService";
+import { Icon } from "@iconify/react";
 
 const shipmentsPerPage = 10;
 
@@ -20,7 +21,7 @@ export default function ShipmentList({ userName }) {
     setError,
   } = useUserShipment();
 
-  const fetchShipments = async (page = 1 , limit = shipmentsPerPage) => {
+  const fetchShipments = async (page = 1, limit = shipmentsPerPage) => {
     setLoading(true);
     const [data, err] = await getUserShipmentsPaginated(page, limit);
 
@@ -29,25 +30,13 @@ export default function ShipmentList({ userName }) {
     } else {
       setShipments(data.shipments);
       setTotal(data.total);
-
-      sessionStorage.setItem("cachedShipments", JSON.stringify(data));
-      sessionStorage.setItem("cachedShipmentPage", page);
     }
+
     setLoading(false);
   };
 
   useEffect(() => {
-    const cachedData = sessionStorage.getItem("cachedShipments");
-    const cachedPage = Number(sessionStorage.getItem("cachedShipmentPage"));
-  
-    if (cachedData && cachedPage === page) {
-      const parsed = JSON.parse(cachedData);
-      setShipments(parsed.shipments);
-      setTotal(parsed.total);
-      setLoading(false);
-    } else {
-      fetchShipments(page, shipmentsPerPage);
-    }
+    fetchShipments(page, shipmentsPerPage);
   }, [page]);
 
   return (
@@ -57,7 +46,10 @@ export default function ShipmentList({ userName }) {
       </div>
 
       {loading ? (
-        <p>Cargando envíos...</p>
+        <div className="loading-container">
+          <Icon icon="line-md:loading-loop" width="40" height="40" className="loading-icon" />
+          <p>Cargando envíos...</p>
+        </div>
       ) : shipments.length === 0 ? (
         <p>No se encontraron envíos.</p>
       ) : (

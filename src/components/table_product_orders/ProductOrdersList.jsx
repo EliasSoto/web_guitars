@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getOrderByIdAdmin } from "../../services/orderAdminService";
 import { getUserOrderById } from "../../services/userOrderService";
 import "../../styles/admin_table/TableUsers.css";
+import { Icon } from "@iconify/react";
 
 export default function ProductOrdersList ({ orderId, onSendOrder, isAdmin= false }) {
   const [order, setOrder] = useState(null);
@@ -39,7 +40,10 @@ const fetchOrder = async () => {
     }
   }, [orderId]);
 
-  if (loading) return <p>Cargando detalles de la orden...</p>;
+  if (loading) return <div className="loading-container">
+                        <Icon icon="line-md:loading-loop" width="40" height="40" className="loading-icon"/>
+                        <p>Cargando detalles del pedido...</p>
+                      </div>;
   if (error) return <p>Error: {error}</p>;
   if (!order) return <p>No se encontró la orden.</p>;
 
@@ -61,30 +65,13 @@ const fetchOrder = async () => {
             <br />
         
         { isAdmin === true && (
-          <button className="btn-enviar" onClick={() => onSendOrder(order.id)}>
+          <button className="confirm-button" onClick={() => onSendOrder(order.id)}>
             Enviar pedido
           </button>
         )}
 
         
       </div>
-
-      <style>{`
-        .btn-enviar {
-          background-color: #4caf50;
-          color: white;
-          border: none;
-          padding: 0.5rem 1rem;
-          cursor: pointer;
-          border-radius: 5px;
-          font-weight: bold;
-        }
-
-        .btn-enviar:hover {
-          background-color: #45a049;
-        }
-
-      `}</style>
     </div>
   );
 }

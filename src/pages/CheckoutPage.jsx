@@ -24,7 +24,7 @@ const CheckoutPage = () => {
   return (
     <div className="checkout-page">
       <HeaderLogin />
-      <ToastContainer />
+      <ToastContainer position="top-center" autoClose={500} hideProgressBar />
       <div className="checkout-container">
         {/* Columna izquierda - Detalle del carrito */}
         <div className="checkout-left">

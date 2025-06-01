@@ -1,6 +1,3 @@
-
-
-
 import { useEffect, useState } from "react";
 import { getAdminPaginatedOrders, getOrderByIdAdmin } from "../../services/orderAdminService";
 import OrderAdminTableHead from "./OrderAdminTableHead";
@@ -10,6 +7,7 @@ import Modal from "../Modal";
 import { toast, ToastContainer } from "react-toastify";
 import "../../styles/admin_table/TableUsers.css";
 import UpdateAdminShipmentForm from "../forms/UpdateAdminShipmentForm";
+import { Icon } from "@iconify/react";
 
 const ordersPerPage = 10;
 
@@ -40,8 +38,6 @@ const OrderList = () => {
     } else {
       setOrders(data.orders);
       setTotalOrders(data.total);
-      sessionStorage.setItem("cachedOrders", JSON.stringify(data));
-      sessionStorage.setItem("cachedOrderPage", page);
     }
 
     setLoading(false);
@@ -59,17 +55,7 @@ const OrderList = () => {
   };
 
   useEffect(() => {
-    const cachedData = sessionStorage.getItem("cachedOrders");
-    const cachedPage = sessionStorage.getItem("cachedOrderPage");
-
-    if (cachedData && Number(cachedPage) === page) {
-      const parsed = JSON.parse(cachedData);
-      setOrders(parsed.orders);
-      setTotalOrders(parsed.total);
-      setLoading(false);
-    } else {
-      fetchOrders(page, ordersPerPage);
-    }
+    fetchOrders(page, ordersPerPage);
   }, [page]);
 
   return (
@@ -78,43 +64,57 @@ const OrderList = () => {
         <h1>Lista de Órdenes</h1>
       </div>
 
-      <table>
-        <OrderAdminTableHead />
-        <tbody>
-          {orders.map((order) => (
-            <OrderAdminRow key={order.id} order={order} onViewDetails={handleViewDetails} />
-          ))}
-        </tbody>
-      </table>
+      {loading ? (
+        <div className="loading-container">
+          <Icon icon="line-md:loading-loop" width="40" height="40" className="loading-icon" />
+          <p>Cargando órdenes...</p>
+        </div>
+      ) : error ? (
+        <p style={{ color: "red" }}>Error: {error}</p>
+      ) : orders.length === 0 ? (
+        <p>No se encontraron órdenes.</p>
+      ) : (
+        <>
+          <table>
+            <OrderAdminTableHead />
+            <tbody>
+              {orders.map((order) => (
+                <OrderAdminRow key={order.id} order={order} onViewDetails={handleViewDetails} />
+              ))}
+            </tbody>
+          </table>
 
-      <div className="pagination-controls">
-        <button
-          className="pagination-button"
-          disabled={page === 0}
-          onClick={() => setPage(page - 1)}
-        >
-          Anterior
-        </button>
+          <div className="pagination-controls">
+            <button
+              className="pagination-button"
+              disabled={page === 0}
+              onClick={() => setPage(page - 1)}
+            >
+              Anterior
+            </button>
 
-        {[...Array(Math.ceil(totalOrders / ordersPerPage)).keys()].map((num) => (
-          <button
-            key={num}
-            onClick={() => setPage(num)}
-            className={`pagination-button ${page === num ? "active" : ""}`}
-          >
-            {num + 1}
-          </button>
-        ))}
+            {[...Array(Math.ceil(totalOrders / ordersPerPage)).keys()].map((num) => (
+              <button
+                key={num}
+                onClick={() => setPage(num)}
+                className={`pagination-button ${page === num ? "active" : ""}`}
+              >
+                {num + 1}
+              </button>
+            ))}
 
-        <button
-          className="pagination-button"
-          disabled={(page + 1) * ordersPerPage >= totalOrders}
-          onClick={() => setPage(page + 1)}
-        >
-          Siguiente
-        </button>
-      </div>
+            <button
+              className="pagination-button"
+              disabled={(page + 1) * ordersPerPage >= totalOrders}
+              onClick={() => setPage(page + 1)}
+            >
+              Siguiente
+            </button>
+          </div>
+        </>
+      )}
 
+      {/* Modal para ver detalles del pedido */}
       <Modal isOpen={showDetails} onClose={() => setShowDetails(false)}>
         <ProductOrdersList
           orderId={selectedOrderId}
@@ -123,7 +123,7 @@ const OrderList = () => {
         />
       </Modal>
 
-
+      {/* Modal para actualizar envío */}
       <Modal isOpen={showShipmentForm} onClose={() => setShowShipmentForm(false)}>
         <UpdateAdminShipmentForm
           orderId={selectedOrderId}
