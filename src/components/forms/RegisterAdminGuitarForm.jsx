@@ -70,6 +70,7 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               className="input-normal"
               type="text"
               name="brand"
+              value={formData.brand}
               onChange={handleChange}
               minLength={2}
               required
@@ -80,6 +81,7 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               className="input-normal"
               type="text"
               name="description"
+              value={formData.description}
               onChange={handleChange}
               minLength={10}
               required
