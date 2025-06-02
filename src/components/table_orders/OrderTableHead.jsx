@@ -8,7 +8,7 @@ export default function OrderTableHead() {
         <th>Fecha de Orden</th>
         <th>Precio Total</th>
         <th>Estado</th>
-        <th>Metodo de Pago</th>
+        <th>Método de Pago</th>
       </tr>
     </thead>
   );

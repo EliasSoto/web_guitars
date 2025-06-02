@@ -49,7 +49,7 @@ export default function Header() {
         ) : activeAddress ? (
           <label className='label-direction'>{activeAddress.street_name}</label>
         ) : (
-          <span>No tienes dirección activa</span>
+          <span></span>
         )}
       </div>
 
