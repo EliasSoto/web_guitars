@@ -8,13 +8,13 @@ export default function GuitarRow({ guitar, handleDelete, handleUpdate }) {
       <td>{guitar.id}</td>
       <td>{guitar.model}</td>
       <td>{guitar.brand}</td>
-      <td>{guitar.sale_price}</td>
       <td>{guitar.purchase_price}</td>
+      <td>{guitar.sale_price}</td>
       <td>{guitar.stock}</td>
       <td>{guitar.color}</td>
       <td>{formatDate(guitar.purchase_date)}</td>
       <td>{guitar.wood_type}</td>
-      <td>{guitar.is_custom ? 'Activo' : 'Inactivo'}</td>
+      <td>{guitar.is_custom ? 'Si' : 'No'}</td>
 
       <td>
         <Icon
