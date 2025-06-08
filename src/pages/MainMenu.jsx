@@ -37,6 +37,7 @@ const MainMenu = () => {
  return (
     <div className="admin-dashboard">
       <Header />
+      <button onClick={() => navigate("/custom")}>CUSTOM PAGE</button>
 
       <div className="main-content-admin">
         <main className="main-content-guitarras">
