@@ -6,11 +6,19 @@ import { Icon } from '@iconify/react';
 import { useCart } from '../contexts/CartContext';
 import CartModal from './CartModal';
 import { useUserAddress } from '../hooks/useUserAddress'; // Importa tu hook
+import { useSearch } from '../contexts/SearchContext';
 
 export default function Header() {
   const { cartItems, setIsCartOpen } = useCart();
 
   const { activeAddress, loading } = useUserAddress();
+
+  const { setSearchTerm } = useSearch();
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
 
   return (
     <header className="header-main">
@@ -20,7 +28,8 @@ export default function Header() {
       </div>
 
       <div className="search-container">
-        <input type="text" className="search__input" placeholder="Busca aquí" />
+        <input type="text" className="search__input" placeholder="Busca aquí" onChange={handleSearchChange}/>
+
         <button className="search__button">
           <svg className="search__icon" aria-hidden="true" viewBox="0 0 24 24">
             <g>

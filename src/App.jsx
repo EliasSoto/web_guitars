@@ -8,9 +8,12 @@ import { CartProvider } from "./contexts/CartContext";
 import UserProfileMenu from "./pages/UserProfileMenu";
 import CheckoutPage from "./pages/CheckoutPage";
 import CustomGuitarPage from "./pages/CustomGuitarPage";
+import { SearchProvider } from './contexts/SearchContext';
+
 
 const App = () => {
   return (
+    <SearchProvider>
     <CartProvider>
     <Router>
       <Routes>
@@ -24,6 +27,7 @@ const App = () => {
       </Routes>
     </Router>
     </CartProvider>
+    </SearchProvider>
   );
 };
 
