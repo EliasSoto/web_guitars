@@ -1,0 +1,74 @@
+.guitar-detail-container {
+  position: relative;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 8px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.guitar-model {
+  color: #2a2a2a;
+  margin-bottom: 0.5rem;
+}
+
+.guitar-brand {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.guitar-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+}
+
+.price-section {
+  margin: 1.5rem 0;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.discount-price {
+  color: #e63946;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.current-price {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.stock-info {
+  color: #2a8f2a;
+  font-weight: bold;
+}
+
+.specifications {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.specifications p {
+  margin: 0.5rem 0;
+}
