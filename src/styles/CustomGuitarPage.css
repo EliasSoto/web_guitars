@@ -1,0 +1,26 @@
+.page-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Header, contenido flexible, footer */
+  grid-template-columns: 1fr;
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+}
+
+.page-header {
+  grid-row: 1 / 2;
+}
+
+.page-main {
+  grid-row: 2 / 3;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr; /* Tres columnas */
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.page-footer {
+  grid-row: 3 / 4;
+}
+

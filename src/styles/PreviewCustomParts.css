@@ -1,0 +1,103 @@
+/* components/PreviewCustomParts.css */
+
+.preview-panel {
+  padding: 16px;
+  border-right: 1px solid #e5e7eb;
+  height: 100%;
+  width: 100%;
+  font-family: sans-serif;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.section-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.component-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.component-label {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.color-options,
+.pickup-options {
+  display: flex;
+  gap: 8px;
+}
+
+.color-swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.color-swatch.red {
+  background-color: #dc2626;
+}
+
+.color-swatch.blue {
+  background-color: #2563eb;
+}
+
+.color-swatch.green {
+  background-color: #16a34a;
+}
+
+.color-swatch.yellow {
+  background-color: #facc15;
+}
+
+.color-swatch.gray {
+  background-color: #9ca3af;
+}
+
+.pickup-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pickup-button {
+  padding: 6px 10px;
+  margin-right: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.color-swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+.color-swatch.red { background: red; }
+.color-swatch.blue { background: blue; }
+.color-swatch.green { background: green; }
+.color-swatch.yellow { background: yellow; }
+.color-swatch.gray { background: gray; }
+
+.next-button, .back-button {
+  margin-top: 1rem;
+  padding: 8px 16px;
+}

@@ -1,0 +1,46 @@
+/* En el div contenedor principal */
+
+
+/* Posiciones absolutas para componentes hijos */
+
+.customized-guitar {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.guitar-svg {
+  height: 88vh;
+}
+
+
+/* GUITAR CSS */
+.body, .headstock, .neck, .pickguard, .pot, .pickup, .bridge, .jack {
+  fill: white;
+  stroke: #000;
+  stroke-width: 0.171955;
+}
+
+/* Hover pastel representativo y armónico */
+.body:hover,
+.headstock:hover,
+.neck:hover,
+.pickguard:hover,
+.pot:hover,
+.pickup:hover,
+.bridge:hover,
+.jack:hover {
+  cursor: pointer;
+}
+
+.body:hover { fill: #f6c1c7; }
+.headstock:hover { fill: #c2dfff; }
+.neck:hover { fill: #f7e3af; }
+.pickguard:hover { fill: #e6e6f9; }
+.pot:hover { fill: #bce6d0; }
+.pickup:hover { fill: #d8c3f3; }
+.bridge:hover { fill: #ffc8a2; }
+.jack:hover { fill: #f7d1cd; }
