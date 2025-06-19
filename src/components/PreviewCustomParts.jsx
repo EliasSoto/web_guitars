@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import '../styles/PreviewCustomParts.css';
+import { useBaseGuitar } from '../hooks/userBaseGuitar';
 
 export default function PreviewPanel({ config, setConfig }) {
 
   const [step, setStep] = useState(1);
+  const {guitar, loading} = useBaseGuitar(config.madera, config.color);
 
   const handleConfigChange = (key, value) => {
     setConfig(prev => {
@@ -28,7 +30,9 @@ export default function PreviewPanel({ config, setConfig }) {
     pastillasActivas: false,
     jack: '',
     potenciometros: '',
-    puente: ''
+    puente: '',
+    madera: '',
+    color: ''
   };
 
 
@@ -235,9 +239,48 @@ export default function PreviewPanel({ config, setConfig }) {
       {step === 2 && (
         <>
           <h2 className="title">Configura tu estilo</h2>
-          <p>
+          <div className="section-group">
 
-          </p>
+          {/* Tipo de madera */}
+          <div className="component-section">
+            <label htmlFor="madera" className="component-label">Tipo de madera</label>
+            <select
+              id="madera"
+              value={config.madera || ''}
+              onChange={(e) => handleConfigChange('madera', e.target.value)}
+            >
+              <option value="">Selecciona...</option>
+              <option value="Aliso">Aliso</option>
+              <option value="Caoba">Caoba</option>
+              <option value="Fresno">Fresno</option>
+              <option value="Arce">Arce</option>
+              <option value="Nogal">Nogal</option>
+            </select>
+          </div>
+
+          {/* Color */}
+          <div className="component-section">
+            <label htmlFor="color" className="component-label">Color</label>
+            <select
+              id="color"
+              value={config.color || ''}
+              onChange={(e) => handleConfigChange('color', e.target.value)}
+            >
+              <option value="">Selecciona...</option>
+              <option value="Negro">Negro</option>
+              <option value="Blanco">Blanco</option>
+              <option value="Rojo">Rojo</option>
+              <option value="Azul">Azul</option>
+              <option value="Verde">Verde</option>
+              <option value="Amarillo">Amarillo</option>
+              <option value="Natural">Natural</option>
+              <option value="Gris">Gris</option>
+              <option value="Dorado">Dorado</option>
+              <option value="Cobre">Cobre</option>
+            </select>
+          </div>
+
+        </div>
 
           <div>
             <button onClick={() => setStep(1)} className="back-button">Volver</button>
@@ -266,6 +309,9 @@ export default function PreviewPanel({ config, setConfig }) {
             {mostrarJack && <p><strong>Jack:</strong> {config.jack}</p>}
             <p><strong>Potenciómetros:</strong> {config.potenciometros}</p>
             <p><strong>Puente:</strong> {config.puente}</p>
+            <p><strong>Madera:</strong> {config.madera}</p>
+            <p><strong>Color:</strong> {config.color}</p>
+            <p><strong>ID guitarra base:</strong> {guitar  ? guitar.id : 'No encontrada'}</p>
           </div>
 
           <div>

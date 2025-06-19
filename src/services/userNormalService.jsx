@@ -170,6 +170,31 @@ export const getGuitarById = async (guitarId) => {
   }
 };
 
+// Obtener guitarra base por tipo de madera y color
+export const getBaseGuitarByWoodAndColor = async (woodType, color) => {
+  try {
+    const response = await fetch(`${urlBase}/guitarras/base?wood_type=${encodeURIComponent(woodType)}&color=${encodeURIComponent(color)}`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+      },
+    });
+
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : {};
+
+    if (!response.ok) {
+      const errorMessage = data?.detail || "Error al obtener la guitarra base";
+      return [null, errorMessage];
+    }
+
+    return [data, null];
+  } catch (error) {
+    return [null, "Error al conectar con el servidor"];
+  }
+};
+
+
 // ### DIRECCIONES ###
 
 // Obtener todas las direcciones del usuario autenticado
