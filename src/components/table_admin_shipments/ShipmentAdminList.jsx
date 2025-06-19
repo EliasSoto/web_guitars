@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { getAdminPaginatedShipments } from "../../services/shipmentAdminService";
 import ShipmentAdminTableHead from "./ShipmentAdminTableHead";
 import ShipmentAdminRow from "./ShipmentAdminRow";
@@ -15,6 +15,44 @@ export default function ShipmentAdminList() {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Función para formatear fechas en formato de búsqueda
+  const formatSearchDate = (dateString) => {
+    if (!dateString) return "";
+    const [datePart] = dateString.split("T");
+    const [year, month, day] = datePart.split("-");
+    return `${day}-${month}-${year}`;
+  };
+
+  // Filtrar envíos basado en el término de búsqueda
+  const filteredShipments = useMemo(() => {
+    if (!searchTerm) return shipments;
+
+    const term = searchTerm.toLowerCase();
+    return shipments.filter((shipment) => {
+      const id = shipment.id?.toString() || "";
+      const userName = userNames[shipment.id]?.toLowerCase() || "";
+      const shipmentDate = formatSearchDate(shipment.shipment_date) || "";
+      const deliveryDate = formatSearchDate(shipment.delivery_date) || "";
+      const trackingStatus = shipment.tracking_status?.toLowerCase() || "";
+      const price = shipment.price?.toString() || "";
+      const shippingProvider = shipment.shipping_provider?.toLowerCase() || "";
+      const isImmediate = shipment.is_immediate_delivery === true ? "si" : 
+                         shipment.is_immediate_delivery === false ? "no" : "";
+
+      return (
+        id.includes(term) ||
+        userName.includes(term) ||
+        shipmentDate.includes(term) ||
+        deliveryDate.includes(term) ||
+        trackingStatus.includes(term) ||
+        price.includes(term) ||
+        shippingProvider.includes(term) ||
+        isImmediate.includes(term)
+      );
+    });
+  }, [shipments, searchTerm, userNames]);
 
   const fetchUserNames = async (shipmentsList) => {
     const names = {};
@@ -53,6 +91,15 @@ export default function ShipmentAdminList() {
     <div className="table-container">
       <div className="table-header">
         <h2>Lista de Envíos</h2>
+        <div className="search-bar">
+          <Icon icon="ic:outline-search" width="24" height="24" />
+          <input
+            type="text"
+            placeholder="Buscar envíos..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
       </div>
 
       {loading ? (
@@ -62,14 +109,14 @@ export default function ShipmentAdminList() {
         </div>
       ) : error ? (
         <p style={{ color: "red" }}>Error: {error}</p>
-      ) : shipments.length === 0 ? (
-        <p>No se encontraron envíos.</p>
+      ) : filteredShipments.length === 0 ? (
+        <p>{searchTerm ? "No se encontraron envíos que coincidan con la búsqueda." : "No se encontraron envíos."}</p>
       ) : (
         <>
           <table>
             <ShipmentAdminTableHead />
             <tbody>
-              {shipments.map((shipment) => (
+              {filteredShipments.map((shipment) => (
                 <ShipmentAdminRow
                   key={shipment.id}
                   shipment={shipment}

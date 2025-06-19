@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 import Modal from '../Modal.jsx';
 import RegisterAdminUserForm from '../forms/RegisterAdminUserForm.jsx';
 import UpdateAdminUserForm from '../forms/UpdateAdminUserForm.jsx';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import AddressList from '../table_address/AddressList.jsx';
 import { getAddressById } from '../../services/addressAdminService';
 import { toast, ToastContainer } from "react-toastify";
@@ -31,13 +31,29 @@ const UserList = ({
   handleFormSuccess,
   handleUpdate,
 }) => {
-
+  const [searchTerm, setSearchTerm] = useState('');
   const [showAddresses, setShowAddresses] = useState(false);
   const [addressUserId, setAddressUserId] = useState(null);
   const [addressUserName, setAddressUserName] = useState('');
 
+  // Filtrar usuarios basado en el término de búsqueda
+  const filteredUsers = useMemo(() => {
+    if (!searchTerm) return users;
+    
+    const term = searchTerm.toLowerCase();
+    return users.filter(user => 
+      user.id.toString().includes(term) ||
+      user.first_name.toLowerCase().includes(term) ||
+      user.last_name.toLowerCase().includes(term) ||
+      user.email.toLowerCase().includes(term) ||
+      user.phone.toLowerCase().includes(term) ||
+      user.rut.toLowerCase().includes(term) ||
+      formatDate(user.birth_date).includes(term) ||
+      (user.is_admin ? 'admin' : 'usuario').includes(term)
+    );
+  }, [users, searchTerm]);
+
   const handleViewAddresses = async (userId, userName) => {
-    // consulta direcciones antes de abrir modal
     const [data, err] = await getAddressById(userId);
     if (err || !data || data.length === 0) {
       toast.info('Este usuario no tiene direcciones.');
@@ -48,23 +64,38 @@ const UserList = ({
     setShowAddresses(true);
   };
 
-  
+  function formatDate(dateString) {
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
+  }
+
   return (
     <div className="table-container">
       <div className="table-header">
         <h1>Lista de Usuarios</h1>
-        <Icon
-          onClick={() => {
-            setShowForm(true);
-            setIsEditing(false);
-            setSelectedUser(null);
-          }}
-          style={{ cursor: 'pointer' }}
-          color="#3563E9"
-          icon="humbleicons:user-add"
-          width="34"
-          height="34"
-        />
+        <div className="search-add-container">
+          <div className="search-bar">
+            <Icon icon="ic:outline-search" width="24" height="24" />
+            <input
+              type="text"
+              placeholder="Buscar usuarios..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <Icon
+            onClick={() => {
+              setShowForm(true);
+              setIsEditing(false);
+              setSelectedUser(null);
+            }}
+            style={{ cursor: 'pointer' }}
+            color="#3563E9"
+            icon="humbleicons:user-add"
+            width="34"
+            height="34"
+          />
+        </div>
       </div>
 
       {loading ? (
@@ -74,14 +105,14 @@ const UserList = ({
         </div>
       ) : error ? (
         <p style={{ color: 'red' }}>Error: {error}</p>
-      ) : users.length === 0 ? (
-        <p>No se encontraron usuarios.</p>
+      ) : filteredUsers.length === 0 ? (
+        <p>{searchTerm ? 'No se encontraron usuarios que coincidan con la búsqueda.' : 'No se encontraron usuarios.'}</p>
       ) : (
         <>
           <table>
             <UserTableHead />
             <tbody>
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                 <UserRow
                   key={user.id}
                   user={user}
@@ -96,7 +127,7 @@ const UserList = ({
             </tbody>
           </table>
 
-      {/* Boton de paginación */}
+          {/* Boton de paginación */}
           <div className="pagination-controls">
             <button className="pagination-button" disabled={page === 0} onClick={() => setPage(page - 1)}>
               Anterior

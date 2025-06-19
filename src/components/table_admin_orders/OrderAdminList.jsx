@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { getAdminPaginatedOrders, getOrderByIdAdmin } from "../../services/orderAdminService";
 import OrderAdminTableHead from "./OrderAdminTableHead";
 import OrderAdminRow from "./OrderAdminRow";
@@ -19,13 +19,60 @@ const OrderList = () => {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [shipmentStatuses, setShipmentStatuses] = useState({});
   const [userNames, setUserNames] = useState({});
+  const [totalQuantities, setTotalQuantities] = useState({});
 
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [showShipmentForm, setShowShipmentForm] = useState(false);
+
+  // Función para formatear fecha en formato de búsqueda
+  const formatSearchDate = (dateString) => {
+    if (!dateString) return "";
+    const [datePart] = dateString.split("T");
+    const [year, month, day] = datePart.split("-");
+    return `${day}-${month}-${year}`;
+  };
+
+  // Calcular cantidades totales
+  const calculateTotalQuantities = (ordersList) => {
+    const quantities = {};
+    ordersList.forEach(order => {
+      quantities[order.id] = order.order_details?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+    });
+    setTotalQuantities(quantities);
+  };
+
+  // Filtrar órdenes basado en el término de búsqueda
+  const filteredOrders = useMemo(() => {
+    if (!searchTerm) return orders;
+
+    const term = searchTerm.toLowerCase();
+    return orders.filter((order) => {
+      const id = order.id?.toString() || "";
+      const userName = userNames[order.id]?.toLowerCase() || "";
+      const orderDate = formatSearchDate(order.order_date) || "";
+      const paymentMethod = order.payment_method?.toLowerCase() || "";
+      const status = order.status?.toLowerCase() || "";
+      const shipmentStatus = shipmentStatuses[order.id]?.toLowerCase() || "";
+      const totalPrice = order.total_price?.toString() || "";
+      const totalQuantity = totalQuantities[order.id]?.toString() || "";
+
+      return (
+        id.includes(term) ||
+        userName.includes(term) ||
+        orderDate.includes(term) ||
+        paymentMethod.includes(term) ||
+        status.includes(term) ||
+        shipmentStatus.includes(term) ||
+        totalPrice.includes(term) ||
+        totalQuantity.includes(term)
+      );
+    });
+  }, [orders, searchTerm, userNames, shipmentStatuses, totalQuantities]);
 
   const handleOpenShipmentForm = (orderId) => {
     setSelectedOrderId(orderId);
@@ -63,9 +110,11 @@ const OrderList = () => {
       setOrders([]);
       setShipmentStatuses({});
       setUserNames({});
+      setTotalQuantities({});
     } else {
       setOrders(data.orders);
       setTotalOrders(data.total);
+      calculateTotalQuantities(data.orders);
       await Promise.all([
         fetchShipmentStatuses(data.orders),
         fetchUserNames(data.orders)
@@ -93,6 +142,15 @@ const OrderList = () => {
     <div className="table-container">
       <div className="table-header">
         <h1>Lista de Órdenes</h1>
+        <div className="search-bar">
+          <Icon icon="ic:outline-search" width="24" height="24" />
+          <input
+            type="text"
+            placeholder="Buscar órdenes..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
       </div>
 
       {loading ? (
@@ -102,14 +160,14 @@ const OrderList = () => {
         </div>
       ) : error ? (
         <p style={{ color: "red" }}>Error: {error}</p>
-      ) : orders.length === 0 ? (
-        <p>No se encontraron órdenes.</p>
+      ) : filteredOrders.length === 0 ? (
+        <p>{searchTerm ? "No se encontraron órdenes que coincidan con la búsqueda." : "No se encontraron órdenes."}</p>
       ) : (
         <>
           <table>
             <OrderAdminTableHead />
             <tbody>
-              {orders.map((order) => (
+              {filteredOrders.map((order) => (
                 <OrderAdminRow
                   key={order.id}
                   order={order}
