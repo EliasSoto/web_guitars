@@ -13,6 +13,7 @@ import { Route, Routes } from 'react-router-dom';
 import GuitarList from '../components/table_guitars/GuitarList';
 import OrderAdminList from '../components/table_admin_orders/OrderAdminList';
 import ShipmentAdminList from '../components/table_admin_shipments/ShipmentAdminList';
+import ComponentList from '../components/table_components/ComponentList';
 
 import useAdminUsers from '../hooks/useAdminUsers';
 
@@ -44,6 +45,7 @@ export default function AdminDashboard() {
             <Route path="guitars" element={<GuitarList />} />
             <Route path="orders" element={<OrderAdminList />} />
             <Route path="shipments" element={<ShipmentAdminList />} />
+            <Route path="components" element={<ComponentList />} />
           </Routes>
         </section>
       </main>

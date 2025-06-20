@@ -1,0 +1,202 @@
+import { useEffect, useState, useMemo } from "react";
+import { getAdminPaginatedComponents, deleteComponentByIdAdmin} from "../../services/componentService";
+import ComponentTableHead from "./ComponentTableHead";
+import "../../styles/admin_table/TableUsers.css";
+import { Icon } from "@iconify/react";
+import ComponentRow from "./ComponentRow";
+import Modal from "../Modal";
+import RegisterAdminComponentForm from "../forms/RegisterAdminComponentForm";
+import UpdateAdminComponentForm from "../forms/UpdateAdminComponentForm";
+
+const componentsPerPage = 10;
+
+const ComponentList = () => {
+  const [components, setComponents] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedComponent, setSelectedComponent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(0);
+  const [totalComponents, setTotalComponents] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const fetchComponents = async (page = 0, limit = componentsPerPage) => {
+    setLoading(true);
+    const [data, err] = await getAdminPaginatedComponents(page + 1, limit);
+
+    if (err) {
+      setError(err);
+    } else {
+      setComponents(data.components);
+      setTotalComponents(data.total);
+      setError(null);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchComponents(page, componentsPerPage);
+  }, [page]);
+
+  const filteredComponents = useMemo(() => {
+    if (!searchTerm) return components;
+
+    const term = searchTerm.toLowerCase();
+    return components.filter((comp) => {
+      const name = comp.name?.toLowerCase() || "";
+      const type = comp.type?.toLowerCase() || "";
+      const subtype = comp.subtype?.toLowerCase() || "";
+      const brand = comp.brand?.toLowerCase() || "";
+      const description = comp.description?.toLowerCase() || "";
+
+      return (
+        name.includes(term) ||
+        type.includes(term) ||
+        subtype.includes(term) ||
+        brand.includes(term) ||
+        description.includes(term)
+      );
+    });
+  }, [components, searchTerm]);
+
+  const handleDelete = async (componentId) => {
+    if (
+      window.confirm(
+        "¿Estás seguro de que deseas eliminar este componente?"
+      )
+    ) {
+      const [, err] = await deleteComponentByIdAdmin(componentId);
+      if (err) {
+        setError(err);
+      } else {
+        fetchComponents(page, componentsPerPage);
+      }
+    }
+  };
+
+  const handleUpdate = (componentId) => {
+    setSelectedComponent(componentId);
+    setShowForm(true);
+    setIsEditing(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowForm(false);
+    fetchComponents(page, componentsPerPage);
+  };
+
+  const handleFormSuccess = async () => {
+    await fetchComponents(page, componentsPerPage);
+  };
+
+  return (
+    <div className="table-container">
+      <div className="table-header">
+        <h1>Lista de Componentes</h1>
+        <div className="search-add-container">
+          <div className="search-bar">
+            <Icon icon="ic:outline-search" width={24} height={24} />
+            <input
+              type="text"
+              placeholder="Buscar componentes..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <Icon
+            onClick={() => {
+              setShowForm(true);
+              setIsEditing(false);
+              setSelectedComponent(null);
+            }}
+            style={{ cursor: "pointer" }}
+            icon="uiw:component"
+            width={34}
+            height={34}
+            color="#3563E9"
+          />
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="loading-container">
+          <Icon
+            icon="line-md:loading-loop"
+            width={40}
+            height={40}
+            className="loading-icon"
+          />
+          <p>Cargando componentes...</p>
+        </div>
+      ) : error ? (
+        <p style={{ color: "red" }}>Error: {error}</p>
+      ) : filteredComponents.length === 0 ? (
+        <p>
+          {searchTerm
+            ? "No se encontraron componentes que coincidan con la búsqueda."
+            : "No se encontraron componentes."}
+        </p>
+      ) : (
+        <>
+          <table>
+            <ComponentTableHead />
+            <tbody>
+              {filteredComponents.map((component) => (
+                <ComponentRow
+                  key={component.id}
+                  component={component}
+                  handleDelete={handleDelete}
+                  handleUpdate={handleUpdate}
+                />
+              ))}
+            </tbody>
+          </table>
+
+          <div className="pagination-controls">
+            <button
+              className="pagination-button"
+              disabled={page === 0}
+              onClick={() => setPage(page - 1)}
+            >
+              Anterior
+            </button>
+
+            {[...Array(Math.ceil(totalComponents / componentsPerPage)).keys()].map(
+              (num) => (
+                <button
+                  key={num}
+                  onClick={() => setPage(num)}
+                  className={`pagination-button ${page === num ? "active" : ""}`}
+                >
+                  {num + 1}
+                </button>
+              )
+            )}
+
+            <button
+              className="pagination-button"
+              disabled={(page + 1) * componentsPerPage >= totalComponents}
+              onClick={() => setPage(page + 1)}
+            >
+              Siguiente
+            </button>
+          </div>
+        </>
+      )}
+
+      <Modal isOpen={showForm} onClose={handleCloseForm}>
+        {isEditing ? (
+          <UpdateAdminComponentForm
+            componentId={selectedComponent}
+            onSuccess={handleFormSuccess}
+          />
+        ) : (
+          <RegisterAdminComponentForm onSuccess={handleFormSuccess} />
+        )}
+      </Modal>
+    </div>
+  );
+};
+
+export default ComponentList;
