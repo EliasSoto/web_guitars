@@ -101,8 +101,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               name="purchase_price"
               value={form.purchase_price || ""}
               onChange={handleChange}
-              min={0}
-              step="0.01"
+              min={1}
               required
             />
 
@@ -113,8 +112,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               name="sale_price"
               value={form.sale_price || ""}
               onChange={handleChange}
-              min={0}
-              step="0.01"
+              min={1}
               required
             />
             <label className="label-register">Stock</label>
@@ -127,10 +125,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               min={0}
               required
             />
-          </div>
 
-          {/* Columna derecha */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px", flex: 1 }}>
             <label className="label-register">Fecha de Compra</label>
             <input
               className="input-normal"
@@ -140,7 +135,10 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               onChange={handleChange}
               required
             />
+          </div>
 
+          {/* Columna derecha */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px", flex: 1 }}>
             <label className="label-register">Marca</label>
             <input
               className="input-normal"

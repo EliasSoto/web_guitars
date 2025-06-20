@@ -82,13 +82,13 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
             />
 
             <label className="label-register">Descripción</label>
-            <textarea
+            <input
               className="input-normal"
+              type="text"
               name="description"
               value={formData.description}
               onChange={handleChange}
-              minLength={5}
-              rows={3}
+              minLength={10}
             />
           </div>
 
@@ -101,8 +101,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               name="purchase_price"
               value={formData.purchase_price}
               onChange={handleChange}
-              min={0}
-              step="0.01"
+              min={1}
               required
             />
 
@@ -113,8 +112,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               name="sale_price"
               value={formData.sale_price}
               onChange={handleChange}
-              min={0}
-              step="0.01"
+              min={1}
               required
             />
             <label className="label-register">Stock</label>
@@ -127,10 +125,6 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               min={0}
               required
             />
-          </div>
-
-          {/* Columna derecha */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px", flex: 1 }}>
             <label className="label-register">Fecha de Compra</label>
             <input
               className="input-normal"
@@ -140,7 +134,9 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               onChange={handleChange}
               required
             />
-
+          </div>
+          {/* Columna derecha */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px", flex: 1 }}>
             <label className="label-register">Marca</label>
             <input
               className="input-normal"
