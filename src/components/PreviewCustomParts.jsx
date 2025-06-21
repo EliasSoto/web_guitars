@@ -1,20 +1,100 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/PreviewCustomParts.css';
 import { useBaseGuitar } from '../hooks/userBaseGuitar';
+import { getUserFilteredComponents } from '../services/componentService';
+import { Icon } from '@iconify/react';
 
 export default function PreviewPanel({ config, setConfig }) {
-
   const [step, setStep] = useState(1);
-  const {guitar, loading} = useBaseGuitar(config.madera, config.color);
+  const { guitar } = useBaseGuitar(config.madera, config.color);
+
+  const fetchComponentsByType = async ({ type, subtype = "", is_active = "", limit = 1000 }) => {
+    const params = {
+      type,
+      subtype,
+      stock_only: true,
+      is_active,
+      page: 1,
+      limit,
+    };
+
+    const [data, error] = await getUserFilteredComponents(params);
+    const items = data?.components || [];
+    return { items, error };
+  };
+
+  const [pastillasCompatibles, setPastillasCompatibles] = useState([]);
+  const [puentesCompatibles, setPuentesCompatibles] = useState([]);
+  const [potenciometrosCompatibles, setPotenciometrosCompatibles] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (step === 2 && config.pastillas && config.puente && config.potenciometros) {
+      const fetchAll = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+          const potenciometrosSubtypes = [];
+          if (config.potenciometros.toLowerCase().includes("volumen")) potenciometrosSubtypes.push("Volumen");
+          if (config.potenciometros.toLowerCase().includes("tono")) potenciometrosSubtypes.push("Tono");
+
+          const promises = [
+            fetchComponentsByType({
+              type: "Pastilla",
+              subtype: config.pastillas,
+              is_active: config.esActiva ? "true" : "false",
+            }),
+            fetchComponentsByType({
+              type: "Puente",
+              subtype: config.puente.charAt(0).toUpperCase() + config.puente.slice(1),
+            }),
+            ...potenciometrosSubtypes.map((subtype) =>
+              fetchComponentsByType({
+                type: "Potenciómetro",
+                subtype,
+                is_active: config.esActiva ? "true" : "false",
+              })
+            ),
+          ];
+
+          const results = await Promise.all(promises);
+          const [pastillas, puentes, ...potenciometrosList] = results;
+          const potenciometros = potenciometrosList.flatMap(p => p.items || []);
+
+          setPastillasCompatibles(pastillas.items);
+          setPuentesCompatibles(puentes.items);
+          setPotenciometrosCompatibles(potenciometros);
+
+          const allErrors = [
+            pastillas.error,
+            puentes.error,
+            ...potenciometrosList.map(p => p.error)
+          ].filter(Boolean);
+        
+          if (allErrors.length) {
+            setError(allErrors.join(", "));
+          }
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchAll();
+    }
+  }, [step, config]);
 
   const handleConfigChange = (key, value) => {
     setConfig(prev => {
       let newConfig = { ...prev, [key]: value };
       if (key === 'cuerpo') {
-
+      
         // Resetear dependientes al cambiar el cuerpo
         newConfig.pastillas = '';
-        newConfig.pastillasActivas = false;
+        newConfig.esActiva = false;
         newConfig.jack = '';
         newConfig.potenciometros = '';
       }
@@ -27,7 +107,7 @@ export default function PreviewPanel({ config, setConfig }) {
     trastes: 21,
     cuerpo: '',
     pastillas: '',
-    pastillasActivas: false,
+    esActiva: false,
     jack: '',
     potenciometros: '',
     puente: '',
@@ -35,20 +115,19 @@ export default function PreviewPanel({ config, setConfig }) {
     color: ''
   };
 
-
   const pastillasDisponibles = () => {
     switch (config.cuerpo) {
-      case 'strato':
+      case 'strato': 
         return ['SSS', 'SSH', 'HH', 'SH', 'H'];
-
+        
       case 'telecaster':
       case 'lespaul':
       case 'sg':
       case 'flyingv':
-        return ['HH', 'SH', 'H'];
-        
-      default:
-        return [];
+         return ['HH', 'SH', 'H'];
+     
+         default: 
+      return [];
     }
   };
 
@@ -88,11 +167,11 @@ export default function PreviewPanel({ config, setConfig }) {
   return (
     <aside className="preview-panel">
       
-      {step === 1 && (
+            {step === 1 && (
         <>
           <h2 className="title">Configuración</h2>
           <div className="section-group">
-
+           
             {/* Clavijero */}
             <div className="component-section">
               <label htmlFor="clavijero" className="component-label">Tipo de clavijero</label>
@@ -107,7 +186,6 @@ export default function PreviewPanel({ config, setConfig }) {
                 <option value="tipo3">Tipo 3</option>
                 <option value="tipo4">Tipo 4</option>
                 <option value="tipo5">Tipo 5</option>
-
               </select>
             </div>
 
@@ -122,7 +200,6 @@ export default function PreviewPanel({ config, setConfig }) {
                 <option value="21">21</option>
                 <option value="22">22</option>
                 <option value="24">24</option>
-
               </select>
             </div>
 
@@ -163,11 +240,11 @@ export default function PreviewPanel({ config, setConfig }) {
             {/* Electrónica activa */}
             {config.pastillas && (
               <div className="component-section">
-                <label htmlFor="pastillasActivas" className="component-label">¿Electrónica activa?</label>
+                <label htmlFor="esActiva" className="component-label">¿Electrónica activa?</label>
                 <select
-                  id="pastillasActivas"
-                  value={config.pastillasActivas ? 'sí' : 'no'}
-                  onChange={(e) => handleConfigChange('pastillasActivas', e.target.value === 'sí')}
+                  id="esActiva"
+                  value={config.esActiva ? 'sí' : 'no'}
+                  onChange={(e) => handleConfigChange('esActiva', e.target.value === 'sí')}
                 >
                   <option value="no">No</option>
                   <option value="sí">Sí</option>
@@ -187,7 +264,6 @@ export default function PreviewPanel({ config, setConfig }) {
                   <option value="">Selecciona...</option>
                   <option value="adelante">Adelante</option>
                   <option value="abajo">Abajo</option>
-
                 </select>
               </div>
             )}
@@ -223,115 +299,135 @@ export default function PreviewPanel({ config, setConfig }) {
                   <option key={opcion} value={opcion}>{opcion.charAt(0).toUpperCase() + opcion.slice(1)}</option>
                 ))}
               </select>
-
-
-
-            </div>
+              
+               </div>
           </div>
-
           <button onClick={() => setStep(2)} className="next-button">Siguiente</button>
-
         </>
-
-
-       )}
+      )}
 
       {step === 2 && (
         <>
           <h2 className="title">Configura tu estilo</h2>
           <div className="section-group">
-
           {/* Tipo de madera */}
-          <div className="component-section">
-            <label htmlFor="madera" className="component-label">Tipo de madera</label>
-            <select
-              id="madera"
-              value={config.madera || ''}
-              onChange={(e) => handleConfigChange('madera', e.target.value)}
-            >
-              <option value="">Selecciona...</option>
-              <option value="Aliso">Aliso</option>
-              <option value="Caoba">Caoba</option>
-              <option value="Fresno">Fresno</option>
-              <option value="Arce">Arce</option>
-              <option value="Nogal">Nogal</option>
-            </select>
-          </div>
+            <div className="component-section">
+              <label htmlFor="madera" className="component-label">Tipo de madera</label>
+              <select
+                id="madera"
+                value={config.madera || ''}
+                onChange={(e) => handleConfigChange('madera', e.target.value)}
+              >
+                <option value="">Selecciona...</option>
+                <option value="Aliso">Aliso</option>
+                <option value="Caoba">Caoba</option>
+                <option value="Fresno">Fresno</option>
+                <option value="Arce">Arce</option>
+                <option value="Nogal">Nogal</option>
+              </select>
+            </div>
 
           {/* Color */}
-          <div className="component-section">
-            <label htmlFor="color" className="component-label">Color</label>
-            <select
-              id="color"
-              value={config.color || ''}
-              onChange={(e) => handleConfigChange('color', e.target.value)}
-            >
-              <option value="">Selecciona...</option>
-              <option value="Negro">Negro</option>
-              <option value="Blanco">Blanco</option>
-              <option value="Rojo">Rojo</option>
-              <option value="Azul">Azul</option>
-              <option value="Verde">Verde</option>
-              <option value="Amarillo">Amarillo</option>
-              <option value="Natural">Natural</option>
-              <option value="Gris">Gris</option>
-              <option value="Dorado">Dorado</option>
-              <option value="Cobre">Cobre</option>
-            </select>
+            <div className="component-section">
+              <label htmlFor="color" className="component-label">Color</label>
+              <select
+                id="color"
+                value={config.color || ''}
+                onChange={(e) => handleConfigChange('color', e.target.value)}
+              >
+                <option value="">Selecciona...</option>
+                <option value="Negro">Negro</option>
+                <option value="Blanco">Blanco</option>
+                <option value="Rojo">Rojo</option>
+                <option value="Azul">Azul</option>
+                <option value="Verde">Verde</option>
+                <option value="Amarillo">Amarillo</option>
+                <option value="Natural">Natural</option>
+                <option value="Gris">Gris</option>
+                <option value="Dorado">Dorado</option>
+                <option value="Cobre">Cobre</option>
+              </select>
+            </div>
           </div>
-
-        </div>
 
           <div>
             <button onClick={() => setStep(1)} className="back-button">Volver</button>
             <button onClick={() => setStep(3)} className="back-button">Siguiente</button>
           </div>
-
         </>
-
-
       )}
 
       {step === 3 && (
         <>
-          <h2 className="title">Componentes Compatibles  SOLO Pastillas</h2>
+          <h2 className="title">Componentes Compatibles</h2>
+          {loading && 
+          <Icon
+            icon="line-md:loading-loop"
+            width={40}
+            height={40}
+            className="loading-icon"
+          />}
+          {error && <p style={{ color: 'red' }}>Error: {error}</p>}
 
-          <>
-          ESTO TE PUEDE SERVIR ALVARO
-          </>
-          
+          {!loading && (
+            <>
+              <h3>Pastillas compatibles</h3>
+              {pastillasCompatibles.length ? (
+                <ul>
+                  {pastillasCompatibles.map(p => (
+                    <li key={p.id}><p>{p.id}</p></li>
+                  ))}
+                </ul>
+              ) : <p>No hay pastillas compatibles.</p>}
+
+              <h3>Potenciómetros compatibles</h3>
+              {potenciometrosCompatibles.length ? (
+                <ul>
+                  {potenciometrosCompatibles.map(p => (
+                    <li key={p.id}><p>{p.id}</p></li>
+                  ))}
+                </ul>
+              ) : <p>No hay potenciómetros compatibles.</p>}
+
+              <h3>Puentes compatibles</h3>
+              {puentesCompatibles.length ? (
+                <ul>
+                  {puentesCompatibles.map(p => (
+                    <li key={p.id}><p>{p.id}</p></li>
+                  ))}
+                </ul>
+              ) : <p>No hay puentes compatibles.</p>}
+            </>
+          )}
+
           <div className="summary">
             <p><strong>Clavijero:</strong> {config.clavijero}</p>
             <p><strong>Trastes:</strong> {config.trastes}</p>
             <p><strong>Cuerpo:</strong> {config.cuerpo}</p>
             <p><strong>Pastillas:</strong> {config.pastillas}</p>
-            <p><strong>Electrónica activa:</strong> {config.pastillasActivas ? 'Sí' : 'No'}</p>
+            <p><strong>Electrónica activa:</strong> {config.esActiva ? 'Sí' : 'No'}</p>
             {mostrarJack && <p><strong>Jack:</strong> {config.jack}</p>}
             <p><strong>Potenciómetros:</strong> {config.potenciometros}</p>
             <p><strong>Puente:</strong> {config.puente}</p>
             <p><strong>Madera:</strong> {config.madera}</p>
             <p><strong>Color:</strong> {config.color}</p>
-            <p><strong>ID guitarra base:</strong> {guitar  ? guitar.id : 'No encontrada'}</p>
+            <p><strong>ID guitarra base:</strong> {guitar ? guitar.id : 'No encontrada'}</p>
           </div>
 
           <div>
-          <button 
-            onClick={() => {
-              setStep(1);
-              setConfig(initialConfig);
-            }} 
-            className="back-button"
-          >
-          Volver a empezar
-          </button>
-
-
-            <button onClick={() => setStep(2) } className="back-button">Volver</button>
+            <button 
+              onClick={() => {
+                setStep(1);
+                setConfig(initialConfig);
+              }} 
+              className="back-button"
+            >
+              Volver a empezar
+            </button>
+            <button onClick={() => setStep(2)} className="back-button">Volver</button>
           </div>
-         
         </>
       )}
-
     </aside>
   );
 }

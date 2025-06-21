@@ -29,7 +29,7 @@ export default function PotConfigStrat({ type }) {
         </g>
       )}
 
-      {type === "Por defecto" && (
+      {type === "Tono + Tono + Volumen" && (
         <g>
           <g className="pot">
             <path
