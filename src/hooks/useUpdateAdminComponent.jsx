@@ -15,6 +15,7 @@ export const useEditAdminComponent = (componentId, navigate, onSuccess) => {
     brand: "",
     material: "",
     position: "",
+    image_link: "",
     is_active: true,
   });
 
@@ -78,6 +79,7 @@ export const useEditAdminComponent = (componentId, navigate, onSuccess) => {
       brand: form.brand,
       material: form.material,
       position: form.position,
+      image_link: form.image_link,
       is_active: form.is_active,
     };
 

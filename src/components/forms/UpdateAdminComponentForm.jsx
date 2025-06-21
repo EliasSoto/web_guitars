@@ -3,6 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useEditAdminComponent } from "../../hooks/useUpdateAdminComponent";
+import ImageUploader from "../ImageUploader";
 
 export default function UpdateAdminComponentForm({ componentId, onSuccess, onClose }) {
   const navigate = useNavigate();
@@ -167,6 +168,19 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               name="position"
               value={form.position || ""}
               onChange={handleChange}
+            />
+
+            <label className="label-register">Imagen</label>
+            <ImageUploader
+              onUploadSuccess={(url) => {
+                handleChange({
+                  target: {
+                    name: "image_link",
+                    value: url,
+                  },
+                });
+              }}
+              initialImageUrl={form.image_link}
             />
 
             <label className="label-register">

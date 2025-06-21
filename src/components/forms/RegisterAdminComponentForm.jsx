@@ -3,6 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useRegisterAdminComponent from "../../hooks/useRegisterAdminComponent";
 import "../../styles/RegisterAdminUserForm.css";
+import ImageUploader from "../ImageUploader";
 
 export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose }) {
   const {
@@ -165,6 +166,19 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               name="position"
               value={formData.position}
               onChange={handleChange}
+            />
+
+            <label className="label-register">Imagen</label>
+            <ImageUploader
+              onUploadSuccess={(url) => {
+                handleChange({
+                  target: {
+                    name: "image_link",
+                    value: url,
+                  },
+                });
+              }}
+              initialImageUrl={formData.image_link}
             />
 
             <label className="label-register">

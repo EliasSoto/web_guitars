@@ -15,6 +15,7 @@ const useRegisterAdminComponent = () => {
     brand: "",
     material: "",
     position: "",
+    image_link: "",
     is_active: true,
   });
 
@@ -35,6 +36,7 @@ const useRegisterAdminComponent = () => {
       brand: "",
       material: "",
       position: "",
+      image_link: "",
       is_active: true,
     });
   };

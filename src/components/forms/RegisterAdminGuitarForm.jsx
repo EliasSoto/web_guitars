@@ -3,7 +3,7 @@ import "../../styles/RegisterAdminUserForm.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
-import ImageUploader from "../ImageUploader"; // Asegúrate de que la ruta sea correcta
+import ImageUploader from "../ImageUploader";
 
 export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) {
   const {
