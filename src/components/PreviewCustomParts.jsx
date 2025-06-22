@@ -134,7 +134,7 @@ export default function PreviewPanel({ config, setConfig }) {
   const opcionesPotenciometros = () => {
     switch (config.cuerpo) {
       case 'strato':
-        return ['Por defecto', 'Tono + Volumen', 'Solo Volumen'];
+        return ['Tono + Tono + Volumen', 'Tono + Volumen', 'Solo Volumen'];
 
       case 'telecaster':
         return ['Tono + Volumen', 'Solo Volumen'];
