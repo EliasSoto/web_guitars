@@ -1,12 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/GuitarCard.css";
 import { useCart } from "../contexts/CartContext";
 import Modal from "./Modal";
 import GuitarDetail from "./GuitarDetail";
+import { addToWishlist, deleteFromWishlist, isInWishlist } from "../services/wishlistService";
 
 const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_link, stock }) => {
   const { addToCart } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [inWishlist, setInWishlist] = useState(false);
+
+  useEffect(() => {
+    const checkWishlist = async () => {
+      try {
+        const [data, error] = await isInWishlist(id);
+        setInWishlist(!error && data?.in_wishlist === true);
+      } catch (error) {
+        console.error("Error al verificar wishlist:", error);
+        setInWishlist(false);
+      }
+    };
+    checkWishlist();
+  }, [id]);
+
+  const handleWishlistToggle = async (e) => {
+    e.stopPropagation(); // evita abrir el modal al hacer clic en el botón
+    try {
+      if (inWishlist) {
+        await deleteFromWishlist(id);
+        setInWishlist(false);
+      } else {
+        await addToWishlist(id);
+        setInWishlist(true);
+      }
+    } catch (error) {
+      console.error("Error al actualizar wishlist:", error);
+    }
+  };
+
 
   const handleAddToCart = (e) => {
     e.stopPropagation(); 
@@ -31,6 +62,13 @@ const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_lin
             <h2 className="guitar-card-model">{model}</h2>
             <p className="guitar-card-brand">{brand}</p>
           </div>
+          <button className={`wishlist-button ${inWishlist ? "active" : ""}`}
+          onClick={handleWishlistToggle}
+          title={inWishlist ? "Quitar de favoritos" : "Agregar a favoritos"}
+        >
+          {inWishlist ? "💖" : "🤍"}
+        </button>
+
         </div>
 
         <div className="guitar-card-image-container">

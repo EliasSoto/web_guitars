@@ -60,6 +60,13 @@ export default function UserSidebar ({ openProfileModal}) {
             <p>Envíos</p>
           </NavLink>
 
+          <NavLink to="/profile/wishlist"
+          className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
+          >
+            <Icon icon="mdi:heart" width="24" height="24" />
+            <p>Mis Favoritos</p>
+          </NavLink>
+
           <div className="sesion-container">
             <li className="select" onClick={openProfileModal}>
               <Icon icon="ix:user-profile-filled" width="24" height="24" />

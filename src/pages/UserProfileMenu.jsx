@@ -13,6 +13,9 @@ import ShipmentList from '../components/table_shipments/ShipmentList';
 import useNormalUser from '../hooks/useNormalUsers';
 import { useUserAddress } from '../hooks/useUserAddress';
 
+import { getMyWishlist, deleteFromWishlist } from "../services/wishlistService";
+import UserWishlist from "../components/table_wishlist/UserWishlist";
+
 import "../styles/UserProfileMenu.css";
 
 export default function UserProfileMenu() {
@@ -35,6 +38,7 @@ export default function UserProfileMenu() {
             <Route path="/address" element={<UserAddressList  userId={user?.id}  {...addressProps}/>} />
             <Route path="/orders" element={<OrderList/>}/>
             <Route path="/shipments" element={<ShipmentList/>}/>
+            <Route path="/wishlist" element={<UserWishlist />} />
           </Routes>
         </section>
       </main>
