@@ -12,7 +12,7 @@ export default function UpdateAdminShipmentForm({ onSubmit, orderId }) {
   return (
     <div className="register-container">
       <header>
-        <h1 className="text-inicia">Formulario de Envío {orderId}</h1>
+        <h1 className="text-inicia" style={{marginLeft: '300px'}}>Formulario de Envío {orderId}</h1>
       </header>
 
       <form onSubmit={handleSubmit}>
