@@ -7,9 +7,13 @@ export default function UserWishlist() {
 
   useEffect(() => {
     const fetchWishlist = async () => {
-      const [data, error] = await getMyWishlist(id);
-      if (!error && data) setWishlist(data);
-      else console.error("Error al obtener wishlist:", error);
+      const [data, error] = await getMyWishlist(1, 10);
+      console.log("Data recibida en wishlist:", data);
+      if (!error && data) {
+        setWishlist(data.items || []);
+      } else {
+        console.error("Error al obtener wishlist:", error);
+      }
     };
     fetchWishlist();
   }, []);
