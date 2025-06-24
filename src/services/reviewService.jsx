@@ -16,7 +16,7 @@ const parseResponse = async (response) => {
   }
 
   if (!response.ok) {
-    const errorMsg = data.detail || "Error en la petición";
+    const errorMsg = data.detail || data.message || "Error en la petición";
     return [null, errorMsg];
   }
   return [data, null];
@@ -40,40 +40,61 @@ export const createReview = async (reviewData) => {
   }
 };
 
-// Obtener todas las reseñas del usuario autenticado
+// Obtener reseñas del usuario actual
 export const getMyReviews = async () => {
   try {
     const token = getToken();
-    const response = await fetch(`${API_URL}/usuarios/reseñas`, {
+    const response = await fetch(`${API_URL}/usuarios/resenas`, {
+      method: "GET", // Asegúrate que sea GET explícitamente
       headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`,
       },
     });
+
+    if (!response.ok) {
+      // Verifica si el error es 405 para dar un mensaje más específico
+      if (response.status === 405) {
+        throw new Error(`Método no permitido. El endpoint puede requerir otro método HTTP.`);
+      }
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
     return await parseResponse(response);
   } catch (error) {
+    console.error("Error en getMyReviews:", error);
     return [null, error.message];
   }
 };
 
-// Obtener una reseña propia por ID
-export const getMyReviewById = async (reviewId) => {
+// Obtener reseñas de una guitarra con info de ownership
+export const getReviewsByGuitar = async (guitarId) => {
   try {
-    const token = getToken();
-    const response = await fetch(`${API_URL}/usuarios/resenas/${reviewId}`, {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return await parseResponse(response);
+    const token = localStorage.getItem("access_token");
+    const userId = localStorage.getItem("user_id");
+    
+    const headers = { Accept: "application/json" };
+    if (token) headers.Authorization = `Bearer ${token}`;
+    
+    const response = await fetch(`${API_URL}/guitarras/${guitarId}/resenas`, { headers });
+    const [data, error] = await parseResponse(response);
+    
+    if (error) return [null, error];
+    
+    // Añadir flag can_edit basado en el userId
+    const processedData = data.map(review => ({
+      ...review,
+      can_edit: userId && review.user_id && (review.user_id.toString() === userId.toString())
+    }));
+    
+    return [processedData, null];
   } catch (error) {
     return [null, error.message];
   }
 };
 
 // Actualizar una reseña
-export const updateMyReview = async (reviewId, updatedReview) => {
+export const updateMyReview = async (reviewId, { rating, comment }) => {
   try {
     const token = getToken();
     const response = await fetch(`${API_URL}/usuarios/resenas/${reviewId}`, {
@@ -82,9 +103,21 @@ export const updateMyReview = async (reviewId, updatedReview) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(updatedReview),
+      body: JSON.stringify({ rating, comment }),
     });
-    return await parseResponse(response);
+    
+    const [data, error] = await parseResponse(response);
+    
+    // Si el backend devuelve la reseña actualizada, añadir can_edit
+    if (data && !error) {
+      const userId = localStorage.getItem("user_id");
+      return [{
+        ...data,
+        can_edit: userId && data.user_id && (data.user_id.toString() === userId.toString())
+      }, null];
+    }
+    
+    return [data, error];
   } catch (error) {
     return [null, error.message];
   }
@@ -100,16 +133,19 @@ export const deleteMyReview = async (reviewId) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return await parseResponse(response);
+    
+    // Asumimos que el backend devuelve { success: true } al eliminar
+    const [data, error] = await parseResponse(response);
+    return [data?.success, error];
   } catch (error) {
     return [null, error.message];
   }
 };
 
-// Obtener reseñas públicas de una guitarra
-export const getReviewsByGuitar = async (guitarId) => {
+// Obtener promedio de valoraciones de una guitarra
+export const getAverageRatingByGuitar = async (guitarId) => {
   try {
-    const response = await fetch(`${API_URL}/guitarras/${guitarId}/resenas`, {
+    const response = await fetch(`${API_URL}/guitarras/${guitarId}/resenas/promedio`, {
       headers: {
         Accept: "application/json",
       },
@@ -120,12 +156,13 @@ export const getReviewsByGuitar = async (guitarId) => {
   }
 };
 
-// Obtener promedio de reseñas de una guitarra
-export const getAverageRatingByGuitar = async (guitarId) => {
+// Verificar si el usuario puede reseñar una guitarra
+export const canUserReviewGuitar = async (guitarId) => {
   try {
-    const response = await fetch(`${API_URL}/guitarras/${guitarId}/resenas/promedio`, {
+    const token = getToken();
+    const response = await fetch(`${API_URL}/usuarios/puede-resenar/${guitarId}`, {
       headers: {
-        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
     return await parseResponse(response);

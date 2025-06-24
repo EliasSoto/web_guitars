@@ -1,4 +1,3 @@
-
 import "../styles/Sidebar.css";
 import { Icon } from '@iconify/react';
 import { NavLink, useNavigate } from "react-router-dom";
@@ -60,11 +59,21 @@ export default function UserSidebar ({ openProfileModal}) {
             <p>Envíos</p>
           </NavLink>
 
-          <NavLink to="/profile/wishlist"
-          className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
+          <NavLink 
+            to="/profile/wishlist"
+            className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
           >
             <Icon icon="mdi:heart" width="24" height="24" />
             <p>Mis Favoritos</p>
+          </NavLink>
+
+          {/* Nuevo elemento para Mis Reseñas */}
+          <NavLink 
+            to="/profile/reviews"
+            className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
+          >
+            <Icon icon="material-symbols:reviews-outline" width="24" height="24" />
+            <p>Mis Reseñas</p>
           </NavLink>
 
           <div className="sesion-container">
@@ -80,9 +89,7 @@ export default function UserSidebar ({ openProfileModal}) {
           </div>
           
         </ul>
-
       </nav>
-
     </aside>
   );
 };
