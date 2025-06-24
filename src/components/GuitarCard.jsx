@@ -74,12 +74,13 @@ const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_lin
             <h2 className="guitar-card-model">{model}</h2>
             <p className="guitar-card-brand">{brand}</p>
           </div>
-          <button className={`wishlist-button ${inWishlist ? "active" : ""}`}
+
+        <div className={`wishlist-button ${inWishlist ? "active" : ""}`}
           onClick={handleWishlistToggle}
           title={inWishlist ? "Quitar de favoritos" : "Agregar a favoritos"}
         >
-          {inWishlist ? "💖" : "🤍"}
-        </button>
+          {inWishlist ? "❤️" : "🤍"}
+        </div>
 
         </div>
 
