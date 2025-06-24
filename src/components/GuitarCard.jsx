@@ -10,18 +10,30 @@ const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_lin
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [inWishlist, setInWishlist] = useState(false);
 
+
   useEffect(() => {
-    const checkWishlist = async () => {
-      try {
-        const [data, error] = await isInWishlist(id);
-        setInWishlist(!error && data?.in_wishlist === true);
-      } catch (error) {
-        console.error("Error al verificar wishlist:", error);
+  const checkWishlist = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      if (!token) return;
+
+      const [data, error] = await isInWishlist(id);
+      if (!error && data?.is_in_wishlist) {
+        setInWishlist(true);
+      } else {
         setInWishlist(false);
       }
-    };
-    checkWishlist();
-  }, [id]);
+    } catch (error) {
+      console.error("Error al verificar wishlist:", error);
+    }
+  };
+
+  checkWishlist();
+}, [id]);
+
+
+
+
 
   const handleWishlistToggle = async (e) => {
     e.stopPropagation(); // evita abrir el modal al hacer clic en el botón
