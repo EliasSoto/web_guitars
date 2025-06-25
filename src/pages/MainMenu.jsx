@@ -8,10 +8,9 @@ import "../styles/AdminDashboard.css";
 import GuitarCard from "../components/GuitarCard.jsx";
 import "../styles/MainMenu.css";
 import { ToastContainer } from "react-toastify";
-import { useSearch } from "../contexts/SearchContext.jsx";
 
 const MainMenu = () => {
-  const { searchTerm } = useSearch();
+
   const navigate = useNavigate();
   const [guitars, setGuitars] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,10 +35,7 @@ const MainMenu = () => {
     fetchGuitars();
   }, []);
 
-  const filteredGuitars = guitars.filter(guitar => 
-    guitar.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    guitar.brand.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+
 
  return (
     <div className="admin-dashboard">
@@ -49,7 +45,7 @@ const MainMenu = () => {
           {!loading && error ? (
             <div className="error-message">{error}</div>
           ) : (
-            filteredGuitars.map((guitar) => (
+            guitars.map((guitar) => (
               <GuitarCard
                 key={guitar.id}
                 id={guitar.id}

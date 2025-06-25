@@ -1,4 +1,3 @@
-// src/hooks/useAdminUsers.js
 import { useEffect, useState, useCallback } from 'react';
 import { getAdminPaginatedUsers, deleteAdminUserById } from '../services/userAdminService.jsx';
 
@@ -14,9 +13,14 @@ export default function useAdminUsers() {
   const [showForm, setShowForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  const fetchUsers = async (page = 0, limit = usersPerPage) => {
+  // ESTADOS DE BÚSQUEDA
+  const [search, setSearch] = useState('');
+  const [searchBy, setSearchBy] = useState('first_name'); // nuevo
+
+  const fetchUsers = async (page = 0, limit = usersPerPage, search = '', searchBy = 'first_name') => {
     setLoading(true);
-    const [data, err] = await getAdminPaginatedUsers(page + 1, limit);
+    const [data, err] = await getAdminPaginatedUsers(page + 1, limit, search, searchBy);
+
     if (err) {
       setError(err);
     } else {
@@ -24,23 +28,34 @@ export default function useAdminUsers() {
       setTotalUsers(data.total);
       sessionStorage.setItem("cachedUsers", JSON.stringify(data));
       sessionStorage.setItem("cachedPage", page);
+      sessionStorage.setItem("cachedSearch", search);
+      sessionStorage.setItem("cachedSearchBy", searchBy);
+      setError(null);
     }
+
     setLoading(false);
   };
 
   useEffect(() => {
     const cachedData = sessionStorage.getItem("cachedUsers");
     const cachedPage = sessionStorage.getItem("cachedPage");
+    const cachedSearch = sessionStorage.getItem("cachedSearch") || '';
+    const cachedSearchBy = sessionStorage.getItem("cachedSearchBy") || 'first_name';
 
-    if (cachedData && Number(cachedPage) === page) {
+    if (
+      cachedData &&
+      Number(cachedPage) === page &&
+      cachedSearch === search &&
+      cachedSearchBy === searchBy
+    ) {
       const parsed = JSON.parse(cachedData);
       setUsers(parsed.users);
       setTotalUsers(parsed.total);
       setLoading(false);
     } else {
-      fetchUsers(page, usersPerPage);
+      fetchUsers(page, usersPerPage, search, searchBy);
     }
-  }, [page]);
+  }, [page, search, searchBy]);
 
   const handleDelete = async (userId) => {
     if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
@@ -48,25 +63,22 @@ export default function useAdminUsers() {
       if (err) {
         setError(err);
       } else {
-        sessionStorage.removeItem("cachedUsers");
-        sessionStorage.removeItem("cachedPage");
-        fetchUsers(page, usersPerPage);
+        sessionStorage.clear();
+        fetchUsers(page, usersPerPage, search, searchBy);
       }
     }
   };
 
   const handleCloseForm = () => {
     setShowForm(false);
-    sessionStorage.removeItem("cachedUsers");
-    sessionStorage.removeItem("cachedPage");
-    fetchUsers(page, usersPerPage);
+    sessionStorage.clear();
+    fetchUsers(page, usersPerPage, search, searchBy);
   };
 
   const handleFormSuccess = useCallback(async () => {
-    sessionStorage.removeItem("cachedUsers");
-    sessionStorage.removeItem("cachedPage");
-    await fetchUsers(page, usersPerPage);
-  }, [page]);
+    sessionStorage.clear();
+    await fetchUsers(page, usersPerPage, search, searchBy);
+  }, [page, search, searchBy]);
 
   const handleUpdate = (userId) => {
     setSelectedUser(userId);
@@ -91,5 +103,9 @@ export default function useAdminUsers() {
     handleCloseForm,
     handleFormSuccess,
     handleUpdate,
+    search,
+    setSearch,
+    searchBy,
+    setSearchBy, 
   };
 }

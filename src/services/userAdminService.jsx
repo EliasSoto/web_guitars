@@ -54,29 +54,35 @@ export const registerAdminUser = async (first_name, last_name, email, phone, bir
 };
 
 
-// Función para obtener los usuarios por paginación
-export const getAdminPaginatedUsers = async (page = 1, limit = 10) => {
-    // Obtener el token de acceso del almacenamiento local
-    const token = localStorage.getItem("access_token");
-    
-    if (!token) {
-        return [null, "Acceso no autorizado. Token no encontrado"];
-      }
+// Función para obtener los usuarios por paginación y filtro dinámico
+export const getAdminPaginatedUsers = async (page = 1, limit = 10, search = '', searchBy = 'first_name') => {
+  const token = localStorage.getItem("access_token");
+
+  if (!token) {
+    return [null, "Acceso no autorizado. Token no encontrado"];
+  }
 
   try {
-    const response = await fetch(`${urlBase}/admin/usuarios?page=${page}&limit=${limit}`, {
+    const params = new URLSearchParams({
+      page,
+      limit,
+      search,
+      search_by: searchBy
+    });
+
+    const response = await fetch(`${urlBase}/admin/usuarios?${params.toString()}`, {
       method: "GET",
       headers: {
         "Accept": "application/json",
         "Authorization": `Bearer ${token}`
       },
     });
-    
+
     const text = await response.text();
     const data = text ? JSON.parse(text) : {};
 
     if (!response.ok) {
-      const errorMessage = data?.detail || "Error al crear el usuario";
+      const errorMessage = data?.detail || "Error al obtener los usuarios";
       return [null, errorMessage];
     }
 
@@ -85,6 +91,7 @@ export const getAdminPaginatedUsers = async (page = 1, limit = 10) => {
     return [null, "Error al conectar con el servidor"];
   }
 };
+
 
 
 // Función para obtener usuario por id

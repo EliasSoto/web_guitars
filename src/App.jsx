@@ -8,27 +8,26 @@ import { CartProvider } from "./contexts/CartContext";
 import UserProfileMenu from "./pages/UserProfileMenu";
 import CheckoutPage from "./pages/CheckoutPage";
 import CustomGuitarPage from "./pages/CustomGuitarPage";
-import { SearchProvider } from "./contexts/SearchContext";
 import GuitarDetailPage from "./pages/GuitarDetailPage";
 
 const App = () => {
   return (
-    <SearchProvider>
-      <CartProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<MainMenu />} />
-            <Route path="/guitars/:id" element={<GuitarDetailPage />} />
-            <Route path="/register" element={<RegisterUser />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/admin/*" element={<AdminDashboard />} />
-            <Route path="/profile/*" element={<UserProfileMenu />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/custom" element={<CustomGuitarPage />} />
-          </Routes>
-        </Router>
-      </CartProvider>
-    </SearchProvider>
+
+    <CartProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<MainMenu />} />
+          <Route path="/guitars/:id" element={<GuitarDetailPage />} />
+          <Route path="/register" element={<RegisterUser />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/admin/*" element={<AdminDashboard />} />
+          <Route path="/profile/*" element={<UserProfileMenu />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/custom" element={<CustomGuitarPage />} />
+        </Routes>
+      </Router>
+    </CartProvider>
+
   );
 };
 

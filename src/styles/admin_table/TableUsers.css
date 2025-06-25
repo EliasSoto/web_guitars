@@ -121,7 +121,7 @@ td {
   }
 }
 
-/* Estilos para la barra de búsqueda */
+/* Estilos para la barra de búsqueda de filtrado*/
 .search-add-container {
   display: flex;
   align-items: center;
@@ -137,16 +137,13 @@ td {
   gap: 0.5rem;
 }
 
-.search-bar input {
-  border: none;
+.search-bar-input {
+  border: none; 
   background: transparent;
   outline: none;
-  width: 250px;
+  width: 15vh;
+  height: 2.5rem;
   font-size: 14px;
-}
-
-.search-bar input::placeholder {
-  color: #999;
 }
 
 .table-header {
@@ -155,3 +152,18 @@ td {
   align-items: center;
   margin-bottom: 1.5rem;
 }
+
+.search-bar-select {
+  outline: none;
+  border: none;
+  border-radius: 0;
+  font-size: 14px;
+  background-color: transparent;
+  height: 2.5rem;
+  width: 10vh;
+  text-align: center;
+  cursor: pointer; 
+  color: #555; 
+  padding: 0 0.5rem;
+}
+

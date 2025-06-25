@@ -6,14 +6,12 @@ import { Icon } from '@iconify/react';
 import { useCart } from '../contexts/CartContext';
 import CartModal from './CartModal';
 import { useUserAddress } from '../hooks/useUserAddress'; // Importa tu hook
-import { useSearch } from '../contexts/SearchContext';
 
 export default function Header() {
   const { cartItems, setIsCartOpen } = useCart();
 
   const { activeAddress, loading } = useUserAddress();
 
-  const { setSearchTerm } = useSearch();
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);

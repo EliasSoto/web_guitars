@@ -5,7 +5,7 @@ import { Icon } from '@iconify/react';
 import Modal from '../Modal.jsx';
 import RegisterAdminUserForm from '../forms/RegisterAdminUserForm.jsx';
 import UpdateAdminUserForm from '../forms/UpdateAdminUserForm.jsx';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import AddressList from '../table_address/AddressList.jsx';
 import { getAddressById } from '../../services/addressAdminService';
 import { toast, ToastContainer } from "react-toastify";
@@ -30,28 +30,14 @@ const UserList = ({
   handleCloseForm,
   handleFormSuccess,
   handleUpdate,
+  setSearch,
+  search,
+  searchBy,       
+  setSearchBy,    
 }) => {
-  const [searchTerm, setSearchTerm] = useState('');
   const [showAddresses, setShowAddresses] = useState(false);
   const [addressUserId, setAddressUserId] = useState(null);
   const [addressUserName, setAddressUserName] = useState('');
-
-  // Filtrar usuarios basado en el término de búsqueda
-  const filteredUsers = useMemo(() => {
-    if (!searchTerm) return users;
-    
-    const term = searchTerm.toLowerCase();
-    return users.filter(user => 
-      user.id.toString().includes(term) ||
-      user.first_name.toLowerCase().includes(term) ||
-      user.last_name.toLowerCase().includes(term) ||
-      user.email.toLowerCase().includes(term) ||
-      user.phone.toLowerCase().includes(term) ||
-      user.rut.toLowerCase().includes(term) ||
-      formatDate(user.birth_date).includes(term) ||
-      (user.is_admin ? 'admin' : 'usuario').includes(term)
-    );
-  }, [users, searchTerm]);
 
   const handleViewAddresses = async (userId, userName) => {
     const [data, err] = await getAddressById(userId);
@@ -64,31 +50,42 @@ const UserList = ({
     setShowAddresses(true);
   };
 
-  function formatDate(dateString) {
-    const [year, month, day] = dateString.split("-");
-    return `${day}/${month}/${year}`;
-  }
-
   return (
     <div className="table-container">
       <div className="table-header">
         <h1>Lista de Usuarios</h1>
+
         <div className="search-add-container">
+          
           <div className="search-bar">
-            <Icon icon="ic:outline-search" width="24" height="24" />
+            <Icon icon="ic:outline-search" width="2.5rem" height="2.5rem" />
             <input
+              className="search-bar-input"
               type="text"
-              placeholder="Buscar usuarios..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Buscar usuarios por"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(0);
+              }}
             />
+            <select
+              className="search-bar-select"
+              value={searchBy}
+              onChange={e => {
+                setSearchBy(e.target.value);
+                setPage(0);
+              }}
+            >
+              <option value="first_name">Nombre</option>
+              <option value="rut">RUT</option>
+              <option value="email">Email</option>
+            </select>
           </div>
+
+
           <Icon
-            onClick={() => {
-              setShowForm(true);
-              setIsEditing(false);
-              setSelectedUser(null);
-            }}
+            onClick={() => setShowForm(true)} 
             style={{ cursor: 'pointer' }}
             color="#3563E9"
             icon="humbleicons:user-add"
@@ -105,14 +102,14 @@ const UserList = ({
         </div>
       ) : error ? (
         <p style={{ color: 'red' }}>Error: {error}</p>
-      ) : filteredUsers.length === 0 ? (
-        <p>{searchTerm ? 'No se encontraron usuarios que coincidan con la búsqueda.' : 'No se encontraron usuarios.'}</p>
+      ) : users.length === 0 ? (
+        <p>{search ? 'No se encontraron usuarios que coincidan con la búsqueda.' : 'No se encontraron usuarios.'}</p>
       ) : (
         <>
           <table>
             <UserTableHead />
             <tbody>
-              {filteredUsers.map((user) => (
+              {users.map((user) => (
                 <UserRow
                   key={user.id}
                   user={user}
@@ -127,7 +124,6 @@ const UserList = ({
             </tbody>
           </table>
 
-          {/* Boton de paginación */}
           <div className="pagination-controls">
             <button className="pagination-button" disabled={page === 0} onClick={() => setPage(page - 1)}>
               Anterior
@@ -154,7 +150,6 @@ const UserList = ({
         </>
       )}
 
-      {/* Modals de edicion y registro */}
       <Modal isOpen={showForm} onClose={handleCloseForm}>
         {isEditing ? (
           <UpdateAdminUserForm userId={selectedUser} onSuccess={handleFormSuccess} />
