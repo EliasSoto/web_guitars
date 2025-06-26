@@ -1,19 +1,25 @@
-import { useEffect, useState } from 'react';
-import { getAdminPaginatedGuitars, deleteGuitarById } from '../../services/guitarAdminService';
+import { useEffect, useState, useCallback } from 'react';
+import { getAdminPaginatedGuitars, deleteGuitarById } from '../services/guitarAdminService';
 
-export const useAdminGuitar = (guitarsPerPage = 10) => {
+const guitarsPerPage = 10;
+
+export default function useAdminGuitar() {
   const [guitars, setGuitars] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [selectedGuitar, setSelectedGuitar] = useState(null);
+  const [totalGuitars, setTotalGuitars] = useState(0);
+  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(0);
-  const [totalGuitars, setTotalGuitars] = useState(0);
+  const [selectedGuitar, setSelectedGuitar] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const fetchGuitars = async (page = 0, limit = guitarsPerPage) => {
+  // Estados de búsqueda
+  const [search, setSearch] = useState('');
+  const [searchBy, setSearchBy] = useState('model');
+
+  const fetchGuitars = async (page = 0, limit = guitarsPerPage, search = '', searchBy = 'model') => {
     setLoading(true);
-    const [data, err] = await getAdminPaginatedGuitars(page + 1, limit);
+    const [data, err] = await getAdminPaginatedGuitars(page + 1, limit, search, searchBy);
 
     if (err) {
       setError(err);
@@ -23,23 +29,34 @@ export const useAdminGuitar = (guitarsPerPage = 10) => {
 
       sessionStorage.setItem("cachedGuitars", JSON.stringify(data));
       sessionStorage.setItem("cachedGuitarPage", page);
+      sessionStorage.setItem("cachedGuitarSearch", search);
+      sessionStorage.setItem("cachedGuitarSearchBy", searchBy);
+      setError(null);
     }
+
     setLoading(false);
   };
 
   useEffect(() => {
     const cachedData = sessionStorage.getItem("cachedGuitars");
     const cachedPage = sessionStorage.getItem("cachedGuitarPage");
+    const cachedSearch = sessionStorage.getItem("cachedGuitarSearch") || '';
+    const cachedSearchBy = sessionStorage.getItem("cachedGuitarSearchBy") || 'model';
 
-    if (cachedData && Number(cachedPage) === page) {
+    if (
+      cachedData &&
+      Number(cachedPage) === page &&
+      cachedSearch === search &&
+      cachedSearchBy === searchBy
+    ) {
       const parsed = JSON.parse(cachedData);
       setGuitars(parsed.guitars);
       setTotalGuitars(parsed.total);
       setLoading(false);
     } else {
-      fetchGuitars(page, guitarsPerPage);
+      fetchGuitars(page, guitarsPerPage, search, searchBy);
     }
-  }, [page]);
+  }, [page, search, searchBy]);
 
   const handleDelete = async (guitarId) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar esta guitarra?")) {
@@ -47,12 +64,22 @@ export const useAdminGuitar = (guitarsPerPage = 10) => {
       if (err) {
         setError(err);
       } else {
-        sessionStorage.removeItem("cachedGuitars");
-        sessionStorage.removeItem("cachedGuitarPage");
-        fetchGuitars(page, guitarsPerPage);
+        sessionStorage.clear();
+        fetchGuitars(page, guitarsPerPage, search, searchBy);
       }
     }
   };
+
+  const handleCloseForm = () => {
+    setShowForm(false);
+    sessionStorage.clear();
+    fetchGuitars(page, guitarsPerPage, search, searchBy);
+  };
+
+  const handleFormSuccess = useCallback(async () => {
+    sessionStorage.clear();
+    await fetchGuitars(page, guitarsPerPage, search, searchBy);
+  }, [page, search, searchBy]);
 
   const handleUpdate = (guitarId) => {
     setSelectedGuitar(guitarId);
@@ -60,35 +87,26 @@ export const useAdminGuitar = (guitarsPerPage = 10) => {
     setIsEditing(true);
   };
 
-  const handleCloseForm = () => {
-    setShowForm(false);
-    sessionStorage.removeItem("cachedGuitars");
-    sessionStorage.removeItem("cachedGuitarPage");
-    fetchGuitars(page, guitarsPerPage);
-  };
-
-  const handleFormSuccess = async () => {
-    sessionStorage.removeItem("cachedGuitars");
-    sessionStorage.removeItem("cachedGuitarPage");
-    await fetchGuitars(page, guitarsPerPage);
-  };
-
   return {
     guitars,
-    showForm,
-    isEditing,
-    selectedGuitar,
+    totalGuitars,
+    page,
+    setPage,
     loading,
     error,
-    page,
-    totalGuitars,
-    setPage,
+    selectedGuitar,
+    showForm,
+    isEditing,
     setShowForm,
     setIsEditing,
     setSelectedGuitar,
     handleDelete,
-    handleUpdate,
     handleCloseForm,
     handleFormSuccess,
+    handleUpdate,
+    search,
+    setSearch,
+    searchBy,
+    setSearchBy,
   };
-};
+}

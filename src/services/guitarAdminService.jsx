@@ -23,21 +23,31 @@ const parseResponse = async (response) => {
   return [data, null];
 };
 //ocupr este
-export const getAdminPaginatedGuitars = async (page = 1, limit = 10) => {
+export const getAdminPaginatedGuitars = async (page = 1, limit = 10, search = '', searchBy = 'model') => {
   try {
     const token = getToken();
-    const response = await fetch(`${API_URL}/admin/guitarras?page=${page}&limit=${limit}`, {
+
+    const params = new URLSearchParams({
+      page,
+      limit,
+      search,
+      search_by: searchBy,
+    });
+
+    const response = await fetch(`${API_URL}/admin/guitarras?${params.toString()}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
+
     return await parseResponse(response);
   } catch (error) {
     return [null, error.message || "Error al conectar con el servidor"];
   }
 };
+
 
 export const deleteGuitarById = async (guitarId) => {
   try {
