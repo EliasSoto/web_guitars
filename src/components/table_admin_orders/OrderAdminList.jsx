@@ -63,7 +63,7 @@ const OrderAdminList = () => {
             onChange={handleSearchChange}
             style={{ flexGrow: 1, padding: "0.5rem" }}
           />
-          {/* Mostramos texto fijo en lugar de select */}
+     
           <div
             style={{
               padding: "0.5rem",
