@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { 
   getAdminPaginatedShipments,
   getShipmentStatusByOrderIdAdmin
@@ -14,8 +14,8 @@ export default function useAdminShipments() {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchBy, setSearchBy] = useState("id"); 
+  const [search, setSearch] = useState('');
+  const [searchBy, setSearchBy] = useState('id');
 
   const fetchUserNames = async (shipmentsList) => {
     const names = {};
@@ -29,38 +29,19 @@ export default function useAdminShipments() {
     setUserNames(names);
   };
 
-  const formatSearchDate = (dateString) => {
-    if (!dateString) return "";
-    const [datePart] = dateString.split("T");
-    const [year, month, day] = datePart.split("-");
-    return `${day}-${month}-${year}`;
-  };
-
-  const filteredShipments = useMemo(() => {
-    if (!searchTerm) return shipments;
-
-    const term = searchTerm.toLowerCase();
-    return shipments.filter((shipment) => {
-      const id = shipment.id?.toString() || "";
-      const userName = userNames[shipment.id]?.toLowerCase() || "";
-      const shippingDate = formatSearchDate(shipment.shipping_date) || "";
-      const status = shipment.tracking_status?.toLowerCase() || "";
-      const orderId = shipment.order_id?.toString() || "";
-
-      switch(searchBy) {
-        case "id": return id.includes(term);
-        case "user": return userName.includes(term);
-        case "date": return shippingDate.includes(term);
-        case "status": return status.includes(term);
-        case "order": return orderId.includes(term);
-        default: return false;
-      }
-    });
-  }, [shipments, searchTerm, searchBy, userNames]);
-
-  const fetchShipments = async (page = 1, limit = shipmentsPerPage) => {
+  const fetchShipments = async (
+    pageToFetch = page,
+    limit = shipmentsPerPage,
+    currentSearch = search,
+    currentSearchBy = searchBy
+  ) => {
     setLoading(true);
-    const [data, err] = await getAdminPaginatedShipments(page, limit);
+    const [data, err] = await getAdminPaginatedShipments(
+      pageToFetch,
+      limit,
+      currentSearch,
+      currentSearchBy
+    );
 
     if (err) {
       setError(err);
@@ -76,11 +57,11 @@ export default function useAdminShipments() {
   };
 
   useEffect(() => {
-    fetchShipments(page, shipmentsPerPage);
-  }, [page]);
+    fetchShipments();
+  }, [page, search, searchBy]);
 
   return {
-    shipments: filteredShipments,
+    shipments,
     userNames,
     loading,
     error,
@@ -88,10 +69,10 @@ export default function useAdminShipments() {
     setPage,
     total,
     shipmentsPerPage,
-    searchTerm,
-    setSearchTerm,
+    search,
+    setSearch,
     searchBy,
     setSearchBy,
-    fetchShipments
+    fetchShipments,
   };
 }

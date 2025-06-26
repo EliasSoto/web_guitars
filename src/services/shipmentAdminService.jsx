@@ -29,10 +29,17 @@ const parseResponse = async (response) => {
 
 // ### ENVÍOS ADMIN ###
 
-export const getAdminPaginatedShipments = async (page = 1, limit = 10) => {
+export const getAdminPaginatedShipments = async (page = 1, limit = 10, search ='', searchBy = 'id') => {
   try {
     const token = getToken();
-    const response = await fetch(`${API_URL}/admin/envios?page=${page}&limit=${limit}`, {
+
+    const params = new URLSearchParams({
+      page,
+      limit,
+      search,
+      search_by: searchBy,
+    });
+    const response = await fetch(`${API_URL}/admin/envios?${params.toString()}`, {
       method: "GET",
       headers: {
         Accept: "application/json",

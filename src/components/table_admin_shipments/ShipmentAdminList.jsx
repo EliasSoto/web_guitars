@@ -1,8 +1,9 @@
-import { Icon } from "@iconify/react";
+import { Icon } from "@iconify/react"; 
 import useAdminShipments from "../../hooks/useAdminShipment";
 import ShipmentAdminTableHead from "./ShipmentAdminTableHead";
 import ShipmentAdminRow from "./ShipmentAdminRow";
 import "../../styles/admin_table/TableUsers.css";
+import { useState } from "react";
 
 export default function ShipmentAdminList() {
   const {
@@ -14,58 +15,63 @@ export default function ShipmentAdminList() {
     setPage,
     total,
     shipmentsPerPage,
-    searchTerm,
-    setSearchTerm,
+    search,
+    setSearch,
     searchBy,
-    setSearchBy,
-    fetchShipments
+    setSearchBy
   } = useAdminShipments();
+
+  const [inputValue, setInputValue] = useState(search || "");
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+    setSearch(value);
+    setPage(1); // Reiniciar a la primera página (tu paginación empieza en 1)
+  };
 
   return (
     <div className="table-container">
       <div className="table-header">
         <h2>Lista de Envíos</h2>
-        
-        <div className="search-add-container">
-          <div className="search-bar">
-            <Icon icon="ic:outline-search" width="2.5rem" height="2.5rem" />
-            
-            <input
-              type="text"
-              placeholder={`Buscar por ${
-                searchBy === 'id' ? 'ID de envío' : 
-                searchBy === 'user' ? 'nombre de usuario' : 
-                searchBy === 'date' ? 'fecha (dd-mm-yyyy)' : 
-                searchBy === 'status' ? 'estado' :
-                ''
-              }`}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            
-            <select
-              className="search-bar-select"
-              value={searchBy}
-              onChange={(e) => setSearchBy(e.target.value)}
-            >
-              <option value="id">ID Envío</option>
-              <option value="user">Usuario</option>
-              <option value="date">Fecha</option>
-              <option value="status">Estado</option>
-            </select>
+
+        <div className="search-bar">
+          <Icon icon="ic:outline-search" width="2.5rem" height="2.5rem" />
+          <input
+            type="text"
+            placeholder="Buscar..."
+            className="search-bar-input"
+            value={inputValue}
+            onChange={handleSearchChange}
+          />
+          <div
+            style={{
+              padding: "0.5rem",
+              backgroundColor: "transparent",
+              userSelect: "none",
+              minWidth: "30px",
+              textAlign: "center",
+            }}
+          >
+            ID
           </div>
         </div>
       </div>
 
       {loading ? (
         <div className="loading-container">
-          <Icon icon="line-md:loading-loop" width="40" height="40" className="loading-icon" />
+          <Icon
+            icon="line-md:loading-loop"
+            width="40"
+            height="40"
+            className="loading-icon"
+          />
           <p>Cargando envíos...</p>
         </div>
       ) : error ? (
         <p style={{ color: "red" }}>Error: {error}</p>
       ) : shipments.length === 0 ? (
-        <p>{searchTerm ? "No se encontraron envíos que coincidan con la búsqueda." : "No se encontraron envíos."}</p>
+        <p>No se encontraron envíos.</p>
       ) : (
         <>
           <table>
