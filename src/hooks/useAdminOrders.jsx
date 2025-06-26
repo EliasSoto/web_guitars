@@ -76,7 +76,6 @@ export default function useAdminOrders() {
     setLoading(false);
   };
 
-  // Refetch cuando cambian page, search o searchBy
   useEffect(() => {
     fetchOrders(page, ordersPerPage, search, searchBy);
   }, [page, search, searchBy]);

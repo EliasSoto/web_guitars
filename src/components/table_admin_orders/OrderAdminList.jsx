@@ -23,7 +23,6 @@ const OrderAdminList = () => {
     fetchOrders,
     search,
     setSearch,
-    // Eliminamos searchBy y setSearchBy
   } = useAdminOrders();
 
   const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -42,10 +41,9 @@ const OrderAdminList = () => {
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
-    setPage(0); // reset page on search change
+    setPage(0); 
   };
 
-  // Valor fijo de búsqueda
   const fixedSearchBy = "id";
 
   return (

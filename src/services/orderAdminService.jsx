@@ -28,8 +28,6 @@ const parseResponse = async (response) => {
   return [data, null];
 };
 
-// ### PEDIDOS ADMIN ###
-
 export const getOrderByIdAdmin = async (orderId) => {
   try {
     const token = getToken();
