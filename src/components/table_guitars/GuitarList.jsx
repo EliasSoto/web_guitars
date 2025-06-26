@@ -46,7 +46,6 @@ const GuitarList = () => {
 
              <select
               className="search-bar-select"
-              
             >
               <option value="greater">Mayor</option>
               <option value="less">Menor</option>
