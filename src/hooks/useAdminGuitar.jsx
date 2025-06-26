@@ -16,56 +16,46 @@ export default function useAdminGuitar() {
   // Estados de búsqueda
   const [search, setSearch] = useState('');
   const [searchBy, setSearchBy] = useState('model');
-  const [comparisonOperator, setComparisonOperator] = useState('greater');
 
-  // Función para construir el término de búsqueda
-  // Modifica la función buildSearchTerm en useAdminGuitar.js
-const buildSearchTerm = useCallback((searchValue, searchType, operator) => {
-  if (searchType === 'stock' && searchValue) {
-    // Asegurarnos que el valor sea un número válido
-    const numericValue = parseInt(searchValue);
-    if (isNaN(numericValue) || numericValue < 0) return '';
-    
-    // Mapear los operadores a los que espera la API
-    const operatorTranslation = {
-      'greater': 'mayor',
-      'less': 'menor',
-      'equal': 'igual'
-    };
-    
-    return `${operatorTranslation[operator]} ${numericValue}`;
-  }
-  return searchValue;
-}, []);
+  // Construir término de búsqueda (simple passthrough)
+  const buildSearchTerm = (value) => value;
 
-  const fetchGuitars = useCallback(async (page = 0, limit = guitarsPerPage, searchValue = '', searchType = 'model') => {
-    setLoading(true);
-    const term = buildSearchTerm(searchValue, searchType, comparisonOperator);
-
-    
-    const [data, err] = await getAdminPaginatedGuitars(page + 1, limit, term, searchType);
-
-    if (err) {
-      setError(err);
-    } else {
-      setGuitars(data.guitars);
-      setTotalGuitars(data.total);
-
-      sessionStorage.setItem("cachedGuitars", JSON.stringify(data));
-      sessionStorage.setItem("cachedGuitarPage", page);
-      sessionStorage.setItem("cachedGuitarSearch", searchValue);
-      sessionStorage.setItem("cachedGuitarSearchBy", searchType);
+  const fetchGuitars = useCallback(
+    async (pageParam = 0, limit = guitarsPerPage, searchValue = '', searchType = 'model') => {
+      setLoading(true);
       setError(null);
-    }
 
-    setLoading(false);
-  }, [buildSearchTerm, comparisonOperator]);
+      const term = buildSearchTerm(searchValue);
+
+      try {
+        const [data, err] = await getAdminPaginatedGuitars(pageParam + 1, limit, term, searchType);
+
+        if (err) {
+          setError(err);
+        } else if (data) {
+          setGuitars(data.guitars || []);
+          setTotalGuitars(data.total || 0);
+
+          sessionStorage.setItem('cachedGuitars', JSON.stringify(data));
+          sessionStorage.setItem('cachedGuitarPage', pageParam.toString());
+          sessionStorage.setItem('cachedGuitarSearch', searchValue);
+          sessionStorage.setItem('cachedGuitarSearchBy', searchType);
+          setError(null);
+        }
+      } catch (e) {
+        setError(e.message || 'Error al obtener guitarras');
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
-    const cachedData = sessionStorage.getItem("cachedGuitars");
-    const cachedPage = sessionStorage.getItem("cachedGuitarPage");
-    const cachedSearch = sessionStorage.getItem("cachedGuitarSearch") || '';
-    const cachedSearchBy = sessionStorage.getItem("cachedGuitarSearchBy") || 'model';
+    const cachedData = sessionStorage.getItem('cachedGuitars');
+    const cachedPage = sessionStorage.getItem('cachedGuitarPage');
+    const cachedSearch = sessionStorage.getItem('cachedGuitarSearch') || '';
+    const cachedSearchBy = sessionStorage.getItem('cachedGuitarSearchBy') || 'model';
 
     if (
       cachedData &&
@@ -74,21 +64,28 @@ const buildSearchTerm = useCallback((searchValue, searchType, operator) => {
       cachedSearchBy === searchBy
     ) {
       const parsed = JSON.parse(cachedData);
-      setGuitars(parsed.guitars);
-      setTotalGuitars(parsed.total);
+      setGuitars(parsed.guitars || []);
+      setTotalGuitars(parsed.total || 0);
       setLoading(false);
     } else {
       fetchGuitars(page, guitarsPerPage, search, searchBy);
     }
   }, [page, search, searchBy, fetchGuitars]);
 
+  const clearCache = () => {
+    sessionStorage.removeItem('cachedGuitars');
+    sessionStorage.removeItem('cachedGuitarPage');
+    sessionStorage.removeItem('cachedGuitarSearch');
+    sessionStorage.removeItem('cachedGuitarSearchBy');
+  };
+
   const handleDelete = async (guitarId) => {
-    if (window.confirm("¿Estás seguro de que deseas eliminar esta guitarra?")) {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta guitarra?')) {
       const [, err] = await deleteGuitarById(guitarId);
       if (err) {
         setError(err);
       } else {
-        sessionStorage.clear();
+        clearCache();
         fetchGuitars(page, guitarsPerPage, search, searchBy);
       }
     }
@@ -96,12 +93,12 @@ const buildSearchTerm = useCallback((searchValue, searchType, operator) => {
 
   const handleCloseForm = () => {
     setShowForm(false);
-    sessionStorage.clear();
+    clearCache();
     fetchGuitars(page, guitarsPerPage, search, searchBy);
   };
 
   const handleFormSuccess = useCallback(async () => {
-    sessionStorage.clear();
+    clearCache();
     await fetchGuitars(page, guitarsPerPage, search, searchBy);
   }, [page, search, searchBy, fetchGuitars]);
 
@@ -113,8 +110,7 @@ const buildSearchTerm = useCallback((searchValue, searchType, operator) => {
 
   // Manejo de cambios en la búsqueda
   const handleSearchChange = (value) => {
-    const term = searchBy === 'stock' ? `${comparisonOperator} ${value}` : value;
-    setSearch(term);
+    setSearch(value);
     setPage(0);
   };
 
@@ -122,15 +118,6 @@ const buildSearchTerm = useCallback((searchValue, searchType, operator) => {
     setSearchBy(newSearchBy);
     setSearch('');
     setPage(0);
-  };
-
-  const handleComparisonOperatorChange = (operator) => {
-    setComparisonOperator(operator);
-    if (searchBy === 'stock' && search) {
-      const value = search.split(' ')[1] || '';
-      setSearch(`${operator} ${value}`);
-      setPage(0);
-    }
   };
 
   return {
@@ -152,10 +139,8 @@ const buildSearchTerm = useCallback((searchValue, searchType, operator) => {
     handleUpdate,
     search,
     searchBy,
-    comparisonOperator,
     handleSearchChange,
     handleSearchByChange,
-    handleComparisonOperatorChange,
     guitarsPerPage,
   };
 }

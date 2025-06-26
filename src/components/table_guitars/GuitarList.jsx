@@ -9,6 +9,7 @@ import useAdminGuitar from '../../hooks/useAdminGuitar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { useState, useEffect } from 'react'; // Agregar useState y useEffect
 
 const GuitarList = () => {
   const {
@@ -30,16 +31,48 @@ const GuitarList = () => {
     handleUpdate,
     search,
     searchBy,
-    comparisonOperator,
     handleSearchChange,
     handleSearchByChange,
-    handleComparisonOperatorChange,
     guitarsPerPage,
   } = useAdminGuitar();
 
-  // Obtener el valor actual del input de búsqueda
-  const getCurrentSearchValue = () => {
-    return searchBy === 'stock' ? search.split(' ')[1] || '' : search;
+  // Estado local para el operador (greater, less, equal)
+  const [operator, setOperator] = useState('greater');
+  // Estado local para el valor numérico del input cuando searchBy es stock
+  const [numberInput, setNumberInput] = useState('');
+
+  // Cuando cambia searchBy, resetear operador y número
+  useEffect(() => {
+    setOperator('greater');
+    setNumberInput('');
+    // Si no es stock, pasamos search vacío para limpiar la búsqueda
+    if (searchBy !== 'stock') {
+      handleSearchChange('');
+    }
+  }, [searchBy]);
+
+  // Manejar cambio operador
+  const handleOperatorChange = (e) => {
+    const newOperator = e.target.value;
+    setOperator(newOperator);
+    if (numberInput) {
+      handleSearchChange(`${newOperator} ${numberInput}`);
+    }
+  };
+
+  // Manejar cambio input cuando searchBy === 'stock'
+  const handleNumberChange = (e) => {
+    const val = e.target.value;
+    // Permitir solo números
+    if (/^\d*$/.test(val)) {
+      setNumberInput(val);
+      if (val) {
+        handleSearchChange(`${operator} ${val}`);
+      } else {
+        // Si el input queda vacío, limpiar búsqueda
+        handleSearchChange('');
+      }
+    }
   };
 
   return (
@@ -51,12 +84,12 @@ const GuitarList = () => {
           <div className="search-bar">
             <Icon icon="ic:outline-search" width="2.5rem" height="2.5rem" />
 
-            {/* Select de operador de comparación - solo visible cuando searchBy es 'stock' */}
+            {/* Select de operador - visible solo para stock */}
             {searchBy === 'stock' && (
               <select
                 className="search-bar-select"
-                value={comparisonOperator}
-                onChange={(e) => handleComparisonOperatorChange(e.target.value)}
+                value={operator}
+                onChange={handleOperatorChange}
               >
                 <option value="greater">Mayor</option>
                 <option value="less">Menor</option>
@@ -66,12 +99,20 @@ const GuitarList = () => {
 
             <input
               className="search-bar-input"
-              type={searchBy === 'stock' ? 'number' : 'text'}
-              placeholder={`Buscar por ${searchBy === 'model' ? 'modelo' : searchBy === 'brand' ? 'marca' : 'stock'}...`}
-              value={getCurrentSearchValue()}
-              onChange={(e) => handleSearchChange(e.target.value)}
+              placeholder={`Buscar por ${
+                searchBy === 'model' ? 'modelo' : searchBy === 'brand' ? 'marca' : 'stock'
+              }...`}
+           
+              value={searchBy === 'stock' ? numberInput : search}
+              onChange={(e) => {
+                if (searchBy === 'stock') {
+                  handleNumberChange(e);
+                } else {
+                  handleSearchChange(e.target.value);
+                }
+              }}
             />
-            
+
             <select
               className="search-bar-select"
               value={searchBy}
@@ -98,6 +139,7 @@ const GuitarList = () => {
         </div>
       </div>
 
+      {/* Resto del componente sigue igual */}
       {loading ? (
         <div className="loading-container">
           <Icon icon="line-md:loading-loop" width="40" height="40" className="loading-icon" />
