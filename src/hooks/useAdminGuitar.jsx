@@ -16,10 +16,34 @@ export default function useAdminGuitar() {
   // Estados de búsqueda
   const [search, setSearch] = useState('');
   const [searchBy, setSearchBy] = useState('model');
+  const [comparisonOperator, setComparisonOperator] = useState('greater');
 
-  const fetchGuitars = async (page = 0, limit = guitarsPerPage, search = '', searchBy = 'model') => {
+  // Función para construir el término de búsqueda
+  // Modifica la función buildSearchTerm en useAdminGuitar.js
+const buildSearchTerm = useCallback((searchValue, searchType, operator) => {
+  if (searchType === 'stock' && searchValue) {
+    // Asegurarnos que el valor sea un número válido
+    const numericValue = parseInt(searchValue);
+    if (isNaN(numericValue) || numericValue < 0) return '';
+    
+    // Mapear los operadores a los que espera la API
+    const operatorTranslation = {
+      'greater': 'mayor',
+      'less': 'menor',
+      'equal': 'igual'
+    };
+    
+    return `${operatorTranslation[operator]} ${numericValue}`;
+  }
+  return searchValue;
+}, []);
+
+  const fetchGuitars = useCallback(async (page = 0, limit = guitarsPerPage, searchValue = '', searchType = 'model') => {
     setLoading(true);
-    const [data, err] = await getAdminPaginatedGuitars(page + 1, limit, search, searchBy);
+    const term = buildSearchTerm(searchValue, searchType, comparisonOperator);
+
+    
+    const [data, err] = await getAdminPaginatedGuitars(page + 1, limit, term, searchType);
 
     if (err) {
       setError(err);
@@ -29,13 +53,13 @@ export default function useAdminGuitar() {
 
       sessionStorage.setItem("cachedGuitars", JSON.stringify(data));
       sessionStorage.setItem("cachedGuitarPage", page);
-      sessionStorage.setItem("cachedGuitarSearch", search);
-      sessionStorage.setItem("cachedGuitarSearchBy", searchBy);
+      sessionStorage.setItem("cachedGuitarSearch", searchValue);
+      sessionStorage.setItem("cachedGuitarSearchBy", searchType);
       setError(null);
     }
 
     setLoading(false);
-  };
+  }, [buildSearchTerm, comparisonOperator]);
 
   useEffect(() => {
     const cachedData = sessionStorage.getItem("cachedGuitars");
@@ -56,7 +80,7 @@ export default function useAdminGuitar() {
     } else {
       fetchGuitars(page, guitarsPerPage, search, searchBy);
     }
-  }, [page, search, searchBy]);
+  }, [page, search, searchBy, fetchGuitars]);
 
   const handleDelete = async (guitarId) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar esta guitarra?")) {
@@ -79,12 +103,34 @@ export default function useAdminGuitar() {
   const handleFormSuccess = useCallback(async () => {
     sessionStorage.clear();
     await fetchGuitars(page, guitarsPerPage, search, searchBy);
-  }, [page, search, searchBy]);
+  }, [page, search, searchBy, fetchGuitars]);
 
   const handleUpdate = (guitarId) => {
     setSelectedGuitar(guitarId);
     setShowForm(true);
     setIsEditing(true);
+  };
+
+  // Manejo de cambios en la búsqueda
+  const handleSearchChange = (value) => {
+    const term = searchBy === 'stock' ? `${comparisonOperator} ${value}` : value;
+    setSearch(term);
+    setPage(0);
+  };
+
+  const handleSearchByChange = (newSearchBy) => {
+    setSearchBy(newSearchBy);
+    setSearch('');
+    setPage(0);
+  };
+
+  const handleComparisonOperatorChange = (operator) => {
+    setComparisonOperator(operator);
+    if (searchBy === 'stock' && search) {
+      const value = search.split(' ')[1] || '';
+      setSearch(`${operator} ${value}`);
+      setPage(0);
+    }
   };
 
   return {
@@ -105,8 +151,11 @@ export default function useAdminGuitar() {
     handleFormSuccess,
     handleUpdate,
     search,
-    setSearch,
     searchBy,
-    setSearchBy,
+    comparisonOperator,
+    handleSearchChange,
+    handleSearchByChange,
+    handleComparisonOperatorChange,
+    guitarsPerPage,
   };
 }

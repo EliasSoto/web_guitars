@@ -6,10 +6,9 @@ import Modal from '../Modal';
 import RegisterAdminGuitarForm from '../forms/RegisterAdminGuitarForm';
 import UpdateAdminGuitarForm from '../forms/UpdateAdminGuitarForm';
 import useAdminGuitar from '../../hooks/useAdminGuitar';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const guitarsPerPage = 10;
 
 const GuitarList = () => {
   const {
@@ -30,10 +29,18 @@ const GuitarList = () => {
     handleFormSuccess,
     handleUpdate,
     search,
-    setSearch,
     searchBy,
-    setSearchBy,
+    comparisonOperator,
+    handleSearchChange,
+    handleSearchByChange,
+    handleComparisonOperatorChange,
+    guitarsPerPage,
   } = useAdminGuitar();
+
+  // Obtener el valor actual del input de búsqueda
+  const getCurrentSearchValue = () => {
+    return searchBy === 'stock' ? search.split(' ')[1] || '' : search;
+  };
 
   return (
     <div className="table-container">
@@ -44,31 +51,31 @@ const GuitarList = () => {
           <div className="search-bar">
             <Icon icon="ic:outline-search" width="2.5rem" height="2.5rem" />
 
-             <select
-              className="search-bar-select"
-            >
-              <option value="greater">Mayor</option>
-              <option value="less">Menor</option>
-              <option value="equal">Igual</option>
-            </select>
+            {/* Select de operador de comparación - solo visible cuando searchBy es 'stock' */}
+            {searchBy === 'stock' && (
+              <select
+                className="search-bar-select"
+                value={comparisonOperator}
+                onChange={(e) => handleComparisonOperatorChange(e.target.value)}
+              >
+                <option value="greater">Mayor</option>
+                <option value="less">Menor</option>
+                <option value="equal">Igual</option>
+              </select>
+            )}
 
             <input
               className="search-bar-input"
-              type="text"
-              placeholder="Buscar guitarras por..."
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setPage(0);
-              }}
+              type={searchBy === 'stock' ? 'number' : 'text'}
+              placeholder={`Buscar por ${searchBy === 'model' ? 'modelo' : searchBy === 'brand' ? 'marca' : 'stock'}...`}
+              value={getCurrentSearchValue()}
+              onChange={(e) => handleSearchChange(e.target.value)}
             />
+            
             <select
               className="search-bar-select"
               value={searchBy}
-              onChange={(e) => {
-                setSearchBy(e.target.value);
-                setPage(0);
-              }}
+              onChange={(e) => handleSearchByChange(e.target.value)}
             >
               <option value="model">Modelo</option>
               <option value="brand">Marca</option>

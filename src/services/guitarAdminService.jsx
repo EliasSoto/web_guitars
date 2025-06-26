@@ -48,7 +48,6 @@ export const getAdminPaginatedGuitars = async (page = 1, limit = 10, search = ''
   }
 };
 
-
 export const deleteGuitarById = async (guitarId) => {
   try {
     const token = getToken();
