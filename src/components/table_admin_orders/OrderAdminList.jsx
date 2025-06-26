@@ -1,4 +1,3 @@
-// File: src/components/table_admin_orders/OrderAdminList.jsx
 import { useState } from "react";
 import useAdminOrders from "../../hooks/useAdminOrders";
 import OrderAdminTableHead from "./OrderAdminTableHead";
@@ -18,21 +17,20 @@ const OrderAdminList = () => {
     page,
     setPage,
     totalOrders,
-    ordersPerPage, 
-    searchTerm,
-    setSearchTerm,
-    searchBy,
-    setSearchBy,
+    ordersPerPage,
     shipmentStatuses,
     userNames,
-    fetchOrders
+    fetchOrders,
+    search,
+    setSearch,
+    // Eliminamos searchBy y setSearchBy
   } = useAdminOrders();
 
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [showShipmentForm, setShowShipmentForm] = useState(false);
 
-  const handleViewDetails = async (orderId) => {
+  const handleViewDetails = (orderId) => {
     setSelectedOrderId(orderId);
     setShowDetails(true);
   };
@@ -42,48 +40,58 @@ const OrderAdminList = () => {
     setShowShipmentForm(true);
   };
 
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setPage(0); // reset page on search change
+  };
+
+  // Valor fijo de búsqueda
+  const fixedSearchBy = "id";
+
   return (
     <div className="table-container">
       <div className="table-header">
         <h1>Lista de Órdenes</h1>
-        <div className="search-add-container">
-          <div className="search-bar">
-            <Icon icon="ic:outline-search" width="2.5rem" height="2.5rem" />
-            
-            <input
-              type="text"
-              placeholder={`Buscar órdenes por ${
-                searchBy === 'id' ? 'ID' : 
-                searchBy === 'user' ? 'usuario' : 
-                searchBy === 'shipment' ? 'estado de envío' : 
-                'cualquier campo'
-              }`}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            
-            <select
-              className="search-bar-select"
-              value={searchBy}
-              onChange={(e) => setSearchBy(e.target.value)}
-            >
-              <option value="id">ID Pedido</option>
-              <option value="user">Usuario</option>
-              <option value="shipment">Estado Envío</option>
-            </select>
+
+        <div className="search-bar">
+           <Icon icon="ic:outline-search" width="2.5rem" height="2.5rem" />
+          <input
+            type="number"
+            className="search-bar-input"
+            placeholder="Buscar..."
+            value={search}
+            onChange={handleSearchChange}
+            style={{ flexGrow: 1, padding: "0.5rem" }}
+          />
+          {/* Mostramos texto fijo en lugar de select */}
+          <div
+            style={{
+              padding: "0.5rem",
+              backgroundColor: "transparent",
+              userSelect: "none",
+              minWidth: "30px",
+              textAlign: "center",
+            }}
+          >
+            ID 
           </div>
         </div>
       </div>
 
       {loading ? (
         <div className="loading-container">
-          <Icon icon="line-md:loading-loop" width="40" height="40" className="loading-icon" />
+          <Icon
+            icon="line-md:loading-loop"
+            width="40"
+            height="40"
+            className="loading-icon"
+          />
           <p>Cargando órdenes...</p>
         </div>
       ) : error ? (
         <p style={{ color: "red" }}>Error: {error}</p>
       ) : orders.length === 0 ? (
-        <p>{searchTerm ? "No se encontraron órdenes que coincidan con la búsqueda." : "No se encontraron órdenes."}</p>
+        <p>No se encontraron órdenes.</p>
       ) : (
         <>
           <table>
@@ -144,7 +152,7 @@ const OrderAdminList = () => {
           orderId={selectedOrderId}
           onClose={() => {
             setShowShipmentForm(false);
-            fetchOrders(page, ordersPerPage);
+            fetchOrders(page, ordersPerPage, search, fixedSearchBy); // usar fixedSearchBy
           }}
         />
       </Modal>

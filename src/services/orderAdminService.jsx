@@ -80,18 +80,33 @@ export const deleteOrderByIdAdmin = async (orderId) => {
   }
 };
 
-export const getAdminPaginatedOrders = async (page = 1, limit = 10) => {
+export const getAdminPaginatedOrders = async (
+  page = 1,
+  limit = 10,
+  search = '',
+  searchBy = 'id'
+) => {
   try {
     const token = getToken();
-    const response = await fetch(`${API_URL}/admin/pedidos?page=${page}&limit=${limit}`, {
+
+    const queryParams = new URLSearchParams({
+      page,
+      limit,
+    });
+
+    if (search) queryParams.append('search', search);
+    if (searchBy) queryParams.append('search_by', searchBy);
+
+    const response = await fetch(`${API_URL}/admin/pedidos?${queryParams.toString()}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
+
     return await parseResponse(response);
   } catch (error) {
     return [null, error.message || "Error al conectar con el servidor"];
   }
-}
+};
