@@ -1,6 +1,6 @@
 // URL de la API
 const urlBase = import.meta.env.VITE_URL_BASE;
-
+//ocupar este
 // Función para registrar un nuevo usuario
 export const registerAdminUser = async (first_name, last_name, email, phone, birth_date, rut, password, is_admin) => {
     // Validar campos obligatorios
@@ -234,5 +234,5 @@ export const getUserFullNameById = async (userId) => {
         return [data.full_name, null];
     } catch (error) {
         return [null, "Error al conectar con el servidor"];
-    }
+    } 
 };

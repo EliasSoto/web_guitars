@@ -22,7 +22,7 @@ const parseResponse = async (response) => {
   }
   return [data, null];
 };
-
+//ocupr este
 export const getAdminPaginatedGuitars = async (page = 1, limit = 10) => {
   try {
     const token = getToken();
