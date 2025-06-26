@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { 
   getAdminPaginatedComponents, 
   deleteComponentByIdAdmin 
@@ -13,16 +13,21 @@ export default function useAdminComponents() {
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(0);  // Internamente usamos 0, pero en fetch sumamos +1
   const [totalComponents, setTotalComponents] = useState(0);
-  
-  // Estados para búsqueda
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchBy, setSearchBy] = useState("name"); // 'name', 'type', 'subtype'
 
-  const fetchComponents = async (page = 0, limit = componentsPerPage) => {
+  // Estados de búsqueda
+  const [search, setSearch] = useState('');
+  const [searchBy, setSearchBy] = useState('name');
+
+  const fetchComponents = async (pageParam, limit, searchParam, searchByParam) => {
     setLoading(true);
-    const [data, err] = await getAdminPaginatedComponents(page + 1, limit);
+    const [data, err] = await getAdminPaginatedComponents(
+      pageParam + 1, // API pagina desde 1
+      limit,
+      searchParam,
+      searchByParam
+    );
 
     if (err) {
       setError(err);
@@ -35,26 +40,9 @@ export default function useAdminComponents() {
   };
 
   useEffect(() => {
-    fetchComponents(page, componentsPerPage);
-  }, [page]);
-
-  const filteredComponents = useMemo(() => {
-    if (!searchTerm) return components;
-
-    const term = searchTerm.toLowerCase();
-    return components.filter((comp) => {
-      const name = comp.name?.toLowerCase() || "";
-      const type = comp.type?.toLowerCase() || "";
-      const subtype = comp.subtype?.toLowerCase() || "";
-
-      switch(searchBy) {
-        case "name": return name.includes(term);
-        case "type": return type.includes(term);
-        case "subtype": return subtype.includes(term);
-        default: return true;
-      }
-    });
-  }, [components, searchTerm, searchBy]);
+    // Cada vez que cambian page, search o searchBy se recarga la data
+    fetchComponents(page, componentsPerPage, search, searchBy);
+  }, [page, search, searchBy]);
 
   const handleDelete = async (componentId) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar este componente?")) {
@@ -62,13 +50,29 @@ export default function useAdminComponents() {
       if (err) {
         setError(err);
       } else {
-        fetchComponents(page, componentsPerPage);
+        // Recargar la página actual después de eliminar
+        fetchComponents(page, componentsPerPage, search, searchBy);
       }
     }
   };
 
+  const handleSearchChange = (value) => {
+    setSearch(value);
+    setPage(0); // resetear página para nueva búsqueda
+    // NO llamar fetchComponents acá, ya lo hace el useEffect
+  };
+
+  const handleSearchByChange = (value) => {
+    setSearchBy(value);
+    setPage(0);
+    setSearch(''); // limpiar texto al cambiar filtro de búsqueda
+    // NO llamar fetchComponents acá, ya lo hace el useEffect
+  };
+
   return {
-    components: filteredComponents,
+    components,
+    handleSearchByChange,
+    handleSearchChange,
     showForm,
     setShowForm,
     isEditing,
@@ -81,11 +85,11 @@ export default function useAdminComponents() {
     setPage,
     totalComponents,
     componentsPerPage,
-    searchTerm,
-    setSearchTerm,
+    handleDelete,
+    fetchComponents,
+    search,
+    setSearch,
     searchBy,
     setSearchBy,
-    handleDelete,
-    fetchComponents
   };
 }

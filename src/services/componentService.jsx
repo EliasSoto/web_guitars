@@ -23,10 +23,18 @@ const parseResponse = async (response) => {
 };
 
 // ### ADMIN COMPONENTS ###
-export const getAdminPaginatedComponents = async (page = 1, limit = 10) => {
+export const getAdminPaginatedComponents = async (page = 1, limit = 10, search = '', searchBy = 'name') => {
   try {
     const token = getToken();
-    const response = await fetch(`${API_URL}/admin/componentes?page=${page}&limit=${limit}`, {
+    const params = new URLSearchParams({
+      page,
+      limit,
+      search,
+      search_by: searchBy,
+    });
+
+    const response = await fetch(`${API_URL}/admin/componentes?${params.toString()}`, {
+      method: "GET",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
