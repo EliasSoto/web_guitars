@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import '../styles/PreviewCustomParts.css';
 import { Icon } from '@iconify/react';
 
+// VER XINHO
+
 export default function PreviewPanel({config, setConfig, step, setStep, selectedComponent, setSelectedComponent, maxComponentes, selectedComponents, setSelectedComponents, compatibles, loading, error, agregarComponente, estaSeleccionado, handleConfigChange, handleCreateCustomGuitar, isStep1Complete, isStep2Complete, headstockOptions, bodyOptions, woodOptions, bridgeOptions, mostrarJack, initialConfig}) {
 
   const defaultImage = 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750967058/guiafnh33wb3dx0twv0g.png';
