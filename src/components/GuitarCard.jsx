@@ -3,24 +3,52 @@ import { useNavigate } from "react-router-dom";
 import "../styles/GuitarCard.css";
 import { useCart } from "../contexts/CartContext";
 import { addToWishlist, deleteFromWishlist, isInWishlist } from "../services/wishlistService";
+import { isAuthenticated, getCurrentUser } from "../services/userAuthService";
+import { Icon } from "@iconify/react";
 
 const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_link, stock }) => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const [inWishlist, setInWishlist] = useState(false);
+  const [loadingWishlist, setLoadingWishlist] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const authCheck = isAuthenticated();
+    if (authCheck) {
+      setUser(getCurrentUser());
+    }
+  }, []);
 
   useEffect(() => {
     const checkWishlist = async () => {
+      setLoadingWishlist(true);
+      
+      // Solo se verifica el wishlist si el usuario está autenticado
+      if (!user) {
+        setInWishlist(false);
+        setLoadingWishlist(false);
+        return;
+      }
+
       try {
-        const [data, error] = await isInWishlist(id);
-        setInWishlist(!error && data?.in_wishlist === true);
+        const [response, error] = await isInWishlist(id);
+        if (!error && response?.is_in_wishlist !== undefined) {
+          setInWishlist(response.is_in_wishlist);
+        } else {
+          console.error("Error en la respuesta del wishlist:", error);
+          setInWishlist(false);
+        }
       } catch (error) {
         console.error("Error al verificar wishlist:", error);
         setInWishlist(false);
+      } finally {
+        setLoadingWishlist(false);
       }
     };
+    
     checkWishlist();
-  }, [id]);
+  }, [id, user]);
 
   const handleWishlistToggle = async (e) => {
     e.stopPropagation();
@@ -63,12 +91,17 @@ const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_lin
           <h2 className="guitar-card-model">{model}</h2>
           <p className="guitar-card-brand">{brand}</p>
         </div>
-        <button 
-          className={`wishlist-button ${inWishlist ? "active" : ""}`}
+         <button 
+          className={`guitar-card-wishlist ${inWishlist ? "active" : ""}`}
           onClick={handleWishlistToggle}
+          aria-label={inWishlist ? "Quitar de favoritos" : "Agregar a favoritos"}
           title={inWishlist ? "Quitar de favoritos" : "Agregar a favoritos"}
         >
-          {inWishlist ? "💖" : "🤍"}
+            <Icon 
+            icon={inWishlist ? "mdi:heart" : "mdi:heart"} 
+            width="20" 
+            height="20" 
+          />
         </button>
       </div>
 

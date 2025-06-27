@@ -74,6 +74,10 @@ const DropdownButton = () => {
             <Icon icon="streamline:shipment-download" className="user-tab-icon" />
             Pedidos
           </Link>
+          <Link to="/profile/wishlist" className="user-tab-item" onClick={() => setIsOpen(false)}>
+            <Icon icon="mdi:heart" className="user-tab-icon" />
+            Favoritos
+          </Link>
           <div className="user-tab-item logout" onClick={handleLogout}>
             <Icon icon="mdi:logout" className="user-tab-icon" />
             Cerrar sesión
