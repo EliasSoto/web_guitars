@@ -22,6 +22,12 @@ export default function PreviewPanel({config, setConfig, step, setStep, selected
 
   const handleResetStep = () => {
     setStep(1);
+    setConfig(initialConfig);
+    setSelectedComponents({
+      pastillas: { S: [], H: [] },
+      potenciometros: { volumen: [], tono: [] },
+      puente: null
+    });
   };
 
   const pastillasDisponibles = () => {

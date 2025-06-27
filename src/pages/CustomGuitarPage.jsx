@@ -88,6 +88,11 @@ export default function PageLayout() {
           totalPrice={totalPrice}
           step={step}
           onConfirm={handleCreateCustomGuitar}
+          config={config}
+          bodyOptions={bodyOptions}
+          headstockOptions={headstockOptions}
+          guitar={config.guitar}
+          woodOptions={woodOptions}
         />
       </main>
 

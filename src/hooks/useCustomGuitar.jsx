@@ -16,41 +16,41 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
 
   // Opciones de madera
   const woodOptions = [
-    { name: 'Abeto', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959250/iigybuaaorzek0g8bib5.png' },
-    { name: 'Caoba', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959027/ba2toylmd0456vzhittb.jpg' },
-    { name: 'Arce', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959252/nqgbjii0s4gsjifuhtpp.png' },
-    { name: 'Palisandro', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959038/ubtheg7u8rvqewwepzrn.jpg' },
-    { name: 'Nogal', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959032/y3dlsz8lxcjrhump2qd8.jpg' },
-    { name: 'Roble', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959039/pkh7yjgvythaidf735q3.jpg' },
-    { name: 'Ébano', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959030/ngfe8saz3zjitbzwryt3.jpg' },
-    { name: 'Tilo', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959254/jwb8effplnguxeznt59b.png' },
-    { name: 'Koa', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959031/vonvze1j1trv6ks6zyg8.jpg' },
-    { name: 'Cedro', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959028/ikihlrtliporyjvp9rxe.jpg' },
+    { name: 'Abeto', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959250/iigybuaaorzek0g8bib5.png', price: 100000 },
+    { name: 'Caoba', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959027/ba2toylmd0456vzhittb.jpg', price: 100000 },
+    { name: 'Arce', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959252/nqgbjii0s4gsjifuhtpp.png', price: 100000 },
+    { name: 'Palisandro', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959038/ubtheg7u8rvqewwepzrn.jpg', price: 100000 },
+    { name: 'Nogal', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959032/y3dlsz8lxcjrhump2qd8.jpg', price: 100000 },
+    { name: 'Roble', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959039/pkh7yjgvythaidf735q3.jpg', price: 100000 },
+    { name: 'Ébano', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959030/ngfe8saz3zjitbzwryt3.jpg', price: 100000 },
+    { name: 'Tilo', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959254/jwb8effplnguxeznt59b.png', price: 100000 },
+    { name: 'Koa', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959031/vonvze1j1trv6ks6zyg8.jpg', price: 100000 },
+    { name: 'Cedro', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959028/ikihlrtliporyjvp9rxe.jpg', price: 100000 },
   ];
 
 // Opciones de clavijero
   const headstockOptions = [
-    { id: 1, name: 'Tipo 1', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957913/p6idea6j0mom3edbnsgt.png", value: 'tipo1' },
-    { id: 2, name: 'Tipo 2', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957925/gwynpzbrt3orqlwy6xw9.png", value: 'tipo2' },
-    { id: 3, name: 'Tipo 3', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957935/xyusoeurb1jj4gqusuyv.png", value: 'tipo3' },
-    { id: 4, name: 'Tipo 4', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957944/koloeybsctuibpfqastl.png", value: 'tipo4' },
-    { id: 5, name: 'Tipo 5', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957952/porqjiokserpruci9bfl.png", value: 'tipo5' }
+    { id: 1, name: 'Tipo 1', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957913/p6idea6j0mom3edbnsgt.png", value: 'tipo1', price: 50000 },
+    { id: 2, name: 'Tipo 2', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957925/gwynpzbrt3orqlwy6xw9.png", value: 'tipo2', price: 50000 },
+    { id: 3, name: 'Tipo 3', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957935/xyusoeurb1jj4gqusuyv.png", value: 'tipo3', price: 50000 },
+    { id: 4, name: 'Tipo 4', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957944/koloeybsctuibpfqastl.png", value: 'tipo4', price: 50000 },
+    { id: 5, name: 'Tipo 5', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957952/porqjiokserpruci9bfl.png", value: 'tipo5', price: 50000 }
   ];
 
   // Opciones de cuerpo
   const bodyOptions = [
-    { id: 6, value: 'strato', name: 'Strato', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964837/v7x1uwyzgg6efkmz0b0u.png" },
-    { id: 7, value: 'telecaster', name: 'Telecaster', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964838/ij3sjohh9zwgos0xo5ya.png" },
-    { id: 8, value: 'sg', name: 'SG', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964836/jfguvmm9q1gcbon3s17x.png" },
-    { id: 9, value: 'lespaul', name: 'Les Paul', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964835/vgqgngbdhnn7y704avtv.png" },
-    { id: 10, value: 'flyingv', name: 'Flying V', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964834/g57w2lbea9ia3q9ypl7d.png" },
+    { id: 6, value: 'strato', name: 'Strato', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964837/v7x1uwyzgg6efkmz0b0u.png", price: 80000 },
+    { id: 7, value: 'telecaster', name: 'Telecaster', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964838/ij3sjohh9zwgos0xo5ya.png", price: 80000 },
+    { id: 8, value: 'sg', name: 'SG', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964836/jfguvmm9q1gcbon3s17x.png", price: 80000 },
+    { id: 9, value: 'lespaul', name: 'Les Paul', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964835/vgqgngbdhnn7y704avtv.png", price: 80000 },
+    { id: 10, value: 'flyingv', name: 'Flying V', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964834/g57w2lbea9ia3q9ypl7d.png", price: 80000 },
   ];
 
   // Opciones de puente
   const bridgeOptions = {
-    fijo: { value: 'fijo', name: 'Fijo', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964004/sjmkbsqcfos85mzpm19p.png" },
+    fijo: { value: 'fijo', name: 'Fijo', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964007/fmp5jhhvuowvphdqdanc.png" },
     flotante: { value: 'flotante', name: 'Flotante', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964005/fb5k2xljrhx5r1pbhhcz.png" },
-    semiflotante: { value: 'semiflotante', name: 'Semiflotante', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964007/fmp5jhhvuowvphdqdanc.png" },
+    semiflotante: { value: 'semiflotante', name: 'Semiflotante', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964004/sjmkbsqcfos85mzpm19p.png" },
   };
 
   const isStep1Complete = () => {
@@ -326,7 +326,6 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
       navigate('/profile/orders');
 
     } catch (error) {
-      console.error('Error al crear guitarra personalizada:', error);
       toast.error(`Error al crear guitarra personalizada: ${error.message}`);
     }
   };
@@ -356,6 +355,18 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
       total += guitar.sale_price;
     }
 
+    // Precio del clavijero seleccionado
+    const selectedHeadstock = headstockOptions.find(h => h.value === config.clavijero);
+    if (selectedHeadstock) {
+      total += selectedHeadstock.price;
+    }
+
+    // Precio del cuerpo seleccionado
+    const selectedBody = bodyOptions.find(b => b.value === config.cuerpo);
+    if (selectedBody) {
+      total += selectedBody.price;
+    }
+
     // Precio de componentes seleccionados
     selectedComponents.pastillas.S.forEach(p => {
       total += p.sale_price || 0;
@@ -377,24 +388,11 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
       total += selectedComponents.puente.sale_price || 0;
     }
 
-    // Se calcula el número total de componentes seleccionados
-    const totalComponentCount =
-      selectedComponents.pastillas.S.length +
-      selectedComponents.pastillas.H.length +
-      selectedComponents.potenciometros.volumen.length +
-      selectedComponents.potenciometros.tono.length +
-      (selectedComponents.puente ? 1 : 0);
-
-    // Se añade un 10% de comisión por cada componente seleccionado
-    const commission = guitar?.sale_price ? guitar.sale_price * 0.10 * totalComponentCount : 0;
-    total += commission;
-
     return total;
   };
 
 
   useEffect(() => {
-  console.log("Configuración actualizada:", config);
   const nuevosMaximos = calcularMaximos(config);
   setMaxComponentes(nuevosMaximos);
 }, [config]);

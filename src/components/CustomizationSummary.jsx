@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import '../styles/CustomizationSummary.css';
 
-export default function CustomizationSummary({ selectedComponents, totalPrice, step, onConfirm }) {
+export default function CustomizationSummary({ selectedComponents, totalPrice, step, onConfirm, config, headstockOptions, bodyOptions, woodOptions }) {
   const [paymentMethod, setPaymentMethod] = useState('');
 
   const handlePaymentChange = (e) => {
@@ -17,8 +17,44 @@ export default function CustomizationSummary({ selectedComponents, totalPrice, s
   };
 
   const getComponentsList = () => {
-    if (step === 1) return [];
     const components = [];
+
+    // Agregar clavijero seleccionado
+    if (config.clavijero) {
+      const selectedHeadstock = headstockOptions.find(h => h.value === config.clavijero);
+      if (selectedHeadstock) {
+        components.push({
+          id: 'headstock',
+          name: `Clavijero: ${selectedHeadstock.name}`,
+          price: selectedHeadstock.price
+        });
+      }
+    }
+
+    // Agregar cuerpo seleccionado
+    if (config.cuerpo) {
+      
+      const selectedBody = bodyOptions.find(b => b.value === config.cuerpo);
+      if (selectedBody) {
+        components.push({
+          id: 'body',
+          name: `Cuerpo: ${selectedBody.name}`,
+          price: selectedBody.price
+        });
+      }
+    }
+
+    // Agregar madera seleccionada
+    if (config.madera) {
+      const selectedWood = woodOptions.find(w => w.name === config.madera);
+      if (selectedWood) {
+        components.push({
+          id: 'wood',
+          name: `Madera: ${selectedWood.name}`,
+          price: selectedWood.price
+        });
+      }
+    }
 
     if (step >= 2) {
       selectedComponents.pastillas.S.forEach((p, i) => {
@@ -63,12 +99,12 @@ export default function CustomizationSummary({ selectedComponents, totalPrice, s
             ))}
           </div>
 
-          {step > 1 && (
-            <div className="customization-summary-total">
-              <span>Total estimado:</span>
-              <span>${totalPrice.toLocaleString('es-CL')}</span>
-            </div>
-          )}
+          <div className="customization-summary-total">
+            <span>Total estimado:</span>
+            <span>
+              ${components.reduce((sum, c) => sum + (c.price || 0), 0).toLocaleString('es-CL')}
+            </span>
+          </div>
 
           {step === 3 && (
             <>
@@ -100,7 +136,7 @@ export default function CustomizationSummary({ selectedComponents, totalPrice, s
       ) : (
         <p className="customization-summary-empty">
           {step === 1
-            ? "Comienza seleccionando las pastillas para tu guitarra"
+            ? "Comienza seleccionando las características de tu guitarra"
             : "No hay componentes seleccionados aún"}
         </p>
       )}
