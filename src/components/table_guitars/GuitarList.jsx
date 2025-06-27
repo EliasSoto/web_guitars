@@ -74,6 +74,7 @@ const GuitarList = () => {
       }
     }
   };
+  // Manejar actualización de guitarra
 
   return (
     <div className="table-container">
