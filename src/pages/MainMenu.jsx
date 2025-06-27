@@ -40,6 +40,11 @@ const MainMenu = () => {
  return (
     <div className="admin-dashboard">
       <Header />
+        <div className="custom-button-container">
+          <button className="custom-button" onClick={() => navigate("/custom")}>
+            🎸 Crear guitarra personalizada
+          </button>
+        </div>
       <div className="main-content-admin">
         <main className="main-content-guitarras">
           {!loading && error ? (

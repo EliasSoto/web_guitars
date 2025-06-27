@@ -6,6 +6,7 @@ import CustomizationSummary from "../components/CustomizationSummary.jsx";
 import { useState } from 'react';
 import '../styles/CustomGuitarPage.css' 
 import { useCustomGuitar } from "../hooks/useCustomGuitar.jsx";
+import { ToastContainer } from 'react-toastify';
 
 export default function PageLayout() {
   const initialConfig = {
@@ -93,6 +94,7 @@ export default function PageLayout() {
       <footer className="page-footer">
         <Footer />
       </footer>
+      <ToastContainer position="top-center" autoClose={2000} hideProgressBar />
     </div>
   )
 }

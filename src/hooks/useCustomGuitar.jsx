@@ -5,6 +5,7 @@ import { createUserCustomGuitar } from "../services/customGuitarService";
 import { createOrderUser } from '../services/userOrderService';
 import { createUserShipment } from '../services/useShipmentService';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export function useCustomGuitar(config, setConfig, initialConfig) {
   const { guitar } = useBaseGuitar(config.madera, config.color);
@@ -120,7 +121,7 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
       const currentCount = selectedComponents.pastillas[subtipo]?.length || 0;
 
       if (currentCount >= max) {
-        alert(`Ya seleccionaste el máximo de pastillas ${subtipo} (${max})`);
+        toast.error(`Ya seleccionaste el máximo de pastillas ${subtipo} (${max})`);
         return;
       }
 
@@ -138,7 +139,7 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
       const currentCount = selectedComponents.potenciometros[subtipo]?.length || 0;
 
       if (currentCount >= max) {
-        alert(`Ya seleccionaste el máximo de potenciómetros ${subtipo} (${max})`);
+        toast.error(`Ya seleccionaste el máximo de potenciómetros ${subtipo} (${max})`);
         return;
       }
 
@@ -159,7 +160,7 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
       }
 
       if (selectedComponents.puente) {
-        alert('Solo puedes seleccionar un puente');
+        toast.error('Solo puedes seleccionar un puente');
         return;
       }
       setSelectedComponents(prev => ({ ...prev, puente: componente }));
@@ -219,13 +220,13 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
       for (const req of requiredComponents) {
         if (req.type === 'puente') {
           if (!selectedComponents.puente && req.count > 0) {
-            alert(`Debes seleccionar un puente`);
+            toast.error(`Debes seleccionar un puente`);
             return;
           }
         } else {
           const currentCount = selectedComponents[req.type][req.subtype].length;
           if (currentCount < req.count) {
-            alert(`Debes seleccionar ${req.count} ${req.type} ${req.subtype}`);
+            toast.error(`Debes seleccionar ${req.count} ${req.type} ${req.subtype}`);
             return;
           }
         }
@@ -294,7 +295,7 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
 
       if (shipmentError) throw new Error(shipmentError);
 
-      alert('¡Pedido y envío creados exitosamente!');
+      toast.error('¡Pedido y envío creados exitosamente!');
 
       setStep(1);
       setConfig(initialConfig);
@@ -308,7 +309,7 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
 
     } catch (error) {
       console.error('Error al crear guitarra personalizada:', error);
-      alert(`Error al crear guitarra personalizada: ${error.message}`);
+      toast.error(`Error al crear guitarra personalizada: ${error.message}`);
     }
   };
 
@@ -330,29 +331,49 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
   };
 
   const calcularPrecioTotal = () => {
-  let total = 0;
-  
-  selectedComponents.pastillas.S.forEach(p => {
-    total += p.sale_price || 0;
-  });
+    let total = 0;
 
-  selectedComponents.pastillas.H.forEach(p => {
-    total += p.sale_price || 0;
-  });
+    // Precio base de la guitarra
+    if (guitar?.sale_price) {
+      total += guitar.sale_price;
+    }
 
-  selectedComponents.potenciometros.volumen.forEach(p => {
-    total += p.sale_price || 0;
-  });
+    // Precio de componentes seleccionados
+    selectedComponents.pastillas.S.forEach(p => {
+      total += p.sale_price || 0;
+    });
 
-  selectedComponents.potenciometros.tono.forEach(p => {
-    total += p.sale_price || 0;
-  });
+    selectedComponents.pastillas.H.forEach(p => {
+      total += p.sale_price || 0;
+    });
 
-  if (selectedComponents.puente) {
-    total += selectedComponents.puente.sale_price || 0;
-  }
-  return total;
-};
+    selectedComponents.potenciometros.volumen.forEach(p => {
+      total += p.sale_price || 0;
+    });
+
+    selectedComponents.potenciometros.tono.forEach(p => {
+      total += p.sale_price || 0;
+    });
+
+    if (selectedComponents.puente) {
+      total += selectedComponents.puente.sale_price || 0;
+    }
+
+    // Se calcula el número total de componentes seleccionados
+    const totalComponentCount =
+      selectedComponents.pastillas.S.length +
+      selectedComponents.pastillas.H.length +
+      selectedComponents.potenciometros.volumen.length +
+      selectedComponents.potenciometros.tono.length +
+      (selectedComponents.puente ? 1 : 0);
+
+    // Se añade un 10% de comisión por cada componente seleccionado
+    const commission = guitar?.sale_price ? guitar.sale_price * 0.10 * totalComponentCount : 0;
+    total += commission;
+
+    return total;
+  };
+
 
   useEffect(() => {
     const nuevosMaximos = calcularMaximos(config);

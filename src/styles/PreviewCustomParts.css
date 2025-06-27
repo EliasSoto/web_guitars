@@ -149,17 +149,19 @@
 }
 
 .clear-button {
-  background-color: #ff4444;
+  background-color: #e25959;
   color: white;
   border: none;
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-bottom: 10px;
+  display: block;
 }
 
 .clear-button:hover {
-  background-color: #cc0000;
+  background-color: #c44343;
 }
 
 .clear-all-button {

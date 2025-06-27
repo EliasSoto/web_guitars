@@ -23,3 +23,25 @@
     grid-template-columns: 1fr;
   }
 }
+
+.custom-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.custom-button {
+  background-color: #8699DA;
+  color: white;
+  border-radius: 10px;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s ease;
+}
+
+.custom-button:hover {
+  background-color: #6f84c4;
+  transform: scale(1.03);
+}
