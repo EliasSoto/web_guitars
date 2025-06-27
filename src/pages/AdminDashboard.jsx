@@ -14,8 +14,8 @@ import GuitarList from '../components/table_guitars/GuitarList';
 import OrderAdminList from '../components/table_admin_orders/OrderAdminList';
 import ShipmentAdminList from '../components/table_admin_shipments/ShipmentAdminList';
 import ComponentList from '../components/table_components/ComponentList';
-
 import useAdminUsers from '../hooks/useAdminUsers';
+import OrderCustomAdminList from '../components/table_admin_orders_custom/OrderCustomAdminList';
 
 export default function AdminDashboard() {
 
@@ -40,12 +40,15 @@ export default function AdminDashboard() {
 
         <section className="main-section-admin">
           <Routes>
+
             <Route index element={<UserList {...adminUsersProps} />} />
-            <Route path="/users" element={<UserList {...adminUsersProps}/>} />
+            <Route path="users" element={<UserList {...adminUsersProps}/>} />
             <Route path="guitars" element={<GuitarList />} />
             <Route path="orders" element={<OrderAdminList />} />
             <Route path="shipments" element={<ShipmentAdminList />} />
             <Route path="components" element={<ComponentList />} />
+            <Route path="orders_guitarcustom" element={<OrderCustomAdminList/>}/>
+
           </Routes>
         </section>
       </main>

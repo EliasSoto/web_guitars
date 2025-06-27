@@ -28,22 +28,22 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
     { name: 'Cedro', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959028/ikihlrtliporyjvp9rxe.jpg' },
   ];
 
-  // Opciones de clavijero
+// Opciones de clavijero
   const headstockOptions = [
-    { name: 'Tipo 1', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957913/p6idea6j0mom3edbnsgt.png", value: 'tipo1' },
-    { name: 'Tipo 2', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957925/gwynpzbrt3orqlwy6xw9.png", value: 'tipo2' },
-    { name: 'Tipo 3', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957935/xyusoeurb1jj4gqusuyv.png", value: 'tipo3' },
-    { name: 'Tipo 4', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957944/koloeybsctuibpfqastl.png", value: 'tipo4' },
-    { name: 'Tipo 5', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957952/porqjiokserpruci9bfl.png", value: 'tipo5' }
+    { id: 1, name: 'Tipo 1', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957913/p6idea6j0mom3edbnsgt.png", value: 'tipo1' },
+    { id: 2, name: 'Tipo 2', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957925/gwynpzbrt3orqlwy6xw9.png", value: 'tipo2' },
+    { id: 3, name: 'Tipo 3', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957935/xyusoeurb1jj4gqusuyv.png", value: 'tipo3' },
+    { id: 4, name: 'Tipo 4', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957944/koloeybsctuibpfqastl.png", value: 'tipo4' },
+    { id: 5, name: 'Tipo 5', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957952/porqjiokserpruci9bfl.png", value: 'tipo5' }
   ];
 
   // Opciones de cuerpo
   const bodyOptions = [
-    { value: 'strato', name: 'Strato', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964837/v7x1uwyzgg6efkmz0b0u.png" },
-    { value: 'telecaster', name: 'Telecaster', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964838/ij3sjohh9zwgos0xo5ya.png" },
-    { value: 'sg', name: 'SG', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964836/jfguvmm9q1gcbon3s17x.png" },
-    { value: 'lespaul', name: 'Les Paul', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964835/vgqgngbdhnn7y704avtv.png" },
-    { value: 'flyingv', name: 'Flying V', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964834/g57w2lbea9ia3q9ypl7d.png" },
+    { id: 6, value: 'strato', name: 'Strato', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964837/v7x1uwyzgg6efkmz0b0u.png" },
+    { id: 7, value: 'telecaster', name: 'Telecaster', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964838/ij3sjohh9zwgos0xo5ya.png" },
+    { id: 8, value: 'sg', name: 'SG', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964836/jfguvmm9q1gcbon3s17x.png" },
+    { id: 9, value: 'lespaul', name: 'Les Paul', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964835/vgqgngbdhnn7y704avtv.png" },
+    { id: 10, value: 'flyingv', name: 'Flying V', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964834/g57w2lbea9ia3q9ypl7d.png" },
   ];
 
   // Opciones de puente
@@ -264,13 +264,31 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
         });
       }
 
+      // Agregar cuerpo como componente
+      const cuerpoSeleccionado = bodyOptions.find(b => b.value === config.cuerpo);
+      if (cuerpoSeleccionado) {
+        componentDetails.push({
+          component_id: cuerpoSeleccionado.id,
+          quantity: 1
+        });
+      }
+
+      // Agregar clavijero como componente
+      const clavijeroSeleccionado = headstockOptions.find(h => h.value === config.clavijero);
+      if (clavijeroSeleccionado) {
+        componentDetails.push({
+          component_id: clavijeroSeleccionado.id,
+          quantity: 1
+        });
+      }
+
       // Crear objeto para enviar a la API
       const customGuitarData = {
         guitar_id: guitar.id,
         component_details: componentDetails,
         custom_color: config.color || null,
         custom_fret: config.trastes || null,
-        jack_position: config.jack || null
+        jack_position: config.jack || null,
       };
 
       // Llamar al servicio

@@ -52,6 +52,13 @@ export default function AdminSidebar ({ openProfileModal}) {
             <p>Órdenes</p>
           </NavLink>
 
+           <NavLink
+            to="/admin/orders_guitarcustom"
+            className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
+          >
+            <Icon icon="qlementine-icons:guitar-strat-16" width="24" height="24" />
+            <p>Guitarras personalizadas</p>
+          </NavLink>
 
           <NavLink
             to="/admin/shipments"

@@ -1,0 +1,115 @@
+.custom-order-container {
+  max-width: 700px; /* antes 900px */
+  margin: 2rem auto;
+  padding: 1.5rem; /* antes 2rem */
+  background-color: #fff;
+  color: #111;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 13.5px; /* antes 14.5px */
+  border: 1px solid #ccc;
+  line-height: 1.5;
+}
+
+.order-header {
+  border-bottom: 1px solid #bbb;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+}
+
+.order-title {
+  font-size: 18px; /* antes 20px */
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.order-date,
+.order-status,
+.order-payment,
+.order-total {
+  margin: 0.2rem 0;
+}
+
+.guitar-build-section {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px dashed #999;
+  background-color: #f7f7f7;
+}
+
+.guitar-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  text-decoration: underline;
+  color: #333;
+}
+
+.guitar-specs {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.guitar-specs li {
+  margin-bottom: 0.3rem;
+}
+
+.components-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  text-decoration: underline;
+}
+
+.components-list {
+  list-style: none;
+  padding: 0;
+}
+
+.component-item {
+  margin-bottom: 0.3rem;
+}
+
+.loading-container {
+  text-align: center;
+  padding: 2rem;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 13.5px;
+}
+
+.loading-icon {
+  margin-bottom: 0.5rem;
+}
+
+.download-button {
+  display: inline-flex;       /* Para alinear contenido horizontalmente */
+  align-items: center;        /* Centrar verticalmente */
+  justify-content: center;    /* Centrar horizontalmente */
+  gap: 6px;                   /* Espacio entre icono y texto, si tienes icono */
+  padding: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 4px;
+  text-decoration: none;
+  background-color: transparent; /* Sin fondo */
+  border: 1px solid black;    /* Borde simple y fino */
+  color: black;
+  cursor: pointer;
+  user-select: none;
+}
+
+
+@media print {
+  .confirm-button,
+  .download-button {  /* Ajusta la clase que tengas para el botón de descarga */
+    display: none !important;
+  }
+}
+
+.header-info {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
