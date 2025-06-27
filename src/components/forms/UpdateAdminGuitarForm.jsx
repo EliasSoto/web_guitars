@@ -44,9 +44,9 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
   }, [error, successMessage, onSuccess]);
 
   return (
-    <div className="register-container" >
+    <div className="register-container">
       <header>
-        <h1 className="text-inicia" style={{marginLeft: '300px'}}>Actualizar guitarra</h1>
+        <h1 className="text-inicia">Actualizar guitarra</h1>
       </header>
 
       <form onSubmit={handleSubmit}>

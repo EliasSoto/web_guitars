@@ -389,14 +389,12 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
             potenciometrosPromises.push(fetchComponentsByType({
               type: "Potenciómetro",
               subtype: "Volumen",
-              is_active: config.esActiva ? "true" : "false",
             }));
           }
           if (config.potenciometros.toLowerCase().includes("tono")) {
             potenciometrosPromises.push(fetchComponentsByType({
               type: "Potenciómetro",
               subtype: "Tono",
-              is_active: config.esActiva ? "true" : "false",
             }));
           }
 

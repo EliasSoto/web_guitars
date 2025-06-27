@@ -48,7 +48,7 @@ export default function UserProfileForm({ onClose, onSuccess }) {
   return (
     <div className="register-container">
       <header>
-        <h1 className="text-inicia" style={{marginLeft: '320px'}}>Editar Perfil</h1>
+        <h1 className="text-inicia">Editar Perfil</h1>
       </header>
 
       <form onSubmit={handleSubmit}>

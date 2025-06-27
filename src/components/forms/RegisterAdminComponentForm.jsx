@@ -36,7 +36,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
   return (
     <div className="register-container">
       <header>
-        <h1 className="text-inicia" style={{marginLeft: '250px'}}>Registrar nuevo componente</h1>
+        <h1 className="text-inicia">Registrar nuevo componente</h1>
       </header>
 
       <form onSubmit={handleSubmit}>
