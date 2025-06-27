@@ -1,86 +1,118 @@
-// En UserReviewsList.jsx - Adaptar para los datos recibidos
-import { useState, useEffect } from "react";
-import { getMyReviews, deleteMyReview, updateMyReview } from "../../services/reviewService";
+import { useEffect, useState } from "react";
+import { getMyReviews, deleteMyReview } from "../../services/reviewService";
+import { getAdminGuitarById } from "../../services/guitarAdminService";
+import "../../styles/UserReviews.css";
+import { Link } from "react-router-dom";
+import { Icon } from "@iconify/react";
 import StarRating from "../StarRating";
-import { getGuitarById } from "../../services/guitarService";
 
 export default function UserReviewsList() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchReviewsWithDetails = async () => {
+      setLoading(true);
+
+      const [data, error] = await getMyReviews();
+      if (error || !data) {
+        console.error("Error al obtener reseñas:", error);
+        setReviews([]);
+        setLoading(false);
+        return;
+      }
+
       try {
-        const [reviewsData, reviewsError] = await getMyReviews();
-        
-        if (reviewsError) throw new Error(reviewsError);
-        if (!reviewsData) throw new Error("No se recibieron datos");
-        
-        // Obtener información adicional de cada guitarra
-        const enrichedReviews = await Promise.all(
-          reviewsData.map(async review => {
-            try {
-              const [guitarData] = await getGuitarById(review.guitar_id);
-              return {
-                ...review,
-                guitar_model: guitarData?.model || "Guitarra desconocida",
-                guitar_image: guitarData?.image_link
-              };
-            } catch {
-              return {
-                ...review,
-                guitar_model: "Guitarra desconocida",
-                guitar_image: null
-              };
-            }
+        const reviewsWithDetails = await Promise.all(
+          data.map(async (review) => {
+            const [guitarData, guitarError] = await getAdminGuitarById(review.guitar_id);
+            return {
+              ...review,
+              guitar: !guitarError && guitarData ? guitarData : null,
+            };
           })
         );
-        
-        setReviews(enrichedReviews);
-      } catch (err) {
-        console.error("Error fetching reviews:", err);
-        setError(err.message);
+
+        setReviews(reviewsWithDetails.filter((item) => item.guitar));
+      } catch (e) {
+        console.error("Error obteniendo detalles de guitarras:", e);
+        setReviews([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
+    fetchReviewsWithDetails();
   }, []);
 
-  if (loading) return <div className="loading">Cargando reseñas...</div>;
-  if (error) return <div className="error">Error: {error}</div>;
-  if (reviews.length === 0) return <div>No tienes reseñas todavía</div>;
+  const handleDelete = async (reviewId) => {
+    const [_, error] = await deleteMyReview(reviewId);
+    if (error) {
+      console.error("Error al eliminar reseña:", error);
+      return;
+    }
+
+    setReviews((prev) => prev.filter((item) => item.id !== reviewId));
+  };
 
   return (
-    <div className="user-reviews-container">
-      <h2>Mis Reseñas</h2>
-      <div className="reviews-list">
-        {reviews.map(review => (
-          <div key={review.id} className="review-card">
-            <div className="review-header">
-              <h3>{review.guitar_model}</h3>
-              {review.guitar_image && (
-                <img 
-                  src={review.guitar_image} 
-                  alt={review.guitar_model}
-                  className="guitar-thumbnail"
-                />
-              )}
-              <StarRating rating={review.rating} editable={false} />
+    <div className="table-container">
+      <div className="table-header">
+        <h2>Mis Reseñas</h2>
+      </div>
+
+      {loading ? (
+        <div className="loading-container">
+          <Icon icon="line-md:loading-loop" width="40" height="40" className="loading-icon" />
+          <p>Cargando reseñas...</p>
+        </div>
+      ) : reviews.length === 0 ? (
+        <p>No tienes reseñas todavía.</p>
+      ) : (
+        <div className="user-review-list">
+        {reviews.map(({ id, rating, comment, created_at, guitar }) => (
+          <div key={id} className="user-review-card">
+            <img
+              src={guitar.image_link}
+              alt={`${guitar.brand} ${guitar.model}`}
+              className="user-review-image"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src =
+                  "https://res.cloudinary.com/de5qrezpl/image/upload/v1750967058/guiafnh33wb3dx0twv0g.png";
+              }}
+            />
+            <div className="user-review-content">
+              <div className="user-review-header">
+                <p className="user-review-title">
+                  <strong>{guitar.model}</strong> - {guitar.brand}
+                </p>
+                <StarRating rating={rating} editable={false} />
+              </div>
+              <p className="user-review-comment">{comment}</p>
+              <p className="user-review-date">
+                {new Date(created_at).toLocaleDateString("es-ES", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+              <div className="user-review-actions">
+                <Link to={`/guitars/${guitar.id}`} className="user-review-view-btn">
+                  Ver guitarra
+                </Link>
+                <button
+                  className="user-review-delete-btn"
+                  onClick={() => handleDelete(id)}
+                >
+                  Eliminar reseña
+                </button>
+              </div>
             </div>
-            <p className="review-comment">{review.comment}</p>
-            <p className="review-date">
-              {new Date(review.created_at).toLocaleDateString("es-ES", {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </p>
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }

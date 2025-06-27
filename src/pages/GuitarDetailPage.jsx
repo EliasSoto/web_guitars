@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getGuitarById } from "../services/guitarService";
-import { getReviewsByGuitar, createReview } from "../services/reviewService";
+import { getReviewsByGuitar, createReview, updateMyReview, deleteMyReview, getMyReviewById, getMyReviewByGuitarId } from "../services/reviewService";
 import StarRating from "../components/StarRating";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../styles/GuitarDetailPage.css";
 import { useCart } from "../contexts/CartContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const GuitarDetailPage = () => {
   const { id } = useParams();
@@ -31,11 +33,37 @@ const GuitarDetailPage = () => {
     comment: "",
   });
   const [showReviewForm, setShowReviewForm] = useState(false);
-  const [notification, setNotification] = useState({
-    show: false,
-    message: "",
-    type: "",
+  const [formErrors, setFormErrors] = useState({
+    rating: false,
+    comment: false,
   });
+  const [userId, setUserId] = useState(null);
+
+  // Obtener userId al cargar el componente
+  useEffect(() => {
+    setUserId(localStorage.getItem("user_id"));
+  }, []);
+
+  const [myReview, setMyReview] = useState(null);
+
+  // Obtener mi reseña para esta guitarra al cargar (y cuando cambia id o userId)
+  useEffect(() => {
+    const fetchMyReview = async () => {
+      if (!id) return;
+      try {
+        const [reviewData, error] = await getMyReviewByGuitarId(id);
+        if (!error && reviewData) {
+          setMyReview(reviewData);
+        } else {
+          setMyReview(null);
+        }
+      } catch (err) {
+        console.error("Error fetching my review:", err);
+        setMyReview(null);
+      }
+    };
+    fetchMyReview();
+  }, [id]);
 
   // Obtener datos de la guitarra
   useEffect(() => {
@@ -51,6 +79,7 @@ const GuitarDetailPage = () => {
           guitar: err.message || "Error al cargar la guitarra",
         }));
         console.error("Error fetching guitar:", err);
+        toast.error("Error al cargar los detalles de la guitarra");
       } finally {
         setLoading((prev) => ({ ...prev, guitar: false }));
       }
@@ -58,141 +87,6 @@ const GuitarDetailPage = () => {
 
     fetchGuitar();
   }, [id]);
-
-  const handleEditReview = (review) => {
-    setEditingReview(review);
-    setReviewForm({
-      rating: review.rating,
-      comment: review.comment,
-    });
-    setShowReviewForm(true);
-  };
-
-  // Estados adicionales
-  const [userId, setUserId] = useState(null);
-
-  // Obtener userId al cargar el componente
-  useEffect(() => {
-    setUserId(localStorage.getItem("user_id"));
-  }, []);
-
-  // Función para verificar ownership en frontend
-  const checkOwnership = (review) => {
-    return userId && review.user_id.toString() === userId.toString();
-  };
-
-  // Función simplificada para manejar actualización
-  const handleUpdateReview = async (e) => {
-    e.preventDefault();
-
-    if (!editingReview || !checkOwnership(editingReview)) {
-      setNotification({
-        show: true,
-        message: "No tienes permiso para editar esta reseña",
-        type: "error",
-      });
-      return;
-    }
-
-    try {
-      const [data, error] = await updateMyReview(editingReview.id, {
-        rating: reviewForm.rating,
-        comment: reviewForm.comment,
-      });
-
-      if (error) throw new Error(error);
-
-      // Actualización optimista (mejora la experiencia de usuario)
-      setReviews((prev) =>
-        prev.map((review) =>
-          review.id === editingReview.id ? { ...review, ...reviewForm } : review
-        )
-      );
-
-      // Recalcular promedio
-      const newAvg =
-        reviews.reduce((sum, review) => {
-          return (
-            sum +
-            (review.id === editingReview.id ? reviewForm.rating : review.rating)
-          );
-        }, 0) / reviews.length;
-
-      setAverageRating(newAvg);
-      setEditingReview(null);
-      setReviewForm({ rating: 0, comment: "" });
-      setShowReviewForm(false);
-
-      setNotification({
-        show: true,
-        message: "¡Reseña actualizada con éxito!",
-        type: "success",
-      });
-    } catch (err) {
-      setNotification({
-        show: true,
-        message: err.message || "Error al actualizar la reseña",
-        type: "error",
-      });
-    }
-  };
-
-  // Función simplificada para manejar eliminación
-  const handleDeleteReview = async (reviewId) => {
-    if (!window.confirm("¿Estás seguro de que quieres eliminar esta reseña?"))
-      return;
-
-    const reviewToDelete = reviews.find((r) => r.id === reviewId);
-    if (!reviewToDelete || !checkOwnership(reviewToDelete)) {
-      setNotification({
-        show: true,
-        message: "No tienes permiso para eliminar esta reseña",
-        type: "error",
-      });
-      return;
-    }
-
-    try {
-      setIsDeleting(true);
-
-      // Eliminación optimista
-      const updatedReviews = reviews.filter((r) => r.id !== reviewId);
-      setReviews(updatedReviews);
-
-      // Recalcular promedio
-      const newAvg =
-        updatedReviews.length > 0
-          ? updatedReviews.reduce((sum, r) => sum + r.rating, 0) /
-            updatedReviews.length
-          : 0;
-
-      setAverageRating(newAvg);
-
-      // Llamar al backend
-      const [success, error] = await deleteMyReview(reviewId);
-      if (error) throw new Error(error);
-
-      setNotification({
-        show: true,
-        message: "Reseña eliminada correctamente",
-        type: "success",
-      });
-    } catch (err) {
-      // Revertir en caso de error
-      setReviews(reviews);
-      setAverageRating(averageRating);
-
-      setNotification({
-        show: true,
-        message: err.message || "Error al eliminar la reseña",
-        type: "error",
-      });
-    } finally {
-      setIsDeleting(false);
-      setShowReviewForm(false);
-      setEditingReview(null);
-    }
-  };
 
   // Obtener reseñas
   useEffect(() => {
@@ -216,6 +110,7 @@ const GuitarDetailPage = () => {
           reviews: err.message || "Error al cargar las reseñas",
         }));
         console.error("Error fetching reviews:", err);
+        toast.error("Error al cargar las reseñas");
       } finally {
         setLoading((prev) => ({ ...prev, reviews: false }));
       }
@@ -227,24 +122,109 @@ const GuitarDetailPage = () => {
   }, [id]);
 
   // Verificar si el usuario puede reseñar
-  // Reemplaza el useEffect de checkPurchase por:
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     if (token) {
-      // Opción 1: Verificación simple (solo si está logueado)
       setCanReview(true);
-
-      // Opción 2: Verificación real con backend (recomendado)
-      /*
-    fetch(`${API_URL}/usuarios/puede-resenar/${id}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    .then(res => res.json())
-    .then(data => setCanReview(data.purchased || false))
-    .catch(() => setCanReview(false));
-    */
     }
   }, [id]);
+
+  // Función para editar reseñas
+  const handleEditReview = () => {
+    if (!myReview) {
+      toast.error("No tienes reseña para editar");
+      return;
+    }
+    setEditingReview(myReview);
+    setReviewForm({
+      rating: myReview.rating,
+      comment: myReview.comment,
+    });
+    setShowReviewForm(true);
+  };
+
+  // Función para actualizar reseñas
+  const handleUpdateReview = async (e) => {
+    e.preventDefault();
+
+    if (!editingReview) {
+      toast.error("No se ha seleccionado ninguna reseña para editar");
+      return;
+    }
+
+    try {
+      const [data, error] = await updateMyReview(editingReview.id, {
+        rating: reviewForm.rating,
+        comment: reviewForm.comment,
+      });
+
+      if (error) throw new Error(error);
+
+      // Actualiza mi review y también el listado general
+      setMyReview(data);
+      setReviews((prev) =>
+        prev.map((review) =>
+          review.id === editingReview.id ? { ...review, ...reviewForm } : review
+        )
+      );
+
+      // Recalcular promedio
+      const newAvg =
+        reviews.reduce((sum, review) => {
+          return (
+            sum +
+            (review.id === editingReview.id ? reviewForm.rating : review.rating)
+          );
+        }, 0) / reviews.length;
+
+      setAverageRating(newAvg);
+      setEditingReview(null);
+      setReviewForm({ rating: 0, comment: "" });
+      setShowReviewForm(false);
+
+      toast.success("¡Reseña actualizada con éxito!");
+    } catch (err) {
+      toast.error(err.message || "Error al actualizar la reseña");
+    }
+  };
+
+
+  // Función para eliminar la reseña
+  const handleDeleteReview = async () => {
+    if (!myReview) {
+      toast.error("No tienes reseña para eliminar");
+      return;
+    }
+    if (!window.confirm("¿Estás seguro de que quieres eliminar tu reseña?")) return;
+
+    try {
+      setIsDeleting(true);
+      const [success, error] = await deleteMyReview(myReview.id);
+      if (error) throw new Error(error);
+
+      // Quitar mi review de la lista y del estado
+      setReviews((prev) => prev.filter((r) => r.id !== myReview.id));
+      setMyReview(null);
+
+      // Recalcular promedio
+      const updatedReviews = reviews.filter((r) => r.id !== myReview.id);
+      const newAvg =
+        updatedReviews.length > 0
+          ? updatedReviews.reduce((sum, r) => sum + r.rating, 0) / updatedReviews.length
+          : 0;
+      setAverageRating(newAvg);
+
+      setShowReviewForm(false);
+      setEditingReview(null);
+
+      toast.success("Reseña eliminada correctamente");
+    } catch (err) {
+      toast.error(err.message || "Error al eliminar la reseña");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
 
   const handleAddToCart = () => {
     if (!guitar) return;
@@ -260,31 +240,17 @@ const GuitarDetailPage = () => {
         stock: guitar.stock,
       });
 
-      setNotification({
-        show: true,
-        message: `${guitar.model} agregada al carrito!`,
-        type: "success",
-      });
-
+      // Redirigir al carrito después de agregar
       setTimeout(() => {
-        setNotification({ show: false, message: "", type: "" });
-      }, 3000);
+        navigate("/checkout");
+      }, 1000);
+      
     } catch (error) {
-      setNotification({
-        show: true,
-        message: "Error al agregar al carrito",
-        type: "error",
-      });
+      console.error("Error al agregar al carrito:", error);
+      toast.error("Error al agregar al carrito. Por favor intenta nuevamente.");
     }
   };
 
-  // Estados adicionales
-  const [formErrors, setFormErrors] = useState({
-    rating: false,
-    comment: false,
-  });
-
-  // Manejador de envío mejorado
   const handleSubmitReview = async (e) => {
     e.preventDefault();
 
@@ -305,13 +271,11 @@ const GuitarDetailPage = () => {
       });
 
       if (error) {
-        setNotification({
-          show: true,
-          message: error.includes("comprado")
+        toast.error(
+          error.includes("comprado")
             ? "Debes haber comprado esta guitarra para reseñarla"
-            : error,
-          type: "error",
-        });
+            : error
+        );
         return;
       }
 
@@ -330,17 +294,9 @@ const GuitarDetailPage = () => {
       setReviewForm({ rating: 0, comment: "" });
       setShowReviewForm(false);
 
-      setNotification({
-        show: true,
-        message: "¡Reseña publicada con éxito!",
-        type: "success",
-      });
+      toast.success("¡Reseña publicada con éxito!");
     } catch (err) {
-      setNotification({
-        show: true,
-        message: err.message || "Error al enviar reseña",
-        type: "error",
-      });
+      toast.error(err.message || "Error al enviar reseña");
     }
   };
 
@@ -380,12 +336,7 @@ const GuitarDetailPage = () => {
   return (
     <div className="guitar-detail-page">
       <Header />
-
-      {notification.show && (
-        <div className={`notification ${notification.type}`}>
-          {notification.message}
-        </div>
-      )}
+      <ToastContainer position="top-center" autoClose={2000} hideProgressBar />
 
       <main className="detail-container">
         <button className="back-button" onClick={() => navigate(-1)}>
@@ -493,7 +444,7 @@ const GuitarDetailPage = () => {
             <div className="reviews-section">
               <h3>Reseñas</h3>
 
-              {canReview && !showReviewForm && (
+              {canReview && !showReviewForm && !myReview && (
                 <button
                   className="write-review-btn"
                   onClick={() => setShowReviewForm(true)}
@@ -505,14 +456,12 @@ const GuitarDetailPage = () => {
               {showReviewForm && (
                 <form
                   className="review-form"
-                  onSubmit={
-                    editingReview ? handleUpdateReview : handleSubmitReview
-                  }
+                  onSubmit={editingReview ? handleUpdateReview : handleSubmitReview}
                 >
-                  <h4>
-                    {editingReview ? "Editar reseña" : "Escribe tu reseña"}
-                  </h4>
-
+                  {/* Aquí va todo el contenido actual del formulario */}
+              
+                  <h4>{editingReview ? "Editar reseña" : "Escribe tu reseña"}</h4>
+              
                   <div className="form-group">
                     <StarRating
                       rating={reviewForm.rating}
@@ -523,12 +472,10 @@ const GuitarDetailPage = () => {
                       }}
                     />
                     {formErrors.rating && (
-                      <p className="error-message">
-                        Por favor selecciona una calificación
-                      </p>
+                      <p className="error-message">Por favor selecciona una calificación</p>
                     )}
                   </div>
-
+                  
                   <div className="form-group">
                     <textarea
                       value={reviewForm.comment}
@@ -544,12 +491,10 @@ const GuitarDetailPage = () => {
                       required
                     />
                     {formErrors.comment && (
-                      <p className="error-message">
-                        Por favor escribe un comentario
-                      </p>
+                      <p className="error-message">Por favor escribe un comentario</p>
                     )}
                   </div>
-
+                  
                   <div className="form-actions">
                     <button
                       type="button"
@@ -568,7 +513,7 @@ const GuitarDetailPage = () => {
                       <button
                         type="button"
                         className="delete-review-btn"
-                        onClick={() => handleDeleteReview(editingReview.id)}
+                        onClick={handleDeleteReview}
                         disabled={isDeleting}
                       >
                         {isDeleting ? "Eliminando..." : "Eliminar reseña"}
@@ -577,6 +522,7 @@ const GuitarDetailPage = () => {
                   </div>
                 </form>
               )}
+
 
               {loading.reviews ? (
                 <p>Cargando reseñas...</p>
@@ -611,24 +557,14 @@ const GuitarDetailPage = () => {
                           </div>
                         </div>
                         <div className="review-actions">
-                          {review.can_edit && (
+                          {myReview && review.id === myReview.id && (
                             <div className="review-actions">
-                              <button
-                                className="edit-review-btn"
-                                onClick={() => {
-                                  setEditingReview(review);
-                                  setReviewForm({
-                                    rating: review.rating,
-                                    comment: review.comment,
-                                  });
-                                  setShowReviewForm(true);
-                                }}
-                              >
+                              <button className="edit-review-btn" onClick={handleEditReview}>
                                 Editar
                               </button>
                               <button
                                 className="delete-review-btn"
-                                onClick={() => handleDeleteReview(review.id)}
+                                onClick={handleDeleteReview}
                                 disabled={isDeleting}
                               >
                                 Eliminar
@@ -660,23 +596,6 @@ const GuitarDetailPage = () => {
       <Footer />
     </div>
   );
-};
-
-// Función auxiliar para parsear respuestas (similar a la de reviewService)
-const parseResponse = async (response) => {
-  const text = await response.text();
-  let data = {};
-  try {
-    data = text ? JSON.parse(text) : {};
-  } catch {
-    return [null, "Respuesta del servidor no válida"];
-  }
-
-  if (!response.ok) {
-    const errorMsg = data.detail || data.message || "Error en la petición";
-    return [null, errorMsg];
-  }
-  return [data, null];
 };
 
 export default GuitarDetailPage;

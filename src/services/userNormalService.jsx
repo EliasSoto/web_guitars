@@ -42,6 +42,34 @@ export const registerNormalUser = async (first_name, last_name, email, phone, bi
   }
 };
 
+// Función para obtener el nombre completo de un usuario por su ID
+export const getUserFullNameById = async (userId) => {
+  try {
+    const response = await fetch(`${urlBase}/usuarios/${userId}/nombre-completo`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        // Si la ruta requiere token:
+        "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+
+    const text = await response.text();
+    const data = text ? JSON.parse(text) : {};
+
+    if (!response.ok) {
+      const errorMessage = data?.detail || "Error al obtener el nombre completo del usuario";
+      return [null, errorMessage];
+    }
+
+    // data tiene la forma { full_name: "Nombre Apellido" }
+    return [data.full_name, null];
+  } catch (error) {
+    return [null, "Error al conectar con el servidor"];
+  }
+};
+
+
 // Función para obtener un usuario logueado
 export const getCurrentUser = async () => {
   // Obtener el token de acceso del almacenamiento local

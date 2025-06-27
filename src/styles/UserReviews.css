@@ -1,0 +1,138 @@
+/* src/styles/UserReviews.css */
+
+.user-review-section {
+  margin: 2rem;
+}
+
+.user-review-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.user-review-card {
+  display: flex;
+  gap: 1rem;
+  border: 1px solid #d1d5db;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #fdfdfd;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  align-items: flex-start;
+}
+
+.user-review-image {
+  width: 120px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.user-review-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.user-review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.user-review-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.user-review-comment {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.user-review-date {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-bottom: 0.75rem;
+}
+
+.user-review-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.user-review-view-btn,
+.user-review-delete-btn {
+  font-size: 13px;
+  padding: 0.75rem 1.2rem;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s, transform 0.2s ease;
+}
+
+.user-review-view-btn {
+  background-color: #8699DA;
+  color: white;
+}
+
+.user-review-view-btn:hover {
+  background-color: #6f84c4;
+  transform: scale(1.03);
+}
+
+.user-review-delete-btn {
+  background-color: #e25959;
+  color: white;
+}
+
+.user-review-delete-btn:hover {
+  background-color: #c44343;
+  transform: scale(1.03);
+}
+
+/* Loading / vacío */
+.user-review-loading,
+.user-review-empty {
+  text-align: center;
+  font-size: 1rem;
+  color: #6b7280;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .user-review-list {
+    grid-template-columns: 1fr;
+  }
+
+  .user-review-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .user-review-image {
+    margin-bottom: 1rem;
+  }
+
+  .user-review-header {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .user-review-actions {
+    justify-content: center;
+  }
+}
