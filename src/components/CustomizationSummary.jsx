@@ -1,87 +1,109 @@
-export default function CustomizationSummary() {
-  const styles = {
-    aside: {
-      padding: '1rem',
-      borderLeft: '1px solid #e5e7eb', // gray-200
-      height: '100%',
-      width: '100%',
-      fontFamily: 'system-ui, sans-serif',
-    },
-    h2: {
-      fontSize: '1.125rem', // text-lg
-      fontWeight: '600',
-      marginBottom: '1rem',
-    },
-    ul: {
-      margin: 0,
-      padding: 0,
-      listStyle: 'none',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '0.5rem', // space-y-2
-      fontSize: '0.875rem', // text-sm
-      color: '#4b5563', // gray-700
-    },
-    li: {
-      display: 'flex',
-      justifyContent: 'space-between',
-    },
-    totalDiv: {
-      marginTop: '1.5rem',
-      borderTop: '1px solid #e5e7eb',
-      paddingTop: '1rem',
-      display: 'flex',
-      justifyContent: 'space-between',
-      fontWeight: '700',
-      color: '#111827', // gray-900
-    },
-    button: {
-      marginTop: '1.5rem',
-      width: '100%',
-      backgroundColor: '#000000',
-      color: '#ffffff',
-      padding: '0.5rem 0',
-      borderRadius: '0.375rem',
-      cursor: 'pointer',
-      border: 'none',
-      transition: 'background-color 0.3s ease',
-    },
+import { useState } from 'react';
+import '../styles/CustomizationSummary.css';
+
+export default function CustomizationSummary({ selectedComponents, totalPrice, step, onConfirm }) {
+  const [paymentMethod, setPaymentMethod] = useState('');
+
+  const handlePaymentChange = (e) => {
+    setPaymentMethod(e.target.value);
   };
 
+  const handleConfirm = () => {
+    if (!paymentMethod) {
+      alert('Por favor, selecciona un método de pago');
+      return;
+    }
+    onConfirm(paymentMethod);
+  };
+
+  const getComponentsList = () => {
+    if (step === 1) return [];
+    const components = [];
+
+    if (step >= 2) {
+      selectedComponents.pastillas.S.forEach((p, i) => {
+        components.push({ id: `s-${i}`, name: `Pastilla S: ${p.name}`, price: p.sale_price });
+      });
+      selectedComponents.pastillas.H.forEach((p, i) => {
+        components.push({ id: `h-${i}`, name: `Pastilla H: ${p.name}`, price: p.sale_price });
+      });
+      selectedComponents.potenciometros.volumen.forEach((p, i) => {
+        components.push({ id: `vol-${i}`, name: `Pot. Volumen: ${p.name}`, price: p.sale_price });
+      });
+      selectedComponents.potenciometros.tono.forEach((p, i) => {
+        components.push({ id: `tono-${i}`, name: `Pot. Tono: ${p.name}`, price: p.sale_price });
+      });
+
+      if (step === 3 && selectedComponents.puente) {
+        components.push({
+          id: 'puente',
+          name: `Puente: ${selectedComponents.puente.name}`,
+          price: selectedComponents.puente.sale_price
+        });
+      }
+    }
+
+    return components;
+  };
+
+  const components = getComponentsList();
+
   return (
-    <aside style={styles.aside}>
-      <h2 style={styles.h2}>Resumen</h2>
-      <ul style={styles.ul}>
-        <li style={styles.li}>
-          <span>Cuerpo:</span>
-          <span>Stratocaster</span>
-        </li>
-        <li style={styles.li}>
-          <span>Mástil:</span>
-          <span>Arce</span>
-        </li>
-        <li style={styles.li}>
-          <span>Pastillas:</span>
-          <span>HSS</span>
-        </li>
-        <li style={styles.li}>
-          <span>Color:</span>
-          <span>Rojo</span>
-        </li>
-      </ul>
+    <div className="customization-summary-container">
+      <h3 className="customization-summary-title">Tu configuración</h3>
 
-      <div style={styles.totalDiv}>
-        <span>Total estimado:</span>
-        <span>$450.000</span>
-      </div>
+      {components.length > 0 ? (
+        <>
+          <div>
+            {components.map(comp => (
+              <div key={comp.id} className="customization-summary-component">
+                <span className="customization-summary-name">{comp.name}</span>
+                <span>${comp.price.toLocaleString('es-CL')}</span>
+              </div>
+            ))}
+          </div>
 
-      <button
-        style={styles.button}
-        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#374151')} 
-        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#000')}
-      >
-        Finalizar pedido
-      </button>
-    </aside>
+          {step > 1 && (
+            <div className="customization-summary-total">
+              <span>Total estimado:</span>
+              <span>${totalPrice.toLocaleString('es-CL')}</span>
+            </div>
+          )}
+
+          {step === 3 && (
+            <>
+              <div className="checkout-section">
+                <h3>Método de pago</h3>
+                <select 
+                  value={paymentMethod} 
+                  onChange={handlePaymentChange}
+                  className="payment-method-select"
+                >
+                  <option value="" disabled hidden>
+                    Selecciona un método
+                  </option>
+                  <option value="tarjeta">Tarjeta de crédito/débito</option>
+                  <option value="transferencia">Transferencia bancaria</option>
+                  <option value="paypal">PayPal</option>
+                </select>
+              </div>
+
+              <button 
+                className="confirm-button"
+                onClick={handleConfirm}
+              >
+                Confirmar pedido
+              </button>
+            </>
+          )}
+        </>
+      ) : (
+        <p className="customization-summary-empty">
+          {step === 1
+            ? "Comienza seleccionando las pastillas para tu guitarra"
+            : "No hay componentes seleccionados aún"}
+        </p>
+      )}
+    </div>
   );
 }

@@ -170,10 +170,10 @@ export const getGuitarById = async (guitarId) => {
   }
 };
 
-// Obtener guitarra base por tipo de madera y color
-export const getBaseGuitarByWoodAndColor = async (woodType, color) => {
+// Obtener guitarra base por tipo de madera
+export const getBaseGuitarByWood = async (woodType) => {
   try {
-    const response = await fetch(`${urlBase}/guitarras/base?wood_type=${encodeURIComponent(woodType)}&color=${encodeURIComponent(color)}`, {
+    const response = await fetch(`${urlBase}/guitarras/base?wood_type=${encodeURIComponent(woodType)}`, {
       method: "GET",
       headers: {
         "Accept": "application/json",

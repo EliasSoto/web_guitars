@@ -27,6 +27,7 @@ export default function ProductOrdersList({ orderId, onSendOrder, isAdmin = fals
   const fetchOrder = async () => {
     setLoading(true);
     let data, err;
+
     if (isAdmin) {
       [data, err] = await getOrderByIdAdmin(orderId);
     } else {
@@ -37,7 +38,9 @@ export default function ProductOrdersList({ orderId, onSendOrder, isAdmin = fals
       setError(err);
     } else {
       setOrder(data);
-      fetchShipmentStatus();
+      if (isAdmin) {
+        fetchShipmentStatus();
+      }
     }
 
     setLoading(false);
