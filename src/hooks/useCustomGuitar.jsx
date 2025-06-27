@@ -28,7 +28,7 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
     { name: 'Cedro', img: 'https://res.cloudinary.com/de5qrezpl/image/upload/v1750959028/ikihlrtliporyjvp9rxe.jpg' },
   ];
 
-  // Opciones de clavijero
+// Opciones de clavijero
   const headstockOptions = [
     { id: 1, name: 'Tipo 1', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957913/p6idea6j0mom3edbnsgt.png", value: 'tipo1' },
     { id: 2, name: 'Tipo 2', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957925/gwynpzbrt3orqlwy6xw9.png", value: 'tipo2' },
@@ -288,7 +288,7 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
         component_details: componentDetails,
         custom_color: config.color || null,
         custom_fret: config.trastes || null,
-        jack_position: config.jack || null
+        jack_position: config.jack || null,
       };
 
       // Llamar al servicio
