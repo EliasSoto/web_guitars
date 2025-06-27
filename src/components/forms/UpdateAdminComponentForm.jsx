@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { useEditAdminComponent } from "../../hooks/useUpdateAdminComponent";
 import ImageUploader from "../ImageUploader";
 
+const subtypesByType = {
+  Pastilla: ["S", "H"],
+  "Potenciómetro": ["Tono", "Volumen"],
+  Puente: ["Fijo", "Flotante", "Semiflotante"],
+};
+
 export default function UpdateAdminComponentForm({ componentId, onSuccess, onClose }) {
   const navigate = useNavigate();
   const {
@@ -15,6 +21,8 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
     handleSubmit,
     resetStatus,
   } = useEditAdminComponent(componentId, navigate);
+
+  const currentType = form.type;
 
   useEffect(() => {
     if (error) {
@@ -33,6 +41,15 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
     }
   }, [error, successMessage, onSuccess, resetStatus]);
 
+  const getTodayDate = () => new Date().toISOString().split("T")[0];
+  const getMinPurchaseDate = () => {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - 5);
+    return date.toISOString().split("T")[0];
+  };
+
+  const shouldShowIsActive = currentType === "Pastilla";
+
   return (
     <div className="register-container">
       <header>
@@ -40,14 +57,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
       </header>
 
       <form onSubmit={handleSubmit}>
-        <div
-          style={{
-            display: "flex",
-            gap: "40px",
-            flexWrap: "wrap",
-            marginBottom: "20px",
-          }}
-        >
+        <div style={{ display: "flex", gap: "40px", flexWrap: "wrap", marginBottom: "20px" }}>
           {/* Columna izquierda */}
           <div style={{ display: "flex", flexDirection: "column", gap: "10px", flex: 1 }}>
             <label className="label-register">Nombre</label>
@@ -59,28 +69,39 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               onChange={handleChange}
               minLength={2}
               required
+              placeholder="EMG 81 Bridge"
             />
 
             <label className="label-register">Tipo</label>
-            <input
+            <select
               className="input-normal"
-              type="text"
               name="type"
               value={form.type || ""}
               onChange={handleChange}
-              minLength={2}
               required
-            />
+            >
+              <option value="">Seleccione un tipo</option>
+              <option value="Pastilla">Pastilla</option>
+              <option value="Potenciómetro">Potenciómetro</option>
+              <option value="Puente">Puente</option>
+            </select>
 
             <label className="label-register">Subtipo</label>
-            <input
+            <select
               className="input-normal"
-              type="text"
               name="subtype"
               value={form.subtype || ""}
               onChange={handleChange}
-              minLength={2}
-            />
+              disabled={!currentType}
+              required
+            >
+              <option value="">Seleccione un subtipo</option>
+              {subtypesByType[currentType]?.map((sub) => (
+                <option key={sub} value={sub}>
+                  {sub}
+                </option>
+              ))}
+            </select>
 
             <label className="label-register">Descripción</label>
             <input
@@ -90,6 +111,8 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               value={form.description || ""}
               onChange={handleChange}
               minLength={10}
+              required
+              placeholder="Pastilla con agudos definidos"
             />
           </div>
 
@@ -104,6 +127,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               onChange={handleChange}
               min={1}
               required
+              placeholder="80000"
             />
 
             <label className="label-register">Precio de Venta</label>
@@ -115,7 +139,9 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               onChange={handleChange}
               min={1}
               required
+              placeholder="120000"
             />
+
             <label className="label-register">Stock</label>
             <input
               className="input-normal"
@@ -125,6 +151,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               onChange={handleChange}
               min={0}
               required
+              placeholder="5"
             />
 
             <label className="label-register">Fecha de Compra</label>
@@ -134,6 +161,8 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               name="purchase_date"
               value={form.purchase_date || ""}
               onChange={handleChange}
+              min={getMinPurchaseDate()}
+              max={getTodayDate()}
               required
             />
           </div>
@@ -149,6 +178,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               onChange={handleChange}
               minLength={2}
               required
+              placeholder="Seymour Duncan"
             />
 
             <label className="label-register">Material</label>
@@ -159,15 +189,8 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               value={form.material || ""}
               onChange={handleChange}
               minLength={2}
-            />
-
-            <label className="label-register">Posición</label>
-            <input
-              className="input-normal"
-              type="text"
-              name="position"
-              value={form.position || ""}
-              onChange={handleChange}
+              required
+              placeholder="Alnico V"
             />
 
             <label className="label-register">Imagen</label>
@@ -183,16 +206,18 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               initialImageUrl={form.image_link}
             />
 
-            <label className="label-register">
-              <input
-                type="checkbox"
-                name="is_active"
-                checked={!!form.is_active}
-                onChange={handleChange}
-                style={{ marginRight: "8px" }}
-              />
-              Componente Activo
-            </label>
+            {shouldShowIsActive && (
+              <label className="label-register">
+                <input
+                  type="checkbox"
+                  name="is_active"
+                  checked={!!form.is_active}
+                  onChange={handleChange}
+                  style={{ marginRight: "8px" }}
+                />
+                Componente Activo
+              </label>
+            )}
           </div>
         </div>
 
@@ -204,9 +229,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
             <button
               type="button"
               className="button-register"
-              onClick={() => {
-                onClose();
-              }}
+              onClick={onClose}
               style={{ marginLeft: "10px" }}
             >
               Cancelar

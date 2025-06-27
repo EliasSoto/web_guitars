@@ -6,14 +6,14 @@ export default function ComponentRow({ component, handleDelete, handleUpdate }) 
       <td>{component.id}</td>
       <td>{component.name}</td>
       <td>{component.type}</td>
-      <td>{component.subtype || "No Tiene"}</td>
+      <td>{component.subtype || "No Aplica"}</td>
       <td>{component.purchase_price}</td>
       <td>{component.sale_price}</td>
       <td>{component.net_price}</td>
       <td>{component.stock}</td>
       <td>{component.brand || "Indefinido"}</td>
       <td>{formatDate(component.purchase_date)}</td>
-      <td>{component.is_active ? "Activo" : "Inactivo"}</td>
+      <td>{component.is_active ? "Activo" : "No aplica"}</td>
 
       <td>
         <Icon

@@ -5,6 +5,12 @@ import useRegisterAdminComponent from "../../hooks/useRegisterAdminComponent";
 import "../../styles/RegisterAdminUserForm.css";
 import ImageUploader from "../ImageUploader";
 
+const subtypesByType = {
+  Pastilla: ["S", "H"],
+  "Potenciómetro": ["Tono", "Volumen"],
+  Puente: ["Fijo", "Flotante", "Semiflotante"],
+};
+
 export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose }) {
   const {
     formData,
@@ -15,6 +21,8 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
     resetForm,
     clearSuccessMessage,
   } = useRegisterAdminComponent();
+
+  const currentType = formData.type;
 
   useEffect(() => {
     if (error) {
@@ -32,6 +40,15 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
       clearSuccessMessage();
     }
   }, [error, successMessage, onSuccess, clearSuccessMessage, resetForm]);
+
+  const getTodayDate = () => new Date().toISOString().split("T")[0];
+  const getMinPurchaseDate = () => {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - 5);
+    return date.toISOString().split("T")[0];
+  };
+
+  const shouldShowIsActive = currentType === "Pastilla";
 
   return (
     <div className="register-container">
@@ -58,29 +75,40 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               value={formData.name}
               onChange={handleChange}
               minLength={2}
+              placeholder="EMG 85 Neck"
               required
             />
 
             <label className="label-register">Tipo</label>
-            <input
+            <select
               className="input-normal"
-              type="text"
               name="type"
               value={formData.type}
               onChange={handleChange}
-              minLength={2}
               required
-            />
+            >
+              <option value="">Seleccione un tipo</option>
+              <option value="Pastilla">Pastilla</option>
+              <option value="Potenciómetro">Potenciómetro</option>
+              <option value="Puente">Puente</option>
+            </select>
 
             <label className="label-register">Subtipo</label>
-            <input
+            <select
               className="input-normal"
-              type="text"
               name="subtype"
               value={formData.subtype}
               onChange={handleChange}
-              minLength={2}
-            />
+              required
+              disabled={!currentType}
+            >
+              <option value="">Seleccione un subtipo</option>
+              {subtypesByType[currentType]?.map((sub) => (
+                <option key={sub} value={sub}>
+                  {sub}
+                </option>
+              ))}
+            </select>
 
             <label className="label-register">Descripción</label>
             <input
@@ -90,6 +118,8 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               value={formData.description}
               onChange={handleChange}
               minLength={10}
+              placeholder="Pastilla con sonido potente"
+              required
             />
           </div>
 
@@ -103,6 +133,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               value={formData.purchase_price}
               onChange={handleChange}
               min={1}
+              placeholder="100000"
               required
             />
 
@@ -114,8 +145,10 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               value={formData.sale_price}
               onChange={handleChange}
               min={1}
+              placeholder="150000"
               required
             />
+
             <label className="label-register">Stock</label>
             <input
               className="input-normal"
@@ -124,8 +157,10 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               value={formData.stock}
               onChange={handleChange}
               min={0}
+              placeholder="10"
               required
             />
+
             <label className="label-register">Fecha de Compra</label>
             <input
               className="input-normal"
@@ -134,8 +169,11 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               value={formData.purchase_date}
               onChange={handleChange}
               required
+              min={getMinPurchaseDate()}
+              max={getTodayDate()}
             />
           </div>
+
           {/* Columna derecha */}
           <div style={{ display: "flex", flexDirection: "column", gap: "10px", flex: 1 }}>
             <label className="label-register">Marca</label>
@@ -146,6 +184,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               value={formData.brand}
               onChange={handleChange}
               minLength={2}
+              placeholder="Gotoh"
               required
             />
 
@@ -157,15 +196,8 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               value={formData.material}
               onChange={handleChange}
               minLength={2}
-            />
-
-            <label className="label-register">Posición</label>
-            <input
-              className="input-normal"
-              type="text"
-              name="position"
-              value={formData.position}
-              onChange={handleChange}
+              placeholder="Acero"
+              required
             />
 
             <label className="label-register">Imagen</label>
@@ -181,16 +213,18 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               initialImageUrl={formData.image_link}
             />
 
-            <label className="label-register">
-              <input
-                type="checkbox"
-                name="is_active"
-                checked={formData.is_active}
-                onChange={handleChange}
-                style={{ marginRight: "8px" }}
-              />
-              Componente Activo
-            </label>
+            {shouldShowIsActive && (
+              <label className="label-register">
+                <input
+                  type="checkbox"
+                  name="is_active"
+                  checked={formData.is_active}
+                  onChange={handleChange}
+                  style={{ marginRight: "8px" }}
+                />
+                Componente Activo
+              </label>
+            )}
           </div>
         </div>
 
