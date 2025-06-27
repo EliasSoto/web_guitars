@@ -544,11 +544,6 @@ const GuitarDetailPage = () => {
                             {review.user_name?.charAt(0).toUpperCase() || "U"}
                           </div>
                           <div className="user-info">
-                            <span className="review-author">
-                              {review.user_name ||
-                                `Usuario ${review.user_id}` ||
-                                "Anónimo"}
-                            </span>
                             <StarRating
                               rating={review.rating}
                               editable={false}

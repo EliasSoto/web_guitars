@@ -16,7 +16,7 @@ const useRegisterAdminComponent = () => {
     material: "",
     position: "",
     image_link: "",
-    is_active: true,
+    is_active: false,
   });
 
   const [error, setError] = useState("");
@@ -37,7 +37,7 @@ const useRegisterAdminComponent = () => {
       material: "",
       position: "",
       image_link: "",
-      is_active: true,
+      is_active: false,
     });
   };
 

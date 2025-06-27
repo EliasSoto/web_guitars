@@ -38,6 +38,10 @@
   display: flex;
   justify-content: space-between;
   font-weight: 600;
+  color: #111827;
+  font-size: 1rem;
+  width: 100%;
+  
 }
 
 .customization-summary-button {

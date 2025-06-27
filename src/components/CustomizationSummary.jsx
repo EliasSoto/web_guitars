@@ -102,8 +102,8 @@ export default function CustomizationSummary({ selectedComponents, totalPrice, s
           <div className="customization-summary-total">
             <span>Total estimado:</span>
             <span>
-              ${components.reduce((sum, c) => sum + (c.price || 0), 0).toLocaleString('es-CL')}
-            </span>
+            ${components.reduce((sum, c) => sum + (c.price || 0), 0).toLocaleString('es-CL')}
+          </span>
           </div>
 
           {step === 3 && (
