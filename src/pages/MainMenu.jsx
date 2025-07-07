@@ -16,6 +16,8 @@ const MainMenu = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     const fetchGuitars = async () => {
       try {
@@ -35,11 +37,17 @@ const MainMenu = () => {
     fetchGuitars();
   }, []);
 
-
+  const filteredGuitars = guitars.filter(guitar => {
+    const term = searchTerm.toLowerCase();
+    return (
+      guitar.model.toLowerCase().includes(term) ||
+      guitar.brand.toLowerCase().includes(term)
+    );
+  });
 
  return (
     <div className="admin-dashboard">
-      <Header />
+      <Header setSearchTerm={setSearchTerm} />
         <div className="custom-button-container">
           <button className="custom-button" onClick={() => navigate("/custom")}>
             🎸 Crear guitarra personalizada
@@ -50,7 +58,7 @@ const MainMenu = () => {
           {!loading && error ? (
             <div className="error-message">{error}</div>
           ) : (
-            guitars.map((guitar) => (
+            filteredGuitars.map((guitar) => (
               <GuitarCard
                 key={guitar.id}
                 id={guitar.id}

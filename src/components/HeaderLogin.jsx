@@ -6,7 +6,9 @@ export default function HeaderLogin() {
   return (
     <header className="header-login">
       <div className="text-header">
-        Guitarras
+        <Link to="/" style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}>
+          Guitarras
+        </Link>
       </div>
       <nav>
         <Link to="/">
