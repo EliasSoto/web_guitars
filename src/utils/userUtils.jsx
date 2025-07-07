@@ -1,5 +1,3 @@
-
-
 export const getUserFirstNameLocal = () => {
   const userData = localStorage.getItem('user_info');
   if (userData) {

@@ -14,7 +14,7 @@ export default function ComponentTableHead() {
         <th>Stock</th>
         <th>Marca</th>
         <th>Fecha de<br />Compra</th>
-        <th>Activo</th>
+        <th>Es Activo</th>
         <th>Acciones</th>
       </tr>
     </thead>

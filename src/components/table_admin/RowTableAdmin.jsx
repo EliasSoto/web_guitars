@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
+import { formatDate } from '../../utils/common';
 
 export default function UserRow({ user, handleDelete, handleUpdate, onViewAddresses }) {
   const navigate = useNavigate();
@@ -24,8 +25,3 @@ export default function UserRow({ user, handleDelete, handleUpdate, onViewAddres
       </tr>
     );
   }
-  
-function formatDate(dateString) {
-  const [year, month, day] = dateString.split("-");
-  return `${day}/${month}/${year}`;
-}

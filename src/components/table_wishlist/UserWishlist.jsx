@@ -4,6 +4,7 @@ import { getAdminGuitarById } from "../../services/guitarAdminService";
 import "../../styles/UserWishlist.css";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import { formatPrice } from "../../utils/common";
 
 export default function UserWishlist() {
   const [wishlist, setWishlist] = useState([]);
@@ -88,7 +89,7 @@ export default function UserWishlist() {
                   </p>
                 </div>
                 <p className="wishlist-description">{guitar.description}</p>
-                <p className="wishlist-price">Precio: ${guitar.sale_price}</p>
+                <p className="wishlist-price">Precio: {formatPrice(guitar.sale_price)}</p>
                 <div className="wishlist-actions">
                   <Link to={`/guitars/${guitar.id}`} className="view-wish-button">
                     Ver detalles

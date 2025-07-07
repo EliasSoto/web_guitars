@@ -5,6 +5,7 @@ import { useCart } from "../contexts/CartContext";
 import { addToWishlist, deleteFromWishlist, isInWishlist } from "../services/wishlistService";
 import { isAuthenticated, getCurrentUser } from "../services/userAuthService";
 import { Icon } from "@iconify/react";
+import { formatPrice } from "../utils/common.js";
 
 const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_link, stock }) => {
   const navigate = useNavigate();
@@ -120,11 +121,11 @@ const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_lin
         <div className="guitar-card-prices">
           {isLiquidation ? (
             <>
-              <p className="guitar-card-sale-price">${sale_price}</p>
-              <p className="guitar-card-liquidation-price">${liquidation_price}</p>
+              <p className="guitar-card-sale-price">{formatPrice(sale_price)}</p>
+              <p className="guitar-card-liquidation-price">{formatPrice(liquidation_price)}</p>
             </>
           ) : (
-            <p className="guitar-card-final-price">${sale_price}</p>
+            <p className="guitar-card-final-price">{formatPrice(sale_price)}</p>
           )}
         </div>
         <button 
