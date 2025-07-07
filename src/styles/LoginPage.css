@@ -1,47 +1,133 @@
-
 .login-main {
+  padding: 7%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50vh; /* Cambia la altura de la página de inicio de sesión */
 }
 
-.text-inicia{
-  font-size: 18px; /* igual a text-2xl en Tailwind */
-  font-weight: bold; /* igual a font-bold en Tailwind */
-  color: #444B59; /* color de texto */
-  margin-bottom: 13px; /* Espacio entre el texto y el botón */
+.login-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.text-registrate{
-    font-size: 10px; /* igual a text-2xl en Tailwind */
-    color: #444B59; /* color de texto */
-    margin-bottom: 5px; /* Espacio entre el texto y el botón */
+/* Títulos y textos */
+.text-inicia {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #444B59;
+  margin-bottom: 13px;
+  text-align: center; 
 }
 
+.text-registrate {
+  font-size: 0.8rem;
+  color: #444B59;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Link */
 .a {
-  color: #8699DA; /* color de texto */
-  text-decoration: none; /* sin subrayado */
-  font-weight: bold; /* negrita */
+  color: #8699DA;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .a:hover {
-  color: #5f73b5; /* un tono más oscuro al pasar el mouse */
-  text-decoration: underline; /* subrayado al pasar el mouse */
+  color: #5f73b5;
+  text-decoration: underline;
 }
 
+/* Labels */
 .label-usuario-contraseña {
   padding-top: 10px;
-  font-size: 11px; 
   font-weight: bold;
-  color: #444B59; /* color de texto */
-  margin-bottom: 5px; /* Espacio entre la etiqueta y el campo de entrada */
+  color: #444B59;
+  margin-bottom: 5px;
   display: block;
+  font-size: 0.9rem;
 }
 
+/* Inputs */
 .input-usuario {
-    border-radius: 10px;
-    border: 1.2px solid #8699DA; /* Aquí defines el grosor, el estilo y el color del borde */
-    padding: 5px; /* Espacio interno del campo de entrada */
-  }
-  
+  border-radius: 10px;
+  border: 1.2px solid #8699DA;
+  padding: 8px;
+  width: 100%;
+  height: 5vh;
+  outline: none;
+  font-size: 1rem;
+  box-sizing: border-box; 
+}
+
+/* Wrapper input contraseña */
+.password-input-wrapper {
+  display: flex;
+  align-items: center;
+  height: 5vh;
+  border: 1.2px solid #8699DA;
+  border-radius: 10px;
+  padding: 8px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.password-input-wrapper:focus-within {
+  border-color: #8699DA;
+  box-shadow: none;
+}
+
+.password-input-field {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 1rem;
+}
+
+/* Quitar el borde azul al hacer foco */
+.password-input-field:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Quitar el fondo azul y texto azul que Chrome pone con autofill */
+.password-input-field:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: inherit !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Icono mostrar/ocultar */
+.password-toggle-icon {
+  cursor: pointer;
+  color: #8699DA;
+  transition: color 0.3s ease;
+  user-select: none;
+}
+
+.password-toggle-icon:hover {
+  color: #444;
+}
+
+/* Botón iniciar sesión */
+.button-login {
+  display: block;          
+  margin: 20px auto 0 auto; 
+  width: fit-content;       
+  padding: 10px 20px;       
+  cursor: pointer;
+  border-radius: 10px;     
+  border: none;           
+  font-weight: bold;
+  font-size: 1rem;
+  background-color: #8699DA; 
+  color: white;
+  height: 5.5vh;
+}

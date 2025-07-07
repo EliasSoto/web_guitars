@@ -1,64 +1,192 @@
-
-
-
-.label-register{
-    padding-top: 10px;
-    font-size: 13px; 
-    font-weight: bold;
-    color: #444B59; /* color de texto */
-    margin-bottom: 5px; /* Espacio entre la etiqueta y el campo de entrada */
-    display: block;
+/* Contenedor principal */
+.register-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.input-normal{
-    border-radius: 10px;
-    border: 1.2px solid #8699DA; /* Aquí defines el grosor, el estilo y el color del borde */
-    padding: 5px; /* Espacio interno del campo de entrada */
+/* Header del formulario */
+.register-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2rem;
 }
 
+.register-back-link {
+  color: #444B59;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
 
+.register-back-link:hover {
+  color: #8699DA;
+}
 
-.checkbox_input {
-  border-radius: 20px;
-  width: 20px;
-  height: 20px;
-  accent-color: #8699DA; /* Color del check */
+.register-back-icon {
   cursor: pointer;
 }
 
-.button-container {
-    text-align: center;
+.register-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #444B59;
+  margin: 0;
 }
 
-.button-register {
-    background-color: #8699DA;
-    color: white;
-    border-radius: 10px;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: bold;
-    margin-top: 20px;
-    width: 60%;
-    transition: background-color 0.3s, transform 0.2s ease; /* transiciones suaves */
+/* Formulario */
+.register-form {
+  background-color: #fdfdfd;
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
 }
 
-.button-register:hover {
-    background-color: #6f84c4; /* un tono más oscuro al pasar el mouse */
-    transform: scale(1.03); /* efecto leve de agrandamiento */
+/* Columnas */
+.register-form-column {
+  flex: 1 1 380px;
+  display: flex;
+  flex-direction: column;
 }
 
-  
-.checkbox-label {
-    margin-left: 10px;
-    font-size: 12px;
-    font-weight: bold;
-    color: #444B59; /* color de texto */
-    margin-left: 5px; /* Espacio entre la etiqueta y el campo de entrada */
-    align-content: center;
+/* Grupos de input + label */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
 }
 
-.checkbox-container {
-    display: flex;
+/* Labels */
+.form-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #444B59;
+  margin-bottom: 6px;
+}
+
+/* Inputs */
+.form-input {
+  padding: 0.55rem 0.8rem;
+  border: 1.5px solid #8699DA;
+  height: 5vh;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: #5f73b5;
+  box-shadow: 0 0 8px #a3b1ea88;
+}
+
+/* Wrapper input contraseña con ícono */
+.password-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #8699DA;
+  border-radius: 10px;
+  padding: 0 10px;
+  height: 42px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.password-input-wrapper:focus-within {
+  border-color: #5f73b5;
+  box-shadow: 0 0 8px #a3b1ea88;
+}
+
+/* Input de contraseña dentro del wrapper */
+.password-input-field {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 1rem;
+  padding: 8px 0;
+}
+
+/* Ícono mostrar/ocultar */
+.password-toggle-icon {
+  cursor: pointer;
+  color: #444B59;
+  margin-left: 8px;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.password-toggle-icon:hover,
+.password-toggle-icon:focus {
+  color: #5f73b5;
+  outline: none;
+}
+
+/* Footer con botón */
+.form-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Botón enviar */
+.btn-submit {
+  background-color: #8699DA;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 220px;
+  height: 5.5vh;
+}
+
+
+
+
+/* Para fila con dos inputs inline */
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-group-inline {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .register-form {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .register-form-column {
+    flex: 1 1 100%;
+  }
+
+  .form-footer {
+    margin-top: 1.5rem;
+  }
+}
+
+/* Estructura principal para sticky footer */
+.register-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Contenedor principal crece */
+.register-container {
+  flex: 1;
 }

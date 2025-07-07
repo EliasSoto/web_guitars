@@ -10,13 +10,10 @@
     width: 200px;
     display: flex;
     flex-direction: column;
-    border-radius: 5px;
+    border-radius: 12px;
+    cursor: pointer;
 }
 
-.guitar-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-}
 
 .guitar-card-header {
     display: flex;
@@ -115,7 +112,7 @@
 .guitar-card-liquidation-price {
   font-size: 16px;
   font-weight: bold;
-  color: #db4442;
+  color: black;
   margin: 0;
 }
 

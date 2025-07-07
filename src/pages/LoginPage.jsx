@@ -1,27 +1,22 @@
-import React, { useState } from "react"; // Importamos useState
+import React, { useState } from "react"; 
 import { useNavigate } from "react-router-dom";
+import { Icon } from "@iconify/react";
+import { ToastContainer, toast } from "react-toastify";   // <-- Importa ToastContainer y toast
+import "react-toastify/dist/ReactToastify.css";            // <-- Importa estilos
 import useLogin from "../hooks/useLogin";
 import HeaderLogin from "../components/HeaderLogin";
-import  "../styles/LoginPage.css"; // Asegúrate de que la ruta sea correcta}
-import { PasswordInput } from "../components/PasswordInput";
+import "../styles/LoginPage.css";
+import Footer from "../components/Footer";
 
-export default function LoginPage () {
-  // Importamos el hook useNavigate para redirigir al usuario al querer registrarse
+export default function LoginPage() {
   const navigate = useNavigate();
 
-  // Importamos el hook useLogin
-  const {
-    formData,
-    error,
-    mensajeExito,
-    handleChange,
-    handleSubmit,
-  } = useLogin();
+  const { formData, error, mensajeExito, handleChange, handleSubmit } = useLogin();
 
-  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar u ocultar la contraseña
+  const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Cambia el estado de visibilidad de la contraseña
+    setShowPassword(!showPassword);
   };
 
   const handleLogin = async (e) => {
@@ -30,55 +25,90 @@ export default function LoginPage () {
 
     if (err) {
       console.error("Error al iniciar sesión:", err);
+      toast.error(err);           // <-- Muestra el error en toast
       return;
+    }
+    
+    if (mensajeExito) {
+      toast.success(mensajeExito);  // Opcional: mensaje de éxito en toast
     }
   };
 
-  // Función para manejar el clic en el enlace de registro
-  const handleRegisterClick = () => {
+  const handleRegisterClick = (e) => {
     e.preventDefault();
     navigate("/register");
   };
-  
+
   return (
-    <div>
-      <HeaderLogin /> 
+    <div className="page-container">
+      <HeaderLogin />
 
       <main className="login-main">
-        
-        <section>
+        <section className="login-section">
           <div className="text-inicia">Inicia sesión</div>
-          <div className="text-registrate">¿No tienes una cuenta?, <a className= "a" href="/register" onClick={handleRegisterClick}>Regístrate</a></div>
-          
+          <div className="text-registrate">
+            ¿No tienes una cuenta?{" "}
+            <a className="a" href="/register" onClick={handleRegisterClick}>
+              Regístrate
+            </a>
+          </div>
+
           <form onSubmit={handleLogin}>
-    
-              <label className="label-usuario-contraseña" htmlFor="Usuario">Correo</label>
-                <input
-                  className="input-usuario"
-                  type="text"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  placeholder="usuario@ejemplo.cl"
-                  style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
-                />
-         
-                <PasswordInput
-                  value={formData.password}
-                  onChange={(value) => handleChange({ target: { name: 'password', value } })}
-                  showPassword={showPassword}
-                  togglePasswordVisibility={togglePasswordVisibility}
-                />
-              
-              <button className="button-login" type="submit">Iniciar sesión</button>
+            <label className="label-usuario-contraseña" htmlFor="Usuario">
+              Correo
+            </label>
+            <input
+              className="input-usuario"
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              placeholder="usuario@ejemplo.cl"
+              style={{ outline: "none" }}
+            />
+
+            <label className="label-usuario-contraseña" htmlFor="password">
+              Contraseña
+            </label>
+
+            <div className="password-input-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Contraseña"
+                className="password-input-field"
+              />
+              <Icon
+                icon={showPassword ? "octicon:eye-16" : "mdi:eye-off-outline"}
+                width="24"
+                height="24"
+                className="password-toggle-icon"
+                onClick={togglePasswordVisibility}
+                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+              />
+            </div>
+
+            <button className="button-login" type="submit">
+              Iniciar sesión
+            </button>
           </form>
-
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          {mensajeExito && <p style={{ color: "green" }}>{mensajeExito}</p>}
         </section>
-
       </main>
+
+      <Footer />
+
+      {/* Aquí colocas el ToastContainer */}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+      />
     </div>
   );
-};
-
+}
