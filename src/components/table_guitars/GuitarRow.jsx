@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-
+import { formatPrice, formatDate } from '../../utils/common';
 
 export default function GuitarRow({ guitar, handleDelete, handleUpdate }) {
   
@@ -8,8 +8,8 @@ export default function GuitarRow({ guitar, handleDelete, handleUpdate }) {
       <td>{guitar.id}</td>
       <td>{guitar.model}</td>
       <td>{guitar.brand}</td>
-      <td>{guitar.purchase_price}</td>
-      <td>{guitar.sale_price}</td>
+      <td>{formatPrice(guitar.purchase_price)}</td>
+      <td>{formatPrice(guitar.sale_price)}</td>
       <td>{guitar.stock}</td>
       <td>{guitar.color}</td>
       <td>{formatDate(guitar.purchase_date)}</td>
@@ -36,10 +36,4 @@ export default function GuitarRow({ guitar, handleDelete, handleUpdate }) {
       </td>
     </tr>
   );
-}
-
-function formatDate(dateString) {
-  if (!dateString) return 'No registrada';
-  const [year, month, day] = dateString.split("-");
-  return `${day}/${month}/${year}`;
 }

@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import { formatPrice, formatDate } from "../../utils/common";
 
 export default function OrderRow({ order, onViewDetails, shipmentStatus, userName }) {
   const totalQuantity = order.order_details.reduce(
@@ -10,11 +11,11 @@ export default function OrderRow({ order, onViewDetails, shipmentStatus, userNam
     <tr>
       <td>{order.id}</td>
       <td>{userName || "Cargando..."}</td>
-      <td>{order.order_date}</td>
+      <td>{formatDate(order.order_date)}</td>
       <td>{order.payment_method}</td>
       <td>{order.status}</td>
       <td>{shipmentStatus || "Cargando..."}</td>
-      <td>{order.total_price}</td>
+      <td>{formatPrice(order.total_price)}</td>
       <td>{totalQuantity}</td>
       <td className="action-icons">
         {order.status === "pagado" && (

@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import { formatDate, formatPrice } from "../../utils/common";
 
 export default function ComponentRow({ component, handleDelete, handleUpdate }) {
   return (
@@ -7,9 +8,9 @@ export default function ComponentRow({ component, handleDelete, handleUpdate }) 
       <td>{component.name}</td>
       <td>{component.type}</td>
       <td>{component.subtype || "No Aplica"}</td>
-      <td>{component.purchase_price}</td>
-      <td>{component.sale_price}</td>
-      <td>{component.net_price}</td>
+      <td>{formatPrice(component.purchase_price)}</td>
+      <td>{formatPrice(component.sale_price)}</td>
+      <td>{formatPrice(component.net_price)}</td>
       <td>{component.stock}</td>
       <td>{component.brand || "Indefinido"}</td>
       <td>{formatDate(component.purchase_date)}</td>
@@ -37,10 +38,4 @@ export default function ComponentRow({ component, handleDelete, handleUpdate }) 
       </td>
     </tr>
   );
-}
-
-function formatDate(dateString) {
-  if (!dateString) return "No registrada";
-  const [year, month, day] = dateString.split("-");
-  return `${day}/${month}/${year}`;
 }

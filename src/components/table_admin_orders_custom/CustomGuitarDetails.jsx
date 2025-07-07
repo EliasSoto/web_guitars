@@ -5,6 +5,7 @@ import { getShipmentStatusByOrderIdAdmin } from "../../services/shipmentAdminSer
 import { Icon } from "@iconify/react";
 import "./CustomGuitarDetails.css";
 import DownloadRecievePDF from "../DownloadRecievePDF";
+import { formatPrice, formatDate } from "../../utils/common";
 
 export default function CustomGuitarDetails({ orderId, onSendOrder, isAdmin = false }) {
   const [order, setOrder] = useState(null);
@@ -69,10 +70,10 @@ export default function CustomGuitarDetails({ orderId, onSendOrder, isAdmin = fa
             <DownloadRecievePDF targetRef={boletaRef} orderId={order.id} /> 
           </div>
           
-          <p className="order-date"><strong>Fecha:</strong> {order.order_date}</p>
+          <p className="order-date"><strong>Fecha:</strong> {formatDate(order.order_date)}</p>
           <p className="order-status"><strong>Estado:</strong> {order.status}</p>
           <p className="order-payment"><strong>Método de pago:</strong> {order.payment_method}</p>
-          <p className="order-total"><strong>Total:</strong> ${order.total_price}</p>
+          <p className="order-total"><strong>Total:</strong> {formatPrice(order.total_price)}</p>
         </header>
 
         {order.order_details.map((detail, i) => {
@@ -89,16 +90,16 @@ export default function CustomGuitarDetails({ orderId, onSendOrder, isAdmin = fa
                 <li><strong>Modelo base:</strong> {custom?.guitar?.model} – {custom?.guitar?.wood_type}</li>
                 <li><strong>Color personalizado:</strong> {custom?.custom_color}</li>
                 <li><strong>Trastes:</strong> {custom?.custom_fret}</li>
-                <li><strong>Jack:</strong> {custom?.jack_position}</li>
+                {custom?.jack_position && ( <li><strong>Jack:</strong> {custom.jack_position}</li> )}
                 <li><strong>Tipo electrónica:</strong> {hasActiveElectronics ? "Activa" : "Pasiva"}</li>
-                <li><strong>Precio:</strong> ${custom?.total_price}</li>
+                <li><strong>Precio:</strong> {formatPrice(custom?.total_price)}</li>
               </ul>
 
               <h4 className="components-title">Componentes</h4>
               <ul className="components-list">
                 {custom?.component_details.map((cd, idx) => (
                   <li key={idx} className="component-item">
-                    <strong>{cd.quantity}x</strong> {cd.component.name} – {cd.component.type} ({cd.component.subtype}) - ${cd.component.sale_price}
+                    <strong>{cd.quantity}x</strong> {cd.component.name} – {cd.component.type} ({cd.component.subtype}) - {formatPrice(cd.component.sale_price)}
                   </li>
                 ))}
               </ul>
