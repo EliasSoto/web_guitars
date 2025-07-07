@@ -1,144 +1,224 @@
 import React, { useState } from "react";
 import HeaderLogin from "../components/HeaderLogin";
-import { Icon } from '@iconify/react';
+import { Icon } from "@iconify/react";
 import "../styles/RegisterUser.css";
-import { PasswordInput } from "../components/PasswordInput"; // Asegúrate de que la ruta sea correcta
 import useRegisterUser from "../hooks/useRegisterUser";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const RegisterUser = () => {
-  // Importamos el hook useRegisterUser
-  const {
-    formData,
-    error,
-    mensajeExito,
-    handleChange,
-    handleSubmit,
-  } = useRegisterUser();
+  const { formData, error, mensajeExito, handleChange, handleSubmit } =
+    useRegisterUser();
 
-  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar u ocultar la contraseña
+  const [showPassword, setShowPassword] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Cambia el estado de visibilidad de la contraseña
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const [data, err] = await handleSubmit();
+
+    if (err) {
+      if (Array.isArray(err)) {
+        err.forEach((e) => toast.error(e.msg));
+      } else if (err.msg) {
+        toast.error(err.msg);
+      } else {
+        toast.error(err);
+      }
+      return;
+    }
+
+    if (mensajeExito) {
+      toast.success(mensajeExito);
+    }
   };
 
   return (
-    <div className="register-container">
-      
+    <div className="register-page">
       <HeaderLogin />
 
-      <main className="register-main">
+      <div className="register-page__container">
+        <main className="register-page__main">
+          <section className="register-form">
+            <div className="register-form__header">
+              <Link to="/login" className="register-form__back-link">
+                <Icon
+                  className="register-form__back-icon"
+                  icon="ic:round-arrow-back"
+                  width="24"
+                  height="24"
+                />
+              </Link>
 
-        <section className="register-section">
+              <h1 className="register-form__title">Crea una cuenta</h1>
+            </div>
 
-          <div className="title-register">
-            <Link to="/login" className="link-atras">
-              <Icon className="atras-icon" icon="ic:round-arrow-back" width="24" height="24" />
-            </Link>
-            <div className="text-inicia">Crea una cuenta</div>
-            
-          </div>
-        
-          <form onSubmit={handleSubmit}>
+            <form onSubmit={onSubmit} className="register-form__body">
+              <div className="register-form__column register-form__column--left">
+                <div className="register-form__group">
+                  <label htmlFor="first_name" className="register-form__label">
+                    Nombre
+                  </label>
+                  <input
+                    id="first_name"
+                    name="first_name"
+                    type="text"
+                    className="register-form__input"
+                    placeholder="Nombres"
+                    value={formData.first_name}
+                    onChange={handleChange}
+                    minLength={2}
+                    required
+                    autoComplete="given-name"
+                  />
+                </div>
 
-            <label className="label-register">Nombre</label>
-            <input
-              className="input-normal"
-              type="text"
-              name="first_name"
-              value={formData.first_name}
-              onChange={handleChange}
-              placeholder="Nombres"
-              style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
-              minLength={2}
-              required
-            />
+                <div className="register-form__group">
+                  <label htmlFor="last_name" className="register-form__label">
+                    Apellido
+                  </label>
+                  <input
+                    id="last_name"
+                    name="last_name"
+                    type="text"
+                    className="register-form__input"
+                    placeholder="Apellidos"
+                    value={formData.last_name}
+                    onChange={handleChange}
+                    minLength={2}
+                    required
+                    autoComplete="family-name"
+                  />
+                </div>
 
-            <label className="label-register">Apellido</label>
-            <input
-              className="input-normal"
-              type="text"
-              name="last_name"
-              value={formData.last_name}
-              onChange={handleChange}
-              placeholder="Apellidos"
-              style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
-              minLength={2}
-              required
-            />
+                <div className="register-form__group">
+                  <label htmlFor="rut" className="register-form__label">
+                    Rut
+                  </label>
+                  <input
+                    id="rut"
+                    name="rut"
+                    type="text"
+                    className="register-form__input"
+                    placeholder="RUT"
+                    value={formData.rut}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
 
-            <label className="label-register">Rut</label>
-            <input
-              className="input-normal"
-              type="text"
-              name="rut"
-              value={formData.rut}
-              onChange={handleChange}
-              placeholder="RUT"
-              style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
-              required
-            />
+              <div className="register-form__column register-form__column--right">
+                <div className="register-form__group">
+                  <label htmlFor="email" className="register-form__label">
+                    Correo
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    className="register-form__input"
+                    placeholder="Correo electrónico"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    autoComplete="email"
+                  />
+                </div>
 
-            <label className="label-register">Correo</label>
-            <input
-              className="input-normal"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Correo electrónico"
-              style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
-              required
-            />
+                <div className="register-form__row">
+                  <div className="register-form__group register-form__group--inline">
+                    <label htmlFor="phone" className="register-form__label">
+                      Teléfono
+                    </label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="text"
+                      className="register-form__input"
+                      placeholder="Teléfono"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      minLength={9}
+                      maxLength={9}
+                      required
+                      autoComplete="tel"
+                    />
+                  </div>
 
-            <label className="label-register">Teléfono</label>
-            <input
-              className="input-normal"
-              type="text"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Teléfono"
-              style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
-              minLength={9}
-              maxLength={9}
-              required
-            />
+                  <div className="register-form__group register-form__group--inline">
+                    <label htmlFor="birth_date" className="register-form__label">
+                      Fecha nacimiento
+                    </label>
+                    <input
+                      id="birth_date"
+                      name="birth_date"
+                      type="date"
+                      className="register-form__input"
+                      value={formData.birth_date}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
 
-            <label className="label-register">Fecha nacimiento</label>
-            <input
-            className="input-normal"
-              type="date"
-              name="birth_date"
-              value={formData.birth_date}
-              onChange={handleChange}
-              style={{ outline: 'none'}} // Elimina el contorno al hacer foco 
-            />
+                <div className="register-form__group">
+                  <label htmlFor="password" className="register-form__label">
+                    Contraseña
+                  </label>
+                  <div className="register-form__password-wrapper">
+                    <input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="Contraseña"
+                      className="register-form__password-input"
+                      autoComplete="new-password"
+                      minLength={6}
+                      required
+                    />
+                    <Icon
+                      icon={showPassword ? "octicon:eye-16" : "mdi:eye-off-outline"}
+                      width="24"
+                      height="24"
+                      className="register-form__toggle-icon"
+                      onClick={togglePasswordVisibility}
+                      aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") togglePasswordVisibility();
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
 
-            <PasswordInput
-              value={formData.password}
-              onChange={(value) => handleChange({ target: { name: 'password', value } })}
-              showPassword={showPassword}
-              togglePasswordVisibility={togglePasswordVisibility}
-              
-            />
+              <div className="register-form__footer">
+                <button className="register-form__submit-button" type="submit">
+                  Registrar
+                </button>
+              </div>
+            </form>
+          </section>
+        </main>
 
-            <button className="button-register" type="submit">Registrar</button>
-          </form>
-          {error && Array.isArray(error) ? (
-            error.map((err, index) => (
-              <p key={index} style={{ color: "red" }}>
-                {err.msg}
-              </p>
-            ))
-          ) : (
-            <p style={{ color: "red" }}>
-              {error.msg ? error.msg : error}
-            </p>
-          )}
-          {mensajeExito && <p style={{ color: "green" }}>{mensajeExito}</p>}
-        </section>
-      </main>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+        />
+      </div>
+
+      <Footer />
     </div>
   );
 };

@@ -1,3 +1,160 @@
+/* Contenedor principal */
+.login-page__main {
+  padding: 7%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Sección del formulario */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+.login-form__title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #444B59;
+  margin-bottom: 13px;
+  text-align: center;
+}
+
+/* Texto registro */
+.login-form__register-text {
+  font-size: 0.8rem;
+  color: #444B59;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Link registro */
+.login-form__register-link {
+  color: #8699DA;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-form__register-link:hover {
+  color: #5f73b5;
+  text-decoration: underline;
+}
+
+/* Labels */
+.login-form__label {
+  padding-top: 10px;
+  font-weight: bold;
+  color: #444B59;
+  margin-bottom: 5px;
+  display: block;
+  font-size: 0.9rem;
+}
+
+/* Inputs */
+.login-form__input {
+  border-radius: 10px;
+  border: 1.2px solid #8699DA;
+  padding: 8px;
+  width: 100%;
+  height: 5vh;
+  outline: none;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Wrapper contraseña */
+.login-form__password-wrapper {
+  display: flex;
+  align-items: center;
+  height: 5vh;
+  border: 1.2px solid #8699DA;
+  border-radius: 10px;
+  padding: 8px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.login-form__password-wrapper:focus-within {
+  border-color: #8699DA;
+  box-shadow: none;
+}
+
+/* Campo contraseña */
+.login-form__password-input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 1rem;
+}
+
+.login-form__password-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.login-form__password-input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: inherit !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Icono mostrar/ocultar */
+.login-form__toggle-icon {
+  cursor: pointer;
+  color: #8699DA;
+  transition: color 0.3s ease;
+  user-select: none;
+}
+
+.login-form__toggle-icon:hover {
+  color: #444;
+}
+
+/* Botón de envío */
+.login-form__submit-button {
+  display: block;
+  margin: 20px auto 0 auto;
+  width: fit-content;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  font-size: 1rem;
+  background-color: #8699DA;
+  color: white;
+  height: 5.5vh;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.login-page__container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.login-page__main {
+  flex: 1;
+}
+
+
+
+
+
+/* antiguo */
 
 .login-main {
   display: flex;

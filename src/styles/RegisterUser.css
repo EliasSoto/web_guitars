@@ -1,3 +1,197 @@
+/* Contenedor principal */
+.register-page__container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header del formulario */
+.register-form__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+
+.register-form__back-link {
+  color: #444B59;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.register-form__back-link:hover {
+  color: #8699DA;
+}
+
+.register-form__back-icon {
+  cursor: pointer;
+}
+
+.register-form__title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #444B59;
+  margin: 0;
+}
+
+/* Formulario */
+.register-form__body {
+  background-color: #fdfdfd;
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+/* Columnas */
+.register-form__column {
+  flex: 1 1 380px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grupos de input + label */
+.register-form__group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+/* Labels */
+.register-form__label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #444B59;
+  margin-bottom: 6px;
+}
+
+/* Inputs */
+.register-form__input {
+  padding: 0.55rem 0.8rem;
+  border: 1.5px solid #8699DA;
+  height: 5vh;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.register-form__input:focus {
+  border-color: #5f73b5;
+  box-shadow: 0 0 8px #a3b1ea88;
+}
+
+/* Wrapper input contraseña con ícono */
+.register-form__password-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #8699DA;
+  border-radius: 10px;
+  padding: 0 10px;
+  height: 42px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.register-form__password-wrapper:focus-within {
+  border-color: #5f73b5;
+  box-shadow: 0 0 8px #a3b1ea88;
+}
+
+/* Input de contraseña dentro del wrapper */
+.register-form__password-input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 1rem;
+  padding: 8px 0;
+}
+
+/* Ícono mostrar/ocultar */
+.register-form__toggle-icon {
+  cursor: pointer;
+  color: #444B59;
+  margin-left: 8px;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.register-form__toggle-icon:hover,
+.register-form__toggle-icon:focus {
+  color: #5f73b5;
+  outline: none;
+}
+
+/* Footer con botón */
+.register-form__footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Botón enviar */
+.register-form__submit-button {
+  background-color: #8699DA;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 220px;
+  height: 5.5vh;
+}
+
+/* Para fila con dos inputs inline */
+.register-form__row {
+  display: flex;
+  gap: 20px;
+}
+
+.register-form__group--inline {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .register-form__body {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .register-form__column {
+    flex: 1 1 100%;
+  }
+
+  .register-form__footer {
+    margin-top: 1.5rem;
+  }
+}
+
+/* Estructura principal para sticky footer */
+.register-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Contenedor principal crece */
+.register-page__container {
+  flex: 1;
+}
+
+
+
+
+/* antiguo */
 
 
 
