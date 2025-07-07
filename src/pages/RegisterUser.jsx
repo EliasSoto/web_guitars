@@ -9,9 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const RegisterUser = () => {
-  const { formData, error, mensajeExito, handleChange, handleSubmit } =
-    useRegisterUser();
-
+  const { formData, error, successMessage, handleChange, handleSubmit } = useRegisterUser();
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -31,10 +29,19 @@ const RegisterUser = () => {
       return;
     }
 
-    if (mensajeExito) {
-      toast.success(mensajeExito);
+    if (successMessage) {
+      toast.success(successMessage);
     }
   };
+
+  const today = new Date();
+  const minBirthDate = new Date(today.getFullYear() - 65, today.getMonth(), today.getDate())
+    .toISOString()
+    .split("T")[0];
+  
+  const maxBirthDate = new Date(today.getFullYear() - 13, today.getMonth(), today.getDate())
+    .toISOString()
+    .split("T")[0];
 
   return (
     <div className="register-page">
@@ -52,16 +59,13 @@ const RegisterUser = () => {
                   height="24"
                 />
               </Link>
-
               <h1 className="register-form__title">Crea una cuenta</h1>
             </div>
 
             <form onSubmit={onSubmit} className="register-form__body">
               <div className="register-form__column register-form__column--left">
                 <div className="register-form__group">
-                  <label htmlFor="first_name" className="register-form__label">
-                    Nombre
-                  </label>
+                  <label htmlFor="first_name" className="register-form__label">Nombre</label>
                   <input
                     id="first_name"
                     name="first_name"
@@ -77,9 +81,7 @@ const RegisterUser = () => {
                 </div>
 
                 <div className="register-form__group">
-                  <label htmlFor="last_name" className="register-form__label">
-                    Apellido
-                  </label>
+                  <label htmlFor="last_name" className="register-form__label">Apellido</label>
                   <input
                     id="last_name"
                     name="last_name"
@@ -95,17 +97,19 @@ const RegisterUser = () => {
                 </div>
 
                 <div className="register-form__group">
-                  <label htmlFor="rut" className="register-form__label">
-                    Rut
-                  </label>
+                  <label htmlFor="rut" className="register-form__label">RUT</label>
                   <input
                     id="rut"
                     name="rut"
                     type="text"
                     className="register-form__input"
-                    placeholder="RUT"
+                    placeholder="12345678-9"
                     value={formData.rut}
                     onChange={handleChange}
+                    pattern="^\d{7,8}-[\dkK]{1}$"
+                    title="Formato válido: 12345678-9 o 12345678-K"
+                    minLength={9}
+                    maxLength={10}
                     required
                   />
                 </div>
@@ -113,9 +117,7 @@ const RegisterUser = () => {
 
               <div className="register-form__column register-form__column--right">
                 <div className="register-form__group">
-                  <label htmlFor="email" className="register-form__label">
-                    Correo
-                  </label>
+                  <label htmlFor="email" className="register-form__label">Correo</label>
                   <input
                     id="email"
                     name="email"
@@ -131,9 +133,7 @@ const RegisterUser = () => {
 
                 <div className="register-form__row">
                   <div className="register-form__group register-form__group--inline">
-                    <label htmlFor="phone" className="register-form__label">
-                      Teléfono
-                    </label>
+                    <label htmlFor="phone" className="register-form__label">951225682</label>
                     <input
                       id="phone"
                       name="phone"
@@ -142,6 +142,9 @@ const RegisterUser = () => {
                       placeholder="Teléfono"
                       value={formData.phone}
                       onChange={handleChange}
+                      onInput={(e) => {
+                        e.target.value = e.target.value.replace(/\D/g, "");
+                      }}
                       minLength={9}
                       maxLength={9}
                       required
@@ -150,9 +153,7 @@ const RegisterUser = () => {
                   </div>
 
                   <div className="register-form__group register-form__group--inline">
-                    <label htmlFor="birth_date" className="register-form__label">
-                      Fecha nacimiento
-                    </label>
+                    <label htmlFor="birth_date" className="register-form__label">Fecha nacimiento</label>
                     <input
                       id="birth_date"
                       name="birth_date"
@@ -160,14 +161,15 @@ const RegisterUser = () => {
                       className="register-form__input"
                       value={formData.birth_date}
                       onChange={handleChange}
+                      min={minBirthDate}
+                      max={maxBirthDate}
+                      required
                     />
                   </div>
                 </div>
 
                 <div className="register-form__group">
-                  <label htmlFor="password" className="register-form__label">
-                    Contraseña
-                  </label>
+                  <label htmlFor="password" className="register-form__label">Contraseña</label>
                   <div className="register-form__password-wrapper">
                     <input
                       id="password"
@@ -178,7 +180,7 @@ const RegisterUser = () => {
                       placeholder="Contraseña"
                       className="register-form__password-input"
                       autoComplete="new-password"
-                      minLength={6}
+                      minLength={8}
                       required
                     />
                     <Icon

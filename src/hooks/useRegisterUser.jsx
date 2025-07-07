@@ -19,16 +19,45 @@ const useRegisterUser = () => {
 
   // Estados para manejar errores y mensajes de éxito
   const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-
-  // Función para manejar cambios en los campos del formulario
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+    const [successMessage, setSuccessMessage] = useState("");
+  
+    // Función para manejar cambios en los campos del formulario
+    const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
     
-    // Evita actualizar el campo si el valor es solo espacios
+    // Evita actualizar si solo contiene espacios
     if (value.trim() === "" && value.length > 0) return;
-
-    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    let newValue = value;
+    
+    if (name === "phone") {
+      // Solo permite números
+      newValue = value.replace(/\D/g, "");
+    }
+  
+    if (name === "rut") {
+      // Convertir a mayúscula y eliminar puntos
+      newValue = value.toUpperCase().replace(/\./g, "");
+    
+      // Solo permitir números, guion y K
+      if (!/^[0-9K\-]*$/.test(newValue)) return;
+    
+      // No permitir más de un guion
+      const guiones = (newValue.match(/-/g) || []).length;
+      if (guiones > 1) return;
+    
+      // Evitar más de un carácter después del guion
+      const parts = newValue.split("-");
+      if (parts.length === 2 && parts[1].length > 1) return;
+    
+      // Limitar longitud total a máximo 10 caracteres
+      if (newValue.length > 10) return;
+    }
+  
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : newValue,
+    }));
   };
 
   // Función para manejar el envío del formulario
