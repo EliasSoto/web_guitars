@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import '../styles/CustomizationSummary.css';
+import PaymentLoading from "../components/PaymentLoading.jsx";
 
 export default function CustomizationSummary({ selectedComponents, totalPrice, step, onConfirm, config, headstockOptions, bodyOptions, woodOptions }) {
   const [paymentMethod, setPaymentMethod] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePaymentChange = (e) => {
     setPaymentMethod(e.target.value);
@@ -13,7 +15,18 @@ export default function CustomizationSummary({ selectedComponents, totalPrice, s
       alert('Por favor, selecciona un método de pago');
       return;
     }
-    onConfirm(paymentMethod);
+
+    setIsProcessing(true);
+
+    const confirm = async () => {
+      try {
+        await onConfirm(paymentMethod);
+      } finally {
+        setIsProcessing(false);
+      }
+    };
+
+    confirm();
   };
 
   const getComponentsList = () => {
@@ -86,6 +99,7 @@ export default function CustomizationSummary({ selectedComponents, totalPrice, s
 
   return (
     <div className="customization-summary-container">
+      {isProcessing && <div className="payment-overlay"><PaymentLoading /></div>}
       <h3 className="customization-summary-title">Tu configuración</h3>
 
       {components.length > 0 ? (
@@ -127,8 +141,9 @@ export default function CustomizationSummary({ selectedComponents, totalPrice, s
               <button 
                 className="confirm-button"
                 onClick={handleConfirm}
+                disabled={isProcessing}
               >
-                Confirmar pedido
+                {isProcessing ? "Procesando..." : "Confirmar pedido"}
               </button>
             </>
           )}

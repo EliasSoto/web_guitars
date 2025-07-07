@@ -10,7 +10,9 @@ import { createUserShipment } from '../services/useShipmentService';
 export default function useCheckout() {
   const { cartItems, cartTotal, removeFromCart, clearCart } = useCart();
   const { activeAddress, loading } = useUserAddress();
+  const [isProcessing, setIsProcessing] = useState(false);
   const navigate = useNavigate();
+  
 
   const [address, setAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
@@ -41,38 +43,44 @@ const handleConfirmPurchase = async () => {
     return;
   }
 
-  const items = cartItems.map(item => ({
-    guitar_id: item.id,
-    quantity: item.quantity
-  }));
+  setIsProcessing(true);
 
-  const orderData = {
-    status: "pagado",
-    payment_method: paymentMethod,
-    items
-  };
+  try {
+    const items = cartItems.map(item => ({
+      guitar_id: item.id,
+      quantity: item.quantity
+    }));
 
-  const [data, error] = await createOrderUser(orderData);
+    const orderData = {
+      status: "pagado",
+      payment_method: paymentMethod,
+      items
+    };
 
-  if (error) {
-    toast.error(`Error al crear el pedido: ${error}`);
-    return;
+    const [data, error] = await createOrderUser(orderData);
+
+    if (error) {
+      toast.error(`Error al crear el pedido: ${error}`);
+      return;
+    }
+
+    const orderIds = Array.isArray(data) ? data.map(order => order.id) : [data.id];
+
+    const [shipmentData, shipmentError] = await createUserShipment({ order_ids: orderIds });
+
+    if (shipmentError) {
+      toast.error(`Error al crear el envío: ${shipmentError}`);
+      return;
+    }
+
+    toast.success('Compra y envío realizados exitosamente!');
+    clearCart();
+    setTimeout(() => {
+      navigate('/profile/orders');
+    }, 1000);
+  } finally {
+    setIsProcessing(false);
   }
-
-  const orderIds = Array.isArray(data) ? data.map(order => order.id) : [data.id];
-
-  const [shipmentData, shipmentError] = await createUserShipment({ order_ids: orderIds });
-
-  if (shipmentError) {
-    toast.error(`Error al crear el envío: ${shipmentError}`);
-    return;
-  }
-
-  toast.success('Compra y envío realizados exitosamente!');
-  clearCart();
-  setTimeout(() => {
-    navigate('/profile/orders');
-  }, 1000);
 };
 
 
@@ -89,5 +97,6 @@ const handleConfirmPurchase = async () => {
     handlePaymentChange,
     handleConfirmPurchase,
     handleRemoveItem,
+    isProcessing
   };
 }

@@ -8,6 +8,7 @@ import { useUserAddress } from "../hooks/useUserAddress";
 import "../styles/CheckoutPage.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PaymentLoading from "../components/PaymentLoading.jsx";
 
 const CheckoutPage = () => {
   const {
@@ -19,10 +20,12 @@ const CheckoutPage = () => {
     handlePaymentChange,
     handleConfirmPurchase,
     handleRemoveItem,
+    isProcessing,
   } = useCheckout();
 
   return (
     <div className="checkout-page">
+      {isProcessing && <PaymentLoading />}
       <HeaderLogin />
       <ToastContainer position="top-center" autoClose={500} hideProgressBar />
       <div className="checkout-container">
@@ -143,11 +146,12 @@ const CheckoutPage = () => {
               <span>${cartTotal.toLocaleString("es-CL")}</span>
             </div>
 
-            <button 
-              className="confirm-button" 
+            <button
+              className="confirm-button"
               onClick={handleConfirmPurchase}
+              disabled={cartItems.length === 0 || !paymentMethod || !address || isProcessing}
             >
-              Confirmar Compra
+              {isProcessing ? "Procesando..." : "Confirmar Compra"}
             </button>
           </div>
         </div>
