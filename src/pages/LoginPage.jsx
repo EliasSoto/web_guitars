@@ -1,8 +1,8 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import { ToastContainer, toast } from "react-toastify";   // <-- Importa ToastContainer y toast
-import "react-toastify/dist/ReactToastify.css";            // <-- Importa estilos
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import useLogin from "../hooks/useLogin";
 import HeaderLogin from "../components/HeaderLogin";
 import "../styles/LoginPage.css";
@@ -10,9 +10,7 @@ import Footer from "../components/Footer";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-
   const { formData, error, mensajeExito, handleChange, handleSubmit } = useLogin();
-
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -25,12 +23,12 @@ export default function LoginPage() {
 
     if (err) {
       console.error("Error al iniciar sesión:", err);
-      toast.error(err);           // <-- Muestra el error en toast
+      toast.error(err);
       return;
     }
-    
+
     if (mensajeExito) {
-      toast.success(mensajeExito);  // Opcional: mensaje de éxito en toast
+      toast.success(mensajeExito);
     }
   };
 
@@ -40,25 +38,25 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="page-container">
+    <div className="login-page__container">
       <HeaderLogin />
 
-      <main className="login-main">
-        <section className="login-section">
-          <div className="text-inicia">Inicia sesión</div>
-          <div className="text-registrate">
+      <main className="login-page__main">
+        <section className="login-form">
+          <div className="login-form__title">Inicia sesión</div>
+          <div className="login-form__register-text">
             ¿No tienes una cuenta?{" "}
-            <a className="a" href="/register" onClick={handleRegisterClick}>
+            <a className="login-form__register-link" href="/register" onClick={handleRegisterClick}>
               Regístrate
             </a>
           </div>
 
           <form onSubmit={handleLogin}>
-            <label className="label-usuario-contraseña" htmlFor="Usuario">
+            <label className="login-form__label" htmlFor="Usuario">
               Correo
             </label>
             <input
-              className="input-usuario"
+              className="login-form__input"
               type="text"
               name="username"
               value={formData.username}
@@ -67,30 +65,30 @@ export default function LoginPage() {
               style={{ outline: "none" }}
             />
 
-            <label className="label-usuario-contraseña" htmlFor="password">
+            <label className="login-form__label" htmlFor="password">
               Contraseña
             </label>
 
-            <div className="password-input-wrapper">
+            <div className="login-form__password-wrapper">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Contraseña"
-                className="password-input-field"
+                className="login-form__password-input"
               />
               <Icon
                 icon={showPassword ? "octicon:eye-16" : "mdi:eye-off-outline"}
                 width="24"
                 height="24"
-                className="password-toggle-icon"
+                className="login-form__toggle-icon"
                 onClick={togglePasswordVisibility}
                 aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
               />
             </div>
 
-            <button className="button-login" type="submit">
+            <button className="login-form__submit-button" type="submit">
               Iniciar sesión
             </button>
           </form>
@@ -99,7 +97,6 @@ export default function LoginPage() {
 
       <Footer />
 
-      {/* Aquí colocas el ToastContainer */}
       <ToastContainer
         position="top-center"
         autoClose={3000}

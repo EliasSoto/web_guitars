@@ -40,33 +40,33 @@ const RegisterUser = () => {
     <div className="register-page">
       <HeaderLogin />
 
-      <div className="register-container">
-        <main className="register-main">
-          <section className="register-section">
-            <div className="register-header">
-              <Link to="/login" className="register-back-link">
+      <div className="register-page__container">
+        <main className="register-page__main">
+          <section className="register-form">
+            <div className="register-form__header">
+              <Link to="/login" className="register-form__back-link">
                 <Icon
-                  className="register-back-icon"
+                  className="register-form__back-icon"
                   icon="ic:round-arrow-back"
                   width="24"
                   height="24"
                 />
               </Link>
 
-              <h1 className="register-title">Crea una cuenta</h1>
+              <h1 className="register-form__title">Crea una cuenta</h1>
             </div>
 
-            <form onSubmit={onSubmit} className="register-form">
-              <div className="register-form-column register-form-left">
-                <div className="form-group">
-                  <label htmlFor="first_name" className="form-label">
+            <form onSubmit={onSubmit} className="register-form__body">
+              <div className="register-form__column register-form__column--left">
+                <div className="register-form__group">
+                  <label htmlFor="first_name" className="register-form__label">
                     Nombre
                   </label>
                   <input
                     id="first_name"
                     name="first_name"
                     type="text"
-                    className="form-input"
+                    className="register-form__input"
                     placeholder="Nombres"
                     value={formData.first_name}
                     onChange={handleChange}
@@ -76,15 +76,15 @@ const RegisterUser = () => {
                   />
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="last_name" className="form-label">
+                <div className="register-form__group">
+                  <label htmlFor="last_name" className="register-form__label">
                     Apellido
                   </label>
                   <input
                     id="last_name"
                     name="last_name"
                     type="text"
-                    className="form-input"
+                    className="register-form__input"
                     placeholder="Apellidos"
                     value={formData.last_name}
                     onChange={handleChange}
@@ -94,15 +94,15 @@ const RegisterUser = () => {
                   />
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="rut" className="form-label">
+                <div className="register-form__group">
+                  <label htmlFor="rut" className="register-form__label">
                     Rut
                   </label>
                   <input
                     id="rut"
                     name="rut"
                     type="text"
-                    className="form-input"
+                    className="register-form__input"
                     placeholder="RUT"
                     value={formData.rut}
                     onChange={handleChange}
@@ -111,16 +111,16 @@ const RegisterUser = () => {
                 </div>
               </div>
 
-              <div className="register-form-column register-form-right">
-                <div className="form-group">
-                  <label htmlFor="email" className="form-label">
+              <div className="register-form__column register-form__column--right">
+                <div className="register-form__group">
+                  <label htmlFor="email" className="register-form__label">
                     Correo
                   </label>
                   <input
                     id="email"
                     name="email"
                     type="email"
-                    className="form-input"
+                    className="register-form__input"
                     placeholder="Correo electrónico"
                     value={formData.email}
                     onChange={handleChange}
@@ -129,16 +129,16 @@ const RegisterUser = () => {
                   />
                 </div>
 
-                <div className="form-row">
-                  <div className="form-group form-group-inline">
-                    <label htmlFor="phone" className="form-label">
+                <div className="register-form__row">
+                  <div className="register-form__group register-form__group--inline">
+                    <label htmlFor="phone" className="register-form__label">
                       Teléfono
                     </label>
                     <input
                       id="phone"
                       name="phone"
                       type="text"
-                      className="form-input"
+                      className="register-form__input"
                       placeholder="Teléfono"
                       value={formData.phone}
                       onChange={handleChange}
@@ -149,26 +149,26 @@ const RegisterUser = () => {
                     />
                   </div>
 
-                  <div className="form-group form-group-inline">
-                    <label htmlFor="birth_date" className="form-label">
+                  <div className="register-form__group register-form__group--inline">
+                    <label htmlFor="birth_date" className="register-form__label">
                       Fecha nacimiento
                     </label>
                     <input
                       id="birth_date"
                       name="birth_date"
                       type="date"
-                      className="form-input"
+                      className="register-form__input"
                       value={formData.birth_date}
                       onChange={handleChange}
                     />
                   </div>
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="password" className="form-label">
+                <div className="register-form__group">
+                  <label htmlFor="password" className="register-form__label">
                     Contraseña
                   </label>
-                  <div className="password-input-wrapper">
+                  <div className="register-form__password-wrapper">
                     <input
                       id="password"
                       type={showPassword ? "text" : "password"}
@@ -176,37 +176,30 @@ const RegisterUser = () => {
                       value={formData.password}
                       onChange={handleChange}
                       placeholder="Contraseña"
-                      className="password-input-field"
+                      className="register-form__password-input"
                       autoComplete="new-password"
                       minLength={6}
                       required
                     />
                     <Icon
-                      icon={
-                        showPassword ? "octicon:eye-16" : "mdi:eye-off-outline"
-                      }
+                      icon={showPassword ? "octicon:eye-16" : "mdi:eye-off-outline"}
                       width="24"
                       height="24"
-                      className="password-toggle-icon"
+                      className="register-form__toggle-icon"
                       onClick={togglePasswordVisibility}
-                      aria-label={
-                        showPassword
-                          ? "Ocultar contraseña"
-                          : "Mostrar contraseña"
-                      }
+                      aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                       role="button"
                       tabIndex={0}
                       onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ")
-                          togglePasswordVisibility();
+                        if (e.key === "Enter" || e.key === " ") togglePasswordVisibility();
                       }}
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="form-footer">
-                <button className="btn-submit" type="submit">
+              <div className="register-form__footer">
+                <button className="register-form__submit-button" type="submit">
                   Registrar
                 </button>
               </div>

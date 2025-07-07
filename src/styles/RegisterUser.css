@@ -1,5 +1,5 @@
 /* Contenedor principal */
-.register-container {
+.register-page__container {
   max-width: 900px;
   margin: 2rem auto;
   padding: 1.5rem;
@@ -10,29 +10,29 @@
 }
 
 /* Header del formulario */
-.register-header {
+.register-form__header {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 2rem;
 }
 
-.register-back-link {
+.register-form__back-link {
   color: #444B59;
   text-decoration: none;
   display: flex;
   align-items: center;
 }
 
-.register-back-link:hover {
+.register-form__back-link:hover {
   color: #8699DA;
 }
 
-.register-back-icon {
+.register-form__back-icon {
   cursor: pointer;
 }
 
-.register-title {
+.register-form__title {
   font-size: 1.8rem;
   font-weight: 700;
   color: #444B59;
@@ -40,7 +40,7 @@
 }
 
 /* Formulario */
-.register-form {
+.register-form__body {
   background-color: #fdfdfd;
   display: flex;
   gap: 3rem;
@@ -48,21 +48,21 @@
 }
 
 /* Columnas */
-.register-form-column {
+.register-form__column {
   flex: 1 1 380px;
   display: flex;
   flex-direction: column;
 }
 
 /* Grupos de input + label */
-.form-group {
+.register-form__group {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
 }
 
 /* Labels */
-.form-label {
+.register-form__label {
   font-weight: 600;
   font-size: 0.95rem;
   color: #444B59;
@@ -70,7 +70,7 @@
 }
 
 /* Inputs */
-.form-input {
+.register-form__input {
   padding: 0.55rem 0.8rem;
   border: 1.5px solid #8699DA;
   height: 5vh;
@@ -80,13 +80,13 @@
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-input:focus {
+.register-form__input:focus {
   border-color: #5f73b5;
   box-shadow: 0 0 8px #a3b1ea88;
 }
 
 /* Wrapper input contraseña con ícono */
-.password-input-wrapper {
+.register-form__password-wrapper {
   display: flex;
   align-items: center;
   border: 1.5px solid #8699DA;
@@ -97,13 +97,13 @@
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.password-input-wrapper:focus-within {
+.register-form__password-wrapper:focus-within {
   border-color: #5f73b5;
   box-shadow: 0 0 8px #a3b1ea88;
 }
 
 /* Input de contraseña dentro del wrapper */
-.password-input-field {
+.register-form__password-input {
   flex-grow: 1;
   border: none;
   outline: none;
@@ -113,7 +113,7 @@
 }
 
 /* Ícono mostrar/ocultar */
-.password-toggle-icon {
+.register-form__toggle-icon {
   cursor: pointer;
   color: #444B59;
   margin-left: 8px;
@@ -121,21 +121,21 @@
   transition: color 0.3s ease;
 }
 
-.password-toggle-icon:hover,
-.password-toggle-icon:focus {
+.register-form__toggle-icon:hover,
+.register-form__toggle-icon:focus {
   color: #5f73b5;
   outline: none;
 }
 
 /* Footer con botón */
-.form-footer {
+.register-form__footer {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
 /* Botón enviar */
-.btn-submit {
+.register-form__submit-button {
   background-color: #8699DA;
   border: none;
   border-radius: 10px;
@@ -148,16 +148,13 @@
   height: 5.5vh;
 }
 
-
-
-
 /* Para fila con dos inputs inline */
-.form-row {
+.register-form__row {
   display: flex;
   gap: 20px;
 }
 
-.form-group-inline {
+.register-form__group--inline {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -165,16 +162,16 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .register-form {
+  .register-form__body {
     flex-direction: column;
     gap: 2rem;
   }
 
-  .register-form-column {
+  .register-form__column {
     flex: 1 1 100%;
   }
 
-  .form-footer {
+  .register-form__footer {
     margin-top: 1.5rem;
   }
 }
@@ -187,6 +184,75 @@
 }
 
 /* Contenedor principal crece */
-.register-container {
+.register-page__container {
   flex: 1;
+}
+
+
+
+
+/* antiguo */
+
+
+
+.label-register{
+    padding-top: 10px;
+    font-size: 13px; 
+    font-weight: bold;
+    color: #444B59; /* color de texto */
+    margin-bottom: 5px; /* Espacio entre la etiqueta y el campo de entrada */
+    display: block;
+}
+
+.input-normal{
+    border-radius: 10px;
+    border: 1.2px solid #8699DA; /* Aquí defines el grosor, el estilo y el color del borde */
+    padding: 5px; /* Espacio interno del campo de entrada */
+}
+
+
+
+.checkbox_input {
+  border-radius: 20px;
+  width: 20px;
+  height: 20px;
+  accent-color: #8699DA; /* Color del check */
+  cursor: pointer;
+}
+
+.button-container {
+    text-align: center;
+}
+
+.button-register {
+    background-color: #8699DA;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 20px;
+    width: 60%;
+    transition: background-color 0.3s, transform 0.2s ease; /* transiciones suaves */
+}
+
+.button-register:hover {
+    background-color: #6f84c4; /* un tono más oscuro al pasar el mouse */
+    transform: scale(1.03); /* efecto leve de agrandamiento */
+}
+
+  
+.checkbox-label {
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #444B59; /* color de texto */
+    margin-left: 5px; /* Espacio entre la etiqueta y el campo de entrada */
+    align-content: center;
+}
+
+.checkbox-container {
+    display: flex;
 }
