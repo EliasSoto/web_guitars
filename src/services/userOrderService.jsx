@@ -47,10 +47,14 @@ export const createOrderUser = async (orderData) => {
   }
 };
 
-export const getUserOrdersPaginated = async (page = 1, limit = 10) => {
+export const getUserOrdersPaginated = async (page = 1, limit = 10, isCustom = null) => {
   try {
     const token = getToken();
-    const response = await fetch(`${API_URL}/usuarios/pedidos/?page=${page}&limit=${limit}`, {
+    let url = `${API_URL}/usuarios/pedidos/?page=${page}&limit=${limit}`;
+    if (isCustom !== null) {
+      url += `&is_custom=${isCustom}`;
+    }
+    const response = await fetch(url, {
       method: "GET",
       headers: {
         Accept: "application/json",

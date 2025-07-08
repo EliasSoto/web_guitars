@@ -56,33 +56,39 @@ export default function PageLayout() {
       </header>
 
       <main className="page-main">
-        <PreviewCustomParts 
-          config={config}
-          setConfig={setConfig}
-          step={step}
-          setStep={setStep}
-          selectedComponent={selectedComponent}
-          setSelectedComponent={setSelectedComponent}
-          maxComponentes={maxComponentes}
-          selectedComponents={selectedComponents}
-          setSelectedComponents={setSelectedComponents}
-          compatibles={compatibles}
-          loading={loading}
-          error={error}
-          agregarComponente={agregarComponente}
-          estaSeleccionado={estaSeleccionado}
-          handleConfigChange={handleConfigChange}
-          handleCreateCustomGuitar={handleCreateCustomGuitar}
-          isStep1Complete={isStep1Complete}
-          isStep2Complete={isStep2Complete}
-          headstockOptions={headstockOptions}
-          bodyOptions={bodyOptions}
-          woodOptions={woodOptions}
-          bridgeOptions={bridgeOptions}
-          mostrarJack={mostrarJack}
-          initialConfig={initialConfig}
-        />
-        <CustomizedGuitar config={config} />
+        <div className="custom-main-content">
+          <PreviewCustomParts 
+            config={config}
+            setConfig={setConfig}
+            step={step}
+            setStep={setStep}
+            selectedComponent={selectedComponent}
+            setSelectedComponent={setSelectedComponent}
+            maxComponentes={maxComponentes}
+            selectedComponents={selectedComponents}
+            setSelectedComponents={setSelectedComponents}
+            compatibles={compatibles}
+            loading={loading}
+            error={error}
+            agregarComponente={agregarComponente}
+            estaSeleccionado={estaSeleccionado}
+            handleConfigChange={handleConfigChange}
+            handleCreateCustomGuitar={handleCreateCustomGuitar}
+            isStep1Complete={isStep1Complete}
+            isStep2Complete={isStep2Complete}
+            headstockOptions={headstockOptions}
+            bodyOptions={bodyOptions}
+            woodOptions={woodOptions}
+            bridgeOptions={bridgeOptions}
+            mostrarJack={mostrarJack}
+            initialConfig={initialConfig}
+          />
+        
+        </div>
+        <div className="customized-guitar-container">
+          <CustomizedGuitar config={config} />
+        </div>
+        
         <CustomizationSummary 
           selectedComponents={selectedComponents}
           totalPrice={totalPrice}
@@ -95,6 +101,7 @@ export default function PageLayout() {
           woodOptions={woodOptions}
         />
       </main>
+
 
       <footer className="page-footer">
         <Footer />

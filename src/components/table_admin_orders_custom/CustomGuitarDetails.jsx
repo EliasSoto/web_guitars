@@ -3,7 +3,7 @@ import { getOrderByIdAdmin } from "../../services/orderAdminService";
 import { getUserOrderById } from "../../services/userOrderService";
 import { getShipmentStatusByOrderIdAdmin } from "../../services/shipmentAdminService";
 import { Icon } from "@iconify/react";
-import "./CustomGuitarDetails.css";
+import "../../styles/CustomGuitarDetails.css";
 import DownloadRecievePDF from "../DownloadRecievePDF";
 import { formatPrice, formatDate } from "../../utils/common";
 

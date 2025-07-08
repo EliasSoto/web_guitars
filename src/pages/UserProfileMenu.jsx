@@ -15,6 +15,7 @@ import { useUserAddress } from "../hooks/useUserAddress";
 import { getMyWishlist, deleteFromWishlist } from "../services/wishlistService";
 import UserWishlist from "../components/table_wishlist/UserWishlist";
 import UserReviewsList from "../components/tableReview/UserReviewList";
+import OrderCustomUserList from "../components/table_orders_custom/OrderCustomList";
 
 import "../styles/UserProfileMenu.css";
 
@@ -46,6 +47,7 @@ export default function UserProfileMenu() {
             <Route path="shipments" element={<ShipmentList />} />
             <Route path="wishlist" element={<UserWishlist />} />
             <Route path="reviews" element={<UserReviewsList />} />
+            <Route path="orders_guitarcustom" element={<OrderCustomUserList />} />
           </Routes>
         </section>
       </main>

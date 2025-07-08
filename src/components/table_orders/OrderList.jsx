@@ -31,7 +31,7 @@ export default function OrderList() {
 
   const fetchOrders = async (page = 1, limit = ordersPerPage) => {
     setLoading(true);
-    const [data, err] = await getUserOrdersPaginated(page, limit);
+    const [data, err] = await getUserOrdersPaginated(page, limit, false);
 
     if (err) {
       setError(err);

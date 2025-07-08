@@ -56,8 +56,8 @@ export default function AdminSidebar ({ openProfileModal}) {
             to="/admin/orders_guitarcustom"
             className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
           >
-            <Icon icon="qlementine-icons:guitar-strat-16" width="24" height="24" />
-            <p>Guitarras personalizadas</p>
+            <Icon icon="streamline-freehand:modern-music-bass-guitar" width="24" height="24" />
+            <p>Órdenes personalizadas</p>
           </NavLink>
 
           <NavLink

@@ -2,7 +2,16 @@ import { useState } from 'react';
 import '../styles/CustomizationSummary.css';
 import PaymentLoading from "../components/PaymentLoading.jsx";
 
-export default function CustomizationSummary({ selectedComponents, totalPrice, step, onConfirm, config, headstockOptions, bodyOptions, woodOptions }) {
+export default function CustomizationSummary({
+  selectedComponents,
+  totalPrice,
+  step,
+  onConfirm,
+  config,
+  headstockOptions,
+  bodyOptions,
+  woodOptions
+}) {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -32,7 +41,6 @@ export default function CustomizationSummary({ selectedComponents, totalPrice, s
   const getComponentsList = () => {
     const components = [];
 
-    // Agregar clavijero seleccionado
     if (config.clavijero) {
       const selectedHeadstock = headstockOptions.find(h => h.value === config.clavijero);
       if (selectedHeadstock) {
@@ -44,9 +52,7 @@ export default function CustomizationSummary({ selectedComponents, totalPrice, s
       }
     }
 
-    // Agregar cuerpo seleccionado
     if (config.cuerpo) {
-      
       const selectedBody = bodyOptions.find(b => b.value === config.cuerpo);
       if (selectedBody) {
         components.push({
@@ -57,7 +63,6 @@ export default function CustomizationSummary({ selectedComponents, totalPrice, s
       }
     }
 
-    // Agregar madera seleccionada
     if (config.madera) {
       const selectedWood = woodOptions.find(w => w.name === config.madera);
       if (selectedWood) {
@@ -116,8 +121,8 @@ export default function CustomizationSummary({ selectedComponents, totalPrice, s
           <div className="customization-summary-total">
             <span>Total estimado:</span>
             <span>
-            ${components.reduce((sum, c) => sum + (c.price || 0), 0).toLocaleString('es-CL')}
-          </span>
+              ${components.reduce((sum, c) => sum + (c.price || 0), 0).toLocaleString('es-CL')}
+            </span>
           </div>
 
           {step === 3 && (
@@ -129,9 +134,7 @@ export default function CustomizationSummary({ selectedComponents, totalPrice, s
                   onChange={handlePaymentChange}
                   className="payment-method-select"
                 >
-                  <option value="" disabled hidden>
-                    Selecciona un método
-                  </option>
+                  <option value="" disabled hidden>Selecciona un método</option>
                   <option value="tarjeta">Tarjeta de crédito/débito</option>
                   <option value="transferencia">Transferencia bancaria</option>
                   <option value="paypal">PayPal</option>

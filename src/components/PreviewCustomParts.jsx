@@ -10,7 +10,7 @@ export default function PreviewPanel({config, setConfig, step, setStep, selected
   const [selectedCategory, setSelectedCategory] = useState('Pastillas');
   const [hoveredComponent, setHoveredComponent] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+  const [modalPosition, setModalPosition] = useState();
 
   const handleNextStep = () => {
     setStep(step + 1);
@@ -310,14 +310,8 @@ export default function PreviewPanel({config, setConfig, step, setStep, selected
       {step === 3 && (
         <>
           {showModal && hoveredComponent && (
-            <div 
+            <div
               className="component-detail-modal"
-              style={{
-                position: 'fixed',
-                left: `${modalPosition.x}px`,
-                top: `${modalPosition.y}px`,
-                zIndex: 1000
-              }}
               onMouseEnter={() => setShowModal(true)}
               onMouseLeave={handleMouseLeave}
             >

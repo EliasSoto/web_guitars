@@ -52,6 +52,14 @@ export default function UserSidebar ({ openProfileModal}) {
           </NavLink>
 
           <NavLink
+            to="/profile/orders_guitarcustom"
+            className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
+          >
+            <Icon icon="streamline-freehand:modern-music-bass-guitar" width="24" height="24" />
+            <p>Pedidos personalizados</p>
+          </NavLink>
+
+          <NavLink
             to="/profile/shipments"
             className={({ isActive }) => `select ${isActive ? 'active' : ''}`}
           >
@@ -75,6 +83,7 @@ export default function UserSidebar ({ openProfileModal}) {
             <Icon icon="material-symbols:reviews-outline" width="24" height="24" />
             <p>Mis Reseñas</p>
           </NavLink>
+          
 
           <div className="sesion-container">
             <li className="select" onClick={openProfileModal}>

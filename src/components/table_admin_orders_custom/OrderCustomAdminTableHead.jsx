@@ -9,7 +9,6 @@ export default function OrderCustomTableHead() {
         <th>Estado</th>
         <th>Estado de Envío</th>    
         <th>Precio Total</th>         
-        <th>Cantidad de Productos</th>  
         <th>Acciones</th>            
       </tr>
     </thead>

@@ -226,7 +226,7 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
         } else {
           const currentCount = selectedComponents[req.type][req.subtype].length;
           if (currentCount < req.count) {
-            toast.error(`Debes seleccionar ${req.count} ${req.type} ${req.subtype}`);
+            toast.error(`Debes seleccionar ${req.count} ${req.type} de ${req.subtype}`);
             return;
           }
         }
@@ -323,7 +323,7 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
         puente: null
       });
 
-      navigate('/profile/orders');
+      navigate('/profile/orders_guitarcustom');
 
     } catch (error) {
       toast.error(`Error al crear guitarra personalizada: ${error.message}`);

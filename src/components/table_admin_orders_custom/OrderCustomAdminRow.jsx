@@ -2,10 +2,6 @@ import { Icon } from "@iconify/react";
 import { formatPrice, formatDate } from "../../utils/common";
 
 export default function OrderCustomRow({ order, onViewDetails, shipmentStatus, userName }) {
-  const totalQuantity = order.order_details.reduce(
-    (sum, item) => sum + item.quantity,
-    0
-  );
 
   return (
     <tr>
@@ -16,7 +12,6 @@ export default function OrderCustomRow({ order, onViewDetails, shipmentStatus, u
       <td>{order.status}</td>
       <td>{shipmentStatus || "Cargando..."}</td>
       <td>{formatPrice(order.total_price)}</td>
-      <td>{totalQuantity}</td>
       <td className="action-icons">
         {order.status === "pagado" && (
           <Icon
