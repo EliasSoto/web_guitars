@@ -62,10 +62,10 @@
 .guitar-card-footer {
     margin-top: auto;
     padding: 15px;
-    display: flex; /* Añade flexbox */
-    justify-content: space-between; /* Separa los elementos */
-    align-items: center; /* Centra verticalmente */
-    /*gap: 12px; /* Espacio entre elementos */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
 }
 
 .guitar-card-prices {
@@ -97,7 +97,7 @@
 .guitar-card-final-price {
     font-size: 16px;
     font-weight: bold;
-    color: #000;
+    color: #202122;
     margin: 0;
 }
 

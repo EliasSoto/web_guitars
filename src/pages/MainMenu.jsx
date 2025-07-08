@@ -15,8 +15,15 @@ const MainMenu = () => {
   const [guitars, setGuitars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    setIsLoggedIn(!!token);
+  }, []);
 
   useEffect(() => {
     const fetchGuitars = async () => {
@@ -48,11 +55,13 @@ const MainMenu = () => {
  return (
     <div className="admin-dashboard">
       <Header setSearchTerm={setSearchTerm} />
-        <div className="custom-button-container">
-          <button className="custom-button" onClick={() => navigate("/custom")}>
-            🎸 Crear guitarra personalizada
-          </button>
-        </div>
+        {isLoggedIn && (
+          <div className="custom-button-container">
+            <button className="custom-button" onClick={() => navigate("/custom")}>
+              🎸 Crear guitarra personalizada
+            </button>
+          </div>
+        )}
       <div className="main-content-admin">
         <main className="main-content-guitarras">
           {!loading && error ? (

@@ -28,11 +28,11 @@ const DropdownButton = () => {
   };
 
   const handleLogout = () => {
-    clearCart(); // Limpiamos el carrito al hacer logout
+    clearCart();
     userLogout();
     localStorage.clear();
     setIsOpen(false);
-    navigate('/');
+    window.location.reload();
   };
 
   if (!isAuthenticated()) {

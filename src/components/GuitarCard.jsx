@@ -14,6 +14,38 @@ const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_lin
   const [loadingWishlist, setLoadingWishlist] = useState(true);
   const [user, setUser] = useState(null);
 
+
+  const imageCache = new Map();
+  const [imgSrc, setImgSrc] = useState(image_link || "https://res.cloudinary.com/de5qrezpl/image/upload/v1750967058/guiafnh33wb3dx0twv0g.png");
+
+  useEffect(() => {
+    const defaultImg = "https://res.cloudinary.com/de5qrezpl/image/upload/v1750967058/guiafnh33wb3dx0twv0g.png";
+
+    const loadImage = async (url) => {
+      if (!url) {
+        setImgSrc(defaultImg);
+        return;
+      }
+
+      if (imageCache.has(url)) {
+        setImgSrc(imageCache.get(url));
+      } else {
+        const img = new Image();
+        img.onload = () => {
+          imageCache.set(url, url);
+          setImgSrc(url);
+        };
+        img.onerror = () => {
+          imageCache.set(url, defaultImg);
+          setImgSrc(defaultImg);
+        };
+        img.src = url;
+      }
+    };
+
+    loadImage(image_link);
+  }, [image_link]);
+
   useEffect(() => {
     const authCheck = isAuthenticated();
     if (authCheck) {
@@ -80,7 +112,7 @@ const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_lin
   };
 
   const handleCardClick = () => {
-    navigate(`/guitars/${id}`); // Navega a la página de detalles
+    navigate(`/guitars/${id}`);
   };
 
   const isLiquidation = liquidation_price && liquidation_price < sale_price;
@@ -92,28 +124,27 @@ const GuitarCard = ({ id, model, brand, sale_price, liquidation_price, image_lin
           <h2 className="guitar-card-model">{model}</h2>
           <p className="guitar-card-brand">{brand}</p>
         </div>
-         <button 
-          className={`guitar-card-wishlist ${inWishlist ? "active" : ""}`}
-          onClick={handleWishlistToggle}
-          aria-label={inWishlist ? "Quitar de favoritos" : "Agregar a favoritos"}
-          title={inWishlist ? "Quitar de favoritos" : "Agregar a favoritos"}
-        >
+        {user && (
+          <button 
+            className={`guitar-card-wishlist ${inWishlist ? "active" : ""}`}
+            onClick={handleWishlistToggle}
+            aria-label={inWishlist ? "Quitar de favoritos" : "Agregar a favoritos"}
+            title={inWishlist ? "Quitar de favoritos" : "Agregar a favoritos"}
+          >
             <Icon 
-            icon={inWishlist ? "mdi:heart" : "mdi:heart"} 
-            width="20" 
-            height="20" 
-          />
-        </button>
+              icon={inWishlist ? "mdi:heart" : "mdi:heart"} 
+              width="20" 
+              height="20" 
+            />
+          </button>
+        )}
       </div>
 
       <div className="guitar-card-image-container">
         <img
-          src={image_link || "https://www.ibanez.com/common/product_artist_file/file/p_region_RG550DX_1P_01_DYB.png"}
+          src={imgSrc}
           alt={`Guitarra ${model}`}
           className="guitar-card-image"
-          onError={(e) => {
-            e.target.src = "https://www.ibanez.com/common/product_artist_file/file/p_region_RG550DX_1P_01_DYB.png";
-          }}
         />
       </div>
 
