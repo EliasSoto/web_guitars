@@ -14,33 +14,38 @@ export default function AdminProfileForm({ onClose, onSuccess }) {
     handleChange,
     handleSubmit,
     loading,
-    resetStatus, // asumo que el hook tiene esta función para limpiar errores/mensajes
-
+    resetStatus, 
   } = useEditUserProfile(navigate);
+  
 
   useEffect(() => {
-    if (error) {
-      if (Array.isArray(error)) {
-        error.forEach((err) => toast.error(err.msg));
-      } else {
-        toast.error(error);
-      }
+    if (!error) return;
 
-      resetStatus();
-
+    if (Array.isArray(error)) {
+      error.forEach((err) => 
+        toast.error(err.msg, { toastId: err.msg, autoClose: 3000 })
+      );
+    } else {
+      toast.error(error, { toastId: error, autoClose: 3000 });
     }
 
-    if (successMessage) {
-      toast.success(successMessage);
-      
-      if (onSuccess) {
-        onSuccess(); // Llama a la función onClose si se proporciona
-      }
+    const timeoutId = setTimeout(() => resetStatus(), 3000);
 
-      resetStatus(); // Resetea el estado después de mostrar el mensaje de éxito
-     
-    }
-  }, [error, successMessage, onClose, resetStatus]);
+    return () => clearTimeout(timeoutId);
+  }, [error, resetStatus]);
+
+  useEffect(() => {
+    if (!successMessage) return;
+
+    toast.success(successMessage, { toastId: successMessage, autoClose: 3000 });
+
+    if (onSuccess) onSuccess();
+
+    const timeoutId = setTimeout(() => resetStatus(), 3000);
+
+    return () => clearTimeout(timeoutId);
+  }, [successMessage, resetStatus, onSuccess]);
+
 
   return (
     <div className="register-container">
@@ -124,7 +129,11 @@ export default function AdminProfileForm({ onClose, onSuccess }) {
               name="password"
               value={formData.password}
               onChange={handleChange}
+              minLength={8}
+              maxLength={20}
               placeholder="Nueva contraseña"
+              required
+              style={{ outline: "none" }}
             />
 
             <label className="label-register">Confirmar nueva contraseña</label>
@@ -134,7 +143,11 @@ export default function AdminProfileForm({ onClose, onSuccess }) {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
+              minLength={8}
+              maxLength={20}
               placeholder="Confirmar nueva contraseña"
+              required
+              style={{ outline: "none" }}
             />
 
             <label className="label-register">Fecha nacimiento</label>
@@ -177,13 +190,21 @@ export default function AdminProfileForm({ onClose, onSuccess }) {
         </div>
 
         <div className="button-container">
-          <button className="button-register" type="submit" disabled={loading}>
+          <button
+            className="confirm-button"
+            type="submit"
+            disabled={
+              loading ||
+              formData.password.trim() === "" ||
+              formData.confirmPassword.trim() === ""
+            }
+          >
             {loading ? "Actualizando..." : "Actualizar perfil"}
           </button>
         </div>
       </form>
 
-      <ToastContainer position="top-center" autoClose={8000} hideProgressBar />
+      <ToastContainer position="top-center" autoClose={2000} hideProgressBar />
     </div>
   );
 }

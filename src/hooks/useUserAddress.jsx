@@ -79,6 +79,15 @@ useEffect(() => {
     }
   };
 
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setEditingAddressId(null);
+  };
+
+  const handleCloseRegisterModal = () => {
+    setShowRegisterModal(false);
+  };
+
   return {
     addresses,
     activeAddress,
@@ -88,6 +97,8 @@ useEffect(() => {
     handleUpdate,
     handleDelete,
     handleActivate,
-    fetchAddresses
+    fetchAddresses,
+    handleCloseEditModal,
+    handleCloseRegisterModal,
   };
 };

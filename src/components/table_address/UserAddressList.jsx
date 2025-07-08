@@ -15,8 +15,8 @@ export default function UserAddressList({ userId }) {
     loading,
     fetchAddresses,
     handleDelete,
-    handleUpdate,
     handleCreate,
+    handleUpdate,
   } = useUserAddress();
 
   const [editingAddressId, setEditingAddressId] = useState(null);
@@ -28,21 +28,23 @@ export default function UserAddressList({ userId }) {
     setShowEditModal(true);
   };
 
-  const handleDeleteClick = async (addressId) => {
-    const error = await handleDelete(addressId);
-    if (error) {
-      toast.error(error);
-    } else {
-      toast.success("Dirección eliminada correctamente.");
-    }
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setEditingAddressId(null);
+  };
+
+  const handleCloseRegisterModal = () => {
+    setShowRegisterModal(false);
   };
 
   const handleEditSuccess = async () => {
     await fetchAddresses();
+    handleCloseEditModal();
   };
 
   const handleRegisterSuccess = async () => {
-    await fetchAddresses(); // <- Debe venir del hook useUserAddress
+    await fetchAddresses();
+    handleCloseRegisterModal();
   };
 
 
@@ -84,12 +86,12 @@ export default function UserAddressList({ userId }) {
       )}
 
       {/* Modal para editar dirección */}
-      <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)}>
+      <Modal isOpen={showEditModal} onClose={handleCloseEditModal}>
         <UpdateUserAddressForm addressId={editingAddressId} onSuccess={handleEditSuccess} />
       </Modal>
 
       {/* Modal para registrar dirección */}
-      <Modal isOpen={showRegisterModal} onClose={() => setShowRegisterModal(false)}>
+      <Modal isOpen={showRegisterModal} onClose={handleCloseRegisterModal}>
         <RegisterUserAddressForm userId={userId} onSuccess={handleRegisterSuccess} totalAddresses={addresses.length} />
       </Modal>
     </div>

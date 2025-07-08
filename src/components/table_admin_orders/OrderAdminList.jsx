@@ -150,7 +150,8 @@ const OrderAdminList = () => {
           orderId={selectedOrderId}
           onClose={() => {
             setShowShipmentForm(false);
-            fetchOrders(page, ordersPerPage, search, fixedSearchBy); // usar fixedSearchBy
+            setShowDetails(false);
+            fetchOrders(page, ordersPerPage, search, fixedSearchBy);
           }}
         />
       </Modal>

@@ -84,6 +84,8 @@ export default function UserProfileData() {
               type="text"
               name="phone"
               value={user.phone}
+              minLength={9}
+              maxLength={9}
               readOnly
               disabled
             />

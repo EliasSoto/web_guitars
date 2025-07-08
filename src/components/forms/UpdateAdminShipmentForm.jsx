@@ -1,6 +1,7 @@
 import useEditAdminShipment from "../../hooks/useEditAdminShipment";
+import { useEffect } from "react";
 
-export default function UpdateAdminShipmentForm({ onSubmit, orderId }) {
+export default function UpdateAdminShipmentForm({ onSubmit, orderId, onClose }) {
   const {
     formData,
     error,
@@ -8,6 +9,16 @@ export default function UpdateAdminShipmentForm({ onSubmit, orderId }) {
     handleChange,
     handleSubmit,
   } = useEditAdminShipment(onSubmit, orderId);
+
+  useEffect(() => {
+    if (successMessage && onClose) {
+      const timeout = setTimeout(() => {
+        onClose();
+      }, 1000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [successMessage, onClose]);
 
   return (
     <div className="register-container">
@@ -35,6 +46,7 @@ export default function UpdateAdminShipmentForm({ onSubmit, orderId }) {
               onChange={handleChange}
               min={new Date().toISOString().split("T")[0]}
               disabled={formData.is_immediate_delivery}
+              style={{ outline: "none" }}
               required
             />
 
@@ -47,6 +59,7 @@ export default function UpdateAdminShipmentForm({ onSubmit, orderId }) {
               onChange={handleChange}
               min={0}
               disabled={formData.is_immediate_delivery}
+              style={{ outline: "none" }}
               required
             />
 
@@ -61,6 +74,7 @@ export default function UpdateAdminShipmentForm({ onSubmit, orderId }) {
               minLength={2}
               maxLength={50}
               disabled={formData.is_immediate_delivery}
+              style={{ outline: "none" }}
               required
             />
 

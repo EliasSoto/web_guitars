@@ -219,7 +219,7 @@ const ComponentList = () => {
             onSuccess={handleFormSuccess}
           />
         ) : (
-          <RegisterAdminComponentForm onSuccess={handleFormSuccess} />
+          <RegisterAdminComponentForm onSuccess={handleFormSuccess} onClose={handleCloseForm} />
         )}
       </Modal>
     </div>

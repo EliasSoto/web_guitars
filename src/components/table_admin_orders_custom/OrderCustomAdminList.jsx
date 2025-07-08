@@ -152,6 +152,7 @@ const OrderCustomAdminList = () => {
           orderId={selectedOrderId}
           onClose={() => {
             setShowShipmentForm(false);
+            setShowDetails(false);
             fetchOrders(page, ordersPerPage, search, fixedSearchBy);
           }}
         />

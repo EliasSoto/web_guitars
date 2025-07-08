@@ -78,6 +78,7 @@ export default function RegisterUserAddressForm({ onSuccess, userId, totalAddres
               value={formData.street_name}
               onChange={handleChange}
               placeholder="Nombre de la calle"
+              style={{ outline: "none" }}
               required
             />
 
@@ -87,6 +88,7 @@ export default function RegisterUserAddressForm({ onSuccess, userId, totalAddres
               name="region"
               value={formData.region}
               onChange={handleChange}
+              style={{ outline: "none" }}
               required
             >
               <option value="">Selecciona una región</option>
@@ -105,6 +107,7 @@ export default function RegisterUserAddressForm({ onSuccess, userId, totalAddres
               value={formData.commune}
               onChange={handleChange}
               placeholder="Comuna"
+              style={{ outline: "none" }}
               required
             />
           </div>
@@ -129,6 +132,7 @@ export default function RegisterUserAddressForm({ onSuccess, userId, totalAddres
               value={formData.address_type}
               onChange={handleChange}
               placeholder="Ej: Casa, Trabajo, etc."
+              style={{ outline: "none" }}
               required
             />
 

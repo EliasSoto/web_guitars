@@ -76,6 +76,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               onChange={handleChange}
               minLength={2}
               placeholder="EMG 85 Neck"
+              style={{ outline: "none" }}
               required
             />
 
@@ -85,6 +86,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               name="type"
               value={formData.type}
               onChange={handleChange}
+              style={{ outline: "none" }}
               required
             >
               <option value="">Seleccione un tipo</option>
@@ -99,6 +101,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               name="subtype"
               value={formData.subtype}
               onChange={handleChange}
+              style={{ outline: "none" }}
               required
               disabled={!currentType}
             >
@@ -119,6 +122,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               onChange={handleChange}
               minLength={10}
               placeholder="Pastilla con sonido potente"
+              style={{ outline: "none" }}
               required
             />
           </div>
@@ -134,6 +138,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               onChange={handleChange}
               min={1}
               placeholder="100000"
+              style={{ outline: "none" }}
               required
             />
 
@@ -146,6 +151,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               onChange={handleChange}
               min={1}
               placeholder="150000"
+              style={{ outline: "none" }}
               required
             />
 
@@ -158,6 +164,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               onChange={handleChange}
               min={0}
               placeholder="10"
+              style={{ outline: "none" }}
               required
             />
 
@@ -168,6 +175,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               name="purchase_date"
               value={formData.purchase_date}
               onChange={handleChange}
+              style={{ outline: "none" }}
               required
               min={getMinPurchaseDate()}
               max={getTodayDate()}
@@ -185,6 +193,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               onChange={handleChange}
               minLength={2}
               placeholder="Gotoh"
+              style={{ outline: "none" }}
               required
             />
 
@@ -197,6 +206,7 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
               onChange={handleChange}
               minLength={2}
               placeholder="Acero"
+              style={{ outline: "none" }}
               required
             />
 
@@ -232,19 +242,6 @@ export default function RegisterAdminComponentForm({ isOpen, onSuccess, onClose 
           <button className="button-register" type="submit">
             Registrar
           </button>
-          {onClose && (
-            <button
-              type="button"
-              className="button-register"
-              onClick={() => {
-                resetForm();
-                onClose();
-              }}
-              style={{ marginLeft: "10px" }}
-            >
-              Cancelar
-            </button>
-          )}
         </div>
       </form>
 

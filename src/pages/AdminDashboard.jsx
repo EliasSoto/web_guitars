@@ -20,11 +20,13 @@ import OrderCustomAdminList from '../components/table_admin_orders_custom/OrderC
 export default function AdminDashboard() {
 
   const adminUsersProps = useAdminUsers();
-  const {
-    handleFormSuccess,
-  } = adminUsersProps;
 
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
+
+  const handleFormSuccess = async () => {
+    await adminUsersProps.handleFormSuccess();
+    setProfileModalOpen(false);
+  };
 
   const openProfileModal = () => setProfileModalOpen(true);
   const closeProfileModal = () => setProfileModalOpen(false);
@@ -56,10 +58,10 @@ export default function AdminDashboard() {
       <Footer className="footer" />
 
       {/* Renderiza el modal aquí */}
-      <Modal isOpen={isProfileModalOpen} onClose={closeProfileModal}>
-        <AdminProfileForm onSuccess={handleFormSuccess}/>
+      <Modal isOpen={isProfileModalOpen} onClose={() => setProfileModalOpen(false)}>
+        <AdminProfileForm onSuccess={handleFormSuccess} />
       </Modal>
-      {/* jsjs */}
+      {/* jsjs <- como que jsjs(fdo:alvaro) */}
     </div>
   );
 }

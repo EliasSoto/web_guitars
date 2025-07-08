@@ -62,6 +62,8 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               value={formData.model}
               onChange={handleChange}
               minLength={2}
+              placeholder="Stratocaster"
+              style={{ outline: "none" }}
               required
             />
 
@@ -73,6 +75,8 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               value={formData.brand}
               onChange={handleChange}
               minLength={2}
+              placeholder="Fender"
+              style={{ outline: "none" }}
               required
             />
 
@@ -84,6 +88,8 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               value={formData.description}
               onChange={handleChange}
               minLength={10}
+              placeholder="Descripción breve de la guitarra"
+              style={{ outline: "none" }}
               required
             />
 
@@ -94,7 +100,9 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               name="purchase_price"
               value={formData.purchase_price}
               onChange={handleChange}
+              placeholder="100000"
               min={1}
+              style={{ outline: "none" }}
               required
             />
           </div>
@@ -108,7 +116,9 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               name="sale_price"
               value={formData.sale_price}
               onChange={handleChange}
+              placeholder="150000"
               min={1}
+              style={{ outline: "none" }}
               required
             />
 
@@ -119,6 +129,7 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               name="purchase_date"
               value={formData.purchase_date}
               onChange={handleChange}
+              style={{ outline: "none" }}
               required
             />
 
@@ -130,6 +141,8 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               value={formData.wood_type}
               onChange={handleChange}
               minLength={2}
+              placeholder="Caoba, Aliso, etc."
+              style={{ outline: "none" }}
               required
             />
 
@@ -141,6 +154,8 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               value={formData.color}
               onChange={handleChange}
               minLength={2}
+              placeholder="Rojo, Azul, etc."
+              style={{ outline: "none" }}
               required
             />
           </div>
@@ -155,6 +170,8 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               value={formData.stock}
               onChange={handleChange}
               min={0}
+              placeholder="Cantidad en stock"
+              style={{ outline: "none" }}
               required
             />
 
@@ -167,6 +184,8 @@ export default function RegisterAdminGuitarForm({ isOpen, onSuccess, onClose }) 
               onChange={handleChange}
               min={21}
               max={24}
+              placeholder="21, 22, 24, etc."
+              style={{ outline: "none" }}
               required
             />
 

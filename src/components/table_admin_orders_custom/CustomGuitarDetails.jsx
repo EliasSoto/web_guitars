@@ -99,7 +99,7 @@ export default function CustomGuitarDetails({ orderId, onSendOrder, isAdmin = fa
               <ul className="components-list">
                 {custom?.component_details.map((cd, idx) => (
                   <li key={idx} className="component-item">
-                    <strong>{cd.quantity}x</strong> {cd.component.name} – {cd.component.type} ({cd.component.subtype}) - {formatPrice(cd.component.sale_price)}
+                    <strong>{cd.quantity}x</strong> {cd.component.name} – {cd.component.type} {cd.component.subtype ? ` (${cd.component.subtype})` : ""} - {formatPrice(cd.component.sale_price)}
                   </li>
                 ))}
               </ul>

@@ -79,6 +79,7 @@ export default function UpdateUserAddressForm({ addressId, onSuccess }) {
               value={formData.street_name}
               onChange={handleChange}
               placeholder="Nombre de la calle"
+              style={{ outline: "none" }}
               required
             />
 
@@ -88,6 +89,7 @@ export default function UpdateUserAddressForm({ addressId, onSuccess }) {
               name="region"
               value={formData.region}
               onChange={handleChange}
+              style={{ outline: "none" }}
               required
             >
               <option value="">Selecciona una región</option>
@@ -106,6 +108,7 @@ export default function UpdateUserAddressForm({ addressId, onSuccess }) {
               value={formData.commune}
               onChange={handleChange}
               placeholder="Comuna"
+              style={{ outline: "none" }}
               required
             />
           </div>
@@ -130,6 +133,7 @@ export default function UpdateUserAddressForm({ addressId, onSuccess }) {
               value={formData.address_type}
               onChange={handleChange}
               placeholder="Ej: Casa, Trabajo, etc."
+              style={{ outline: "none" }}
               required
             />
             <label className="label-register">¿Dirección activa?</label>

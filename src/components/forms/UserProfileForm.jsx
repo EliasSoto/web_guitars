@@ -127,6 +127,7 @@ export default function UserProfileForm({ onClose, onSuccess }) {
               name="password"
               value={formData.password}
               onChange={handleChange}
+              minLength={8}
               placeholder="Nueva contraseña"
             />
 
@@ -162,7 +163,15 @@ export default function UserProfileForm({ onClose, onSuccess }) {
           </div>
         </div>
         <div className="button-container">
-          <button className="button-register" type="submit" disabled={loading}>
+          <button
+            className="confirm-button"
+            type="submit"
+            disabled={
+              loading ||
+              formData.password.trim() === "" ||
+              formData.confirmPassword.trim() === ""
+            }
+          >
             {loading ? "Actualizando..." : "Actualizar perfil"}
           </button>
         </div>

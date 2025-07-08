@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEditAdminGuitar } from "../../hooks/useEditAdminGuitar";
 import { useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import ImageUploader from "../ImageUploader"; // Revisa que la ruta sea correcta
+import ImageUploader from "../ImageUploader";
 
 export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) {
 
@@ -24,24 +24,29 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
       } else {
         toast.error(error);
       }
-
       resetStatus();
-
     }
 
     if (successMessage) {
-
       toast.success(successMessage);
 
-    if (onSuccess) {
-        onSuccess();
-    }
+      if (onSuccess) onSuccess();
+
+      if (onClose) {
+        const timeout = setTimeout(() => {
+          onClose();
+          resetStatus();
+        }, 1000);
+
+        return () => clearTimeout(timeout);
+      } else {
         resetStatus();
-
-
+      }
     }
 
-  }, [error, successMessage, onSuccess]);
+  }, [error, successMessage]);
+
+
 
   return (
     <div className="register-container">
@@ -68,6 +73,8 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               value={form.model}
               onChange={handleChange}
               minLength={2}
+              placeholder="Stratocaster"
+              style={{ outline: "none" }}
               required
             />
 
@@ -79,6 +86,8 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               value={form.brand}
               onChange={handleChange}
               minLength={2}
+              placeholder="Fender"
+              style={{ outline: "none" }}
               required
             />
 
@@ -90,6 +99,8 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               value={form.description}
               onChange={handleChange}
               minLength={10}
+              placeholder="Descripción breve de la guitarra"
+              style={{ outline: "none" }}
               required
             />
 
@@ -101,6 +112,8 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               value={form.purchase_price}
               onChange={handleChange}
               min={1}
+              placeholder="100000"
+              style={{ outline: "none" }}
               required
             />
           </div>
@@ -115,6 +128,7 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               value={form.sale_price}
               onChange={handleChange}
               min={1}
+              style={{ outline: "none" }}
               required
             />
 
@@ -125,6 +139,7 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               name="purchase_date"
               value={form.purchase_date}
               onChange={handleChange}
+              style={{ outline: "none" }}
               required
             />
 
@@ -136,6 +151,7 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               value={form.wood_type}
               onChange={handleChange}
               minLength={2}
+              style={{ outline: "none" }}
               required
             />
 
@@ -147,6 +163,7 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               value={form.color}
               onChange={handleChange}
               minLength={2}
+              style={{ outline: "none" }}
               required
             />
           </div>
@@ -161,6 +178,7 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               value={form.stock}
               onChange={handleChange}
               min={0}
+              style={{ outline: "none" }}
               required
             />
 
@@ -173,6 +191,7 @@ export default function UpdateAdminGuitarForm({ guitarId, onSuccess, onClose }) 
               onChange={handleChange}
               min={21}
               max={24}
+              style={{ outline: "none" }}
               required
             />
 

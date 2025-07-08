@@ -37,6 +37,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
     if (successMessage) {
       toast.success(successMessage);
       if (onSuccess) onSuccess();
+      if (onClose) onClose();
       resetStatus();
     }
   }, [error, successMessage, onSuccess, resetStatus]);
@@ -68,6 +69,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               value={form.name || ""}
               onChange={handleChange}
               minLength={2}
+              style={{ outline: "none" }}
               required
               placeholder="EMG 81 Bridge"
             />
@@ -78,6 +80,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               name="type"
               value={form.type || ""}
               onChange={handleChange}
+              style={{ outline: "none" }}
               required
             >
               <option value="">Seleccione un tipo</option>
@@ -93,6 +96,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               value={form.subtype || ""}
               onChange={handleChange}
               disabled={!currentType}
+              style={{ outline: "none" }}
               required
             >
               <option value="">Seleccione un subtipo</option>
@@ -111,6 +115,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               value={form.description || ""}
               onChange={handleChange}
               minLength={10}
+              style={{ outline: "none" }}
               required
               placeholder="Pastilla con agudos definidos"
             />
@@ -126,6 +131,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               value={form.purchase_price || ""}
               onChange={handleChange}
               min={1}
+              style={{ outline: "none" }}
               required
               placeholder="80000"
             />
@@ -138,6 +144,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               value={form.sale_price || ""}
               onChange={handleChange}
               min={1}
+              style={{ outline: "none" }}
               required
               placeholder="120000"
             />
@@ -150,6 +157,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               value={form.stock || ""}
               onChange={handleChange}
               min={0}
+              style={{ outline: "none" }}
               required
               placeholder="5"
             />
@@ -163,6 +171,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               onChange={handleChange}
               min={getMinPurchaseDate()}
               max={getTodayDate()}
+              style={{ outline: "none" }}
               required
             />
           </div>
@@ -177,6 +186,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               value={form.brand || ""}
               onChange={handleChange}
               minLength={2}
+              style={{ outline: "none" }}
               required
               placeholder="Seymour Duncan"
             />
@@ -189,6 +199,7 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
               value={form.material || ""}
               onChange={handleChange}
               minLength={2}
+              style={{ outline: "none" }}
               required
               placeholder="Alnico V"
             />
@@ -225,16 +236,6 @@ export default function UpdateAdminComponentForm({ componentId, onSuccess, onClo
           <button className="button-register" type="submit">
             Actualizar
           </button>
-          {onClose && (
-            <button
-              type="button"
-              className="button-register"
-              onClick={onClose}
-              style={{ marginLeft: "10px" }}
-            >
-              Cancelar
-            </button>
-          )}
         </div>
       </form>
 

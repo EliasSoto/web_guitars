@@ -202,7 +202,7 @@ const GuitarList = () => {
 
       <Modal isOpen={showForm} onClose={handleCloseForm}>
         {isEditing ? (
-          <UpdateAdminGuitarForm guitarId={selectedGuitar} onSuccess={handleFormSuccess} />
+          <UpdateAdminGuitarForm guitarId={selectedGuitar} onSuccess={handleFormSuccess} onClose={handleCloseForm} />
         ) : (
           <RegisterAdminGuitarForm onSuccess={handleFormSuccess} />
         )}

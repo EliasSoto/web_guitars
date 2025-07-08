@@ -57,28 +57,33 @@ export const useEditUserProfile = (navigate) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
+    if (formData.phone && formData.phone.length < 9) {
+      setError("El teléfono debe tener al menos 9 caracteres");
+      return;
+    }
+  
     if (formData.password && formData.password !== formData.confirmPassword) {
       setError("Las contraseñas no coinciden");
       return;
     }
-
+  
     const { confirmPassword, ...userUpdate } = formData;
-
+  
     if (userUpdate.birth_date) {
       const [year, month, day] = userUpdate.birth_date.split('-');
       userUpdate.birth_date = `${day}/${month}/${year}`;
     }
-
+  
     try {
       const [data, updateError] = await updateCurrentUser(userUpdate);
-
+    
       if (updateError) {
         setError(updateError);
         setSuccessMessage("");
         return;
       }
-
+    
       setSuccessMessage("Perfil actualizado correctamente");
       setError("");
       setFormData(prev => ({
@@ -87,7 +92,7 @@ export const useEditUserProfile = (navigate) => {
         confirmPassword: ""
       }));
       //setTimeout(() => navigate("/perfil"), 1500);
-
+    
     } catch (err) {
       setError("Error inesperado al actualizar el perfil");
       setSuccessMessage("");
