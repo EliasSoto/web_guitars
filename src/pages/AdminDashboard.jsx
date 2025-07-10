@@ -34,9 +34,9 @@ export default function AdminDashboard() {
   return (
     <div className="admin-dashboard">
       
-      <div style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
-        <HeaderLogin />
-      </div>
+
+      <HeaderLogin />
+  
 
       <main className="main-content-admin">
 
