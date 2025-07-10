@@ -3,10 +3,12 @@
   grid-template-columns: 1fr 2fr 1fr;
   grid-template-rows: auto;
   gap: 0.5rem;
-  background-color: #f1f1f1d3;
+  background-color: white;
   padding: 1rem 2rem;
   align-items: center;
+  box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.1);
 }
+
 
 .text-header {
   grid-column: 1 / 2;
@@ -35,7 +37,11 @@
   position: relative;
   width: 100%;
   max-width: 600px;
+  box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.1); 
+  border-radius: 15px;
+  background-color: white; 
 }
+
 
 .search__input {
   width: 100%;

@@ -25,7 +25,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p className="footer-bottom-text">©2025 Guitars. Derechos reservados</p>
+        <p className="footer-bottom-text">©2025 Guitarras. Derechos reservados</p>
         <a href="#" className="footer-terms">Términos y Condiciones</a>
       </div>
     </footer>
