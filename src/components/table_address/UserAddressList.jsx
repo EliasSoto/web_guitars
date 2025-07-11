@@ -28,6 +28,19 @@ export default function UserAddressList({ userId }) {
     setShowEditModal(true);
   };
 
+  const handleDeleteClick = async (addressId) => {
+    const confirmed = window.confirm("¿Estás seguro de que quieres eliminar esta dirección?");
+    if (!confirmed) return;
+    
+    try {
+      await handleDelete(addressId);
+      await fetchAddresses();
+    } catch (error) {
+      console.error("Error al eliminar la dirección:", error);
+    }
+  };
+
+
   const handleCloseEditModal = () => {
     setShowEditModal(false);
     setEditingAddressId(null);
