@@ -86,7 +86,7 @@ const OrderCustomAdminList = () => {
             height="40"
             className="loading-icon"
           />
-          <p>Cargando órdenes...</p>
+          <p>Cargando órdenes personalizadas...</p>
         </div>
       ) : error ? (
         <p style={{ color: "red" }}>Error: {error}</p>

@@ -69,7 +69,7 @@ export default function OrderList() {
           <p>Cargando pedidos...</p>
         </div>
       ) : orders.length === 0 ? (
-        <p>No se encontraron órdenes.</p>
+        <p>No se encontraron pedidos.</p>
       ) : (
         <>
           <table>

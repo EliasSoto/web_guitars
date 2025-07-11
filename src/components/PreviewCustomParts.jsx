@@ -40,6 +40,8 @@ export default function PreviewPanel({config, setConfig, step, setStep, selected
       case 'sg':
       case 'flyingv':
          return ['HH', 'SH', 'H'];
+      case 'machinegun':
+        return ['HH', 'H'];
      
          default: 
       return [];
@@ -57,6 +59,8 @@ export default function PreviewPanel({config, setConfig, step, setStep, selected
         return ['Tono + Tono + Tono + Volumen', 'Tono + Tono + Volumen', 'Tono + Volumen', 'Solo Volumen'];
       case 'flyingv':
         return ['Solo Volumen', 'Tono + Volumen'];
+      case 'machinegun':
+        return ['Tono + Tono + Volumen', 'Tono + Volumen', 'Solo Volumen'];
       default:
         return [];
     }
@@ -69,6 +73,7 @@ export default function PreviewPanel({config, setConfig, step, setStep, selected
       case 'flyingv':
       case 'lespaul':
       case 'sg':
+      case 'machinegun':
         tipos = ['fijo', 'flotante'];
         break;
       default:

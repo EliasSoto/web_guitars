@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { formatPrice, formatDate } from "../../utils/common";
+import { formatPrice, formatDate, capitalize } from "../../utils/common";
 
 export default function OrderCustomRow({ order, onViewDetails, shipmentStatus, userName }) {
 
@@ -8,9 +8,9 @@ export default function OrderCustomRow({ order, onViewDetails, shipmentStatus, u
       <td>{order.id}</td>
       <td>{userName || "Cargando..."}</td>
       <td>{formatDate(order.order_date)}</td>
-      <td>{order.payment_method}</td>
-      <td>{order.status}</td>
-      <td>{shipmentStatus || "Cargando..."}</td>
+      <td>{capitalize(order.payment_method)}</td>
+      <td>{capitalize(order.status)}</td>
+      <td>{capitalize(shipmentStatus) || "Cargando..."}</td>
       <td>{formatPrice(order.total_price)}</td>
       <td className="action-icons">
         {order.status === "pagado" && (

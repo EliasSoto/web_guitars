@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-import { formatDate } from '../../utils/common';
+import { formatDate, formatRut } from '../../utils/common';
 
 export default function UserRow({ user, handleDelete, handleUpdate, onViewAddresses }) {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function UserRow({ user, handleDelete, handleUpdate, onViewAddres
         <td>{user.last_name}</td>
         <td>{user.email}</td>
         <td>{user.phone}</td>
-        <td>{user.rut}</td>
+        <td>{formatRut(user.rut)}</td>
         <td>{formatDate(user.birth_date)}</td>
         <td>{user.is_admin ? 'Admin' : 'Usuario'}</td>
         {/* Cambiar colores despues */}

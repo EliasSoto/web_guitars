@@ -36,7 +36,7 @@ export default function OrderCustomUserList() {
   return (
     <div className="table-container">
       <div className="table-header">
-        <h1>Mis Órdenes Personalizadas</h1>
+        <h1>Tus pedidos personalizados</h1>
         <div className="search-bar">
           <Icon icon="ic:outline-search" width="2.5rem" height="2.5rem" />
           <input
@@ -69,7 +69,7 @@ export default function OrderCustomUserList() {
       ) : error ? (
         <p style={{ color: "red" }}>Error: {error}</p>
       ) : orders.length === 0 ? (
-        <p>No se encontraron órdenes.</p>
+        <p>No se encontraron pedidos personalizados.</p>
       ) : (
         <>
           <table>

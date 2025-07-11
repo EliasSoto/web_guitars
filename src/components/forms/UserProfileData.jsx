@@ -36,7 +36,7 @@ export default function UserProfileData() {
   return (
     <div className="register-container">
       <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <h1>Mi Perfil</h1>
+        <h1>Tu Perfil</h1>
         <Icon color='#FFC10C' onClick={openProfileModal} icon="lucide:edit" width="20" height="20" style={{ cursor: 'pointer' }} />
       </header>
 

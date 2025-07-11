@@ -169,12 +169,16 @@
 }
 
 /* Descripción */
-.guitar-description {
-  line-height: 1.6;
-  color: #4b5563;
+.guitar-description-section {
   margin: 1.5rem 0;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid #e5e7eb;
+}
+
+.guitar-description-text {
+  line-height: 1.6;
+  color: #4b5563;
+  margin: 0;
 }
 
 /* Especificaciones */

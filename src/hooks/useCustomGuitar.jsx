@@ -30,20 +30,21 @@ export function useCustomGuitar(config, setConfig, initialConfig) {
 
 // Opciones de clavijero
   const headstockOptions = [
-    { id: 1, name: 'Tipo 1', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957913/p6idea6j0mom3edbnsgt.png", value: 'tipo1', price: 50000 },
-    { id: 2, name: 'Tipo 2', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957925/gwynpzbrt3orqlwy6xw9.png", value: 'tipo2', price: 50000 },
-    { id: 3, name: 'Tipo 3', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957935/xyusoeurb1jj4gqusuyv.png", value: 'tipo3', price: 50000 },
-    { id: 4, name: 'Tipo 4', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957944/koloeybsctuibpfqastl.png", value: 'tipo4', price: 50000 },
-    { id: 5, name: 'Tipo 5', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957952/porqjiokserpruci9bfl.png", value: 'tipo5', price: 50000 }
+    { id: 1, name: 'Tipo 1', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957913/p6idea6j0mom3edbnsgt.png", value: 'tipo1', price: 90000 },
+    { id: 2, name: 'Tipo 2', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957925/gwynpzbrt3orqlwy6xw9.png", value: 'tipo2', price: 90000 },
+    { id: 3, name: 'Tipo 3', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957935/xyusoeurb1jj4gqusuyv.png", value: 'tipo3', price: 90000 },
+    { id: 4, name: 'Tipo 4', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957944/koloeybsctuibpfqastl.png", value: 'tipo4', price: 90000 },
+    { id: 5, name: 'Tipo 5', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750957952/porqjiokserpruci9bfl.png", value: 'tipo5', price: 90000 }
   ];
 
   // Opciones de cuerpo
   const bodyOptions = [
-    { id: 6, value: 'strato', name: 'Strato', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964837/v7x1uwyzgg6efkmz0b0u.png", price: 80000 },
-    { id: 7, value: 'telecaster', name: 'Telecaster', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964838/ij3sjohh9zwgos0xo5ya.png", price: 80000 },
-    { id: 8, value: 'sg', name: 'SG', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964836/jfguvmm9q1gcbon3s17x.png", price: 80000 },
-    { id: 9, value: 'lespaul', name: 'Les Paul', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964835/vgqgngbdhnn7y704avtv.png", price: 80000 },
-    { id: 10, value: 'flyingv', name: 'Flying V', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964834/g57w2lbea9ia3q9ypl7d.png", price: 80000 },
+    { id: 6, value: 'strato', name: 'Strato', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964837/v7x1uwyzgg6efkmz0b0u.png", price: 150000 },
+    { id: 7, value: 'telecaster', name: 'Telecaster', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964838/ij3sjohh9zwgos0xo5ya.png", price: 150000 },
+    { id: 8, value: 'sg', name: 'SG', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964836/jfguvmm9q1gcbon3s17x.png", price: 150000 },
+    { id: 9, value: 'lespaul', name: 'Les Paul', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964835/vgqgngbdhnn7y704avtv.png", price: 150000 },
+    { id: 10, value: 'flyingv', name: 'Flying V', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1750964834/g57w2lbea9ia3q9ypl7d.png", price: 150000 },
+    { id: 11, value: 'machinegun', name: 'Machine Gun', img: "https://res.cloudinary.com/de5qrezpl/image/upload/v1752195777/s2ib3szmhwdksnkzgflk.png", price: 340000 },
   ];
 
   // Opciones de puente

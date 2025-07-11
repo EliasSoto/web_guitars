@@ -67,7 +67,7 @@ export default function UserWishlist() {
           <p>Cargando favoritos...</p>
         </div>
       ) : wishlist.length === 0 ? (
-        <p>No tienes guitarras en tu wishlist.</p>
+        <p>No tienes guitarras en tu lista de favoritos.</p>
       ) : (
         <div className="wishlist-list">
           {wishlist.map(({ id, guitar }) => (
@@ -89,7 +89,17 @@ export default function UserWishlist() {
                   </p>
                 </div>
                 <p className="wishlist-description">{guitar.description}</p>
-                <p className="wishlist-price">Precio: {formatPrice(guitar.sale_price)}</p>
+                <p className="wishlist-price">
+                  Precio:{" "}
+                  {guitar.liquidation_price ? (
+                    <>
+                      <span className="guitar-card-sale-price">{formatPrice(guitar.sale_price)}</span>{" "}
+                      <span className="guitar-card-liquidation-price">{formatPrice(guitar.liquidation_price)}</span>
+                    </>
+                  ) : (
+                    <span className="guitar-card-sale-price">{formatPrice(guitar.sale_price)}</span>
+                  )}
+                </p>
                 <div className="wishlist-actions">
                   <Link to={`/guitars/${guitar.id}`} className="view-wish-button">
                     Ver detalles

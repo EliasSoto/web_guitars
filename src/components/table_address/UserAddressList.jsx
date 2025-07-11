@@ -68,7 +68,7 @@ export default function UserAddressList({ userId }) {
           <p>Cargando direcciones...</p>
         </div>
       ) : addresses.length === 0 ? (
-        <p></p>
+        <p>No se encontraron direcciones.</p>
       ) : (
         <table>
           <AddressTableHead />

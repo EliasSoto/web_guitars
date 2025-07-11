@@ -133,13 +133,13 @@ const RegisterUser = () => {
 
                 <div className="register-form__row">
                   <div className="register-form__group register-form__group--inline">
-                    <label htmlFor="phone" className="register-form__label">951225682</label>
+                    <label htmlFor="phone" className="register-form__label">Teléfono</label>
                     <input
                       id="phone"
                       name="phone"
                       type="text"
                       className="register-form__input"
-                      placeholder="Teléfono"
+                      placeholder="951225682"
                       value={formData.phone}
                       onChange={handleChange}
                       onInput={(e) => {

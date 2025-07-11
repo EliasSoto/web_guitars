@@ -376,9 +376,9 @@ const GuitarDetailPage = () => {
               </span>
             </div>
 
-            <div className="guitar-description">
+            <div className="guitar-description-section">
               <h2>Descripción</h2>
-              <p className="guitar-description">{guitar.description}</p>
+              <p className="guitar-description-text">{guitar.description}</p>
             </div>
 
             <h2>Especificaciones</h2>

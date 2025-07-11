@@ -12,6 +12,7 @@ import PotConfigFlyingV from "./GuitarComponents/Pots/PotConfigFlyingV.jsx";
 import FirstMessageCustom from "./FirstMessageCustom.jsx";
 import PotConfigLesPaul from "./GuitarComponents/Pots/PotConfigLesPaul.jsx";
 import PotConfigSG from "./GuitarComponents/Pots/PotConfigSG.jsx";
+import PotConfigMachinegun from "./GuitarComponents/Pots/PotConfigMachinegun.jsx";
 
 export default function Body({config }) {
   const { clavijero,cuerpo, pastillas, jack, puente, potenciometros } = config;
@@ -34,6 +35,7 @@ export default function Body({config }) {
   flyingv: PotConfigFlyingV,
   lespaul: PotConfigLesPaul,
   sg: PotConfigSG,
+  machinegun: PotConfigMachinegun,
   };
 
   const SelectedPotComponent = PotComponents[cuerpo];
