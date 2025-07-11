@@ -339,11 +339,12 @@ const GuitarDetailPage = () => {
       <ToastContainer position="top-center" autoClose={2000} hideProgressBar />
 
       <main className="detail-container">
-        <button className="back-button" onClick={() => navigate(-1)}>
+            <button className="back-button" onClick={() => navigate(-1)}>
           &larr; Volver
         </button>
-
+      
         <div className="guitar-detail-content">
+       
           {/* Columna de imagen */}
           <div className="guitar-image-column">
             <img

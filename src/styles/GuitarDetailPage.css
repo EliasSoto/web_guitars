@@ -113,7 +113,7 @@
 .original-price {
   font-size: 1rem;
   text-decoration: line-through;
-  color: #e25959;
+  color: #999;
 }
 
 .discount-price {
@@ -497,10 +497,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f3f4f6;
+  background-color: white;
   border-radius: 1rem;
   min-height: 400px;
   overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilos para el badge de descuento */

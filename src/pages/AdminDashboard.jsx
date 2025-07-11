@@ -33,7 +33,10 @@ export default function AdminDashboard() {
 
   return (
     <div className="admin-dashboard">
-      <HeaderLogin className="header-login" />
+      
+
+      <HeaderLogin />
+  
 
       <main className="main-content-admin">
 
