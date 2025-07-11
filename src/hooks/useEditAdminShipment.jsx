@@ -23,6 +23,14 @@ const useEditAdminShipment = (onSuccess, orderId) => {
     });
   };
 
+  const proveedores = [
+      "Correos de Chile",
+      "Chilexpress",
+      "Starken",
+      "DHL",
+      "Blue Express"
+    ];
+
   const clearSuccessMessage = () => {
     setSuccessMessage("");
   };
@@ -97,6 +105,7 @@ const useEditAdminShipment = (onSuccess, orderId) => {
     handleSubmit,
     resetForm,
     clearSuccessMessage,
+    proveedores
   };
 };
 

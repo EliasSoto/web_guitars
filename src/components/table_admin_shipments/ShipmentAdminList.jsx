@@ -27,7 +27,7 @@ export default function ShipmentAdminList() {
     const value = e.target.value;
     setInputValue(value);
     setSearch(value);
-    setPage(1); // Reiniciar a la primera página (tu paginación empieza en 1)
+    setPage(1);
   };
 
   return (

@@ -8,6 +8,7 @@ export default function UpdateAdminShipmentForm({ onSubmit, orderId, onClose }) 
     successMessage,
     handleChange,
     handleSubmit,
+    proveedores
   } = useEditAdminShipment(onSubmit, orderId);
 
   useEffect(() => {
@@ -64,19 +65,23 @@ export default function UpdateAdminShipmentForm({ onSubmit, orderId, onClose }) 
             />
 
             <label className="label-register">Proveedor</label>
-            <input
-              className="input-normal"
-              type="text"
-              name="shipping_provider"
-              value={formData.shipping_provider}
-              onChange={handleChange}
-              placeholder="Correos, DHL, FedEx"
-              minLength={2}
-              maxLength={50}
-              disabled={formData.is_immediate_delivery}
-              style={{ outline: "none" }}
-              required
-            />
+              <select
+                className="input-normal"
+                name="shipping_provider"
+                value={formData.shipping_provider}
+                onChange={handleChange}
+                disabled={formData.is_immediate_delivery}
+                required
+                style={{ outline: "none" }}
+              >
+                <option value="">Seleccione un proveedor</option>
+                {proveedores.map((prov) => (
+                  <option key={prov} value={prov}>
+                    {prov}
+                  </option>
+                ))}
+              </select>
+
 
             <label className="label-register">
               <input
