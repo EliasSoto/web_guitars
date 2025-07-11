@@ -58,7 +58,7 @@ export default function UserReviewsList() {
   return (
     <div className="table-container">
       <div className="table-header">
-        <h2>Mis Reseñas</h2>
+        <h2>Tus Reseñas</h2>
       </div>
 
       {loading ? (

@@ -58,7 +58,7 @@ export default function UserWishlist() {
   return (
     <div className="table-container">
       <div className="table-header">
-        <h2>Mis Favoritos</h2>
+        <h2>Tus Favoritos</h2>
       </div>
 
       {loading ? (
