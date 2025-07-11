@@ -4,25 +4,6 @@ import { toast, ToastContainer } from "react-toastify";
 import "../../styles/RegisterAdminUserForm.css";
 
 export default function RegisterUserAddressForm({ onSuccess, userId, totalAddresses  }) {
-  const regiones = [
-    "Arica y Parinacota",
-    "Tarapacá",
-    "Antofagasta",
-    "Atacama",
-    "Coquimbo",
-    "Valparaíso",
-    "Metropolitana de Santiago",
-    "Libertador General Bernardo O'Higgins",
-    "Maule",
-    "Ñuble",
-    "Biobío",
-    "La Araucanía",
-    "Los Ríos",
-    "Los Lagos",
-    "Aysén del General Carlos Ibáñez del Campo",
-    "Magallanes y de la Antártica Chilena",
-  ];
-
   const {
     formData,
     handleChange,
@@ -30,15 +11,15 @@ export default function RegisterUserAddressForm({ onSuccess, userId, totalAddres
     error,
     successMessage,
     resetForm,
-    clearSuccessMessage, 
+    clearSuccessMessage,
+    regiones,
+    tiposDireccion
   } = useRegisterUserAddress(userId, totalAddresses);
 
-  // El submit que pasaremos al form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleInternalSubmit(e); // Ejecuta la lógica de registro
+    await handleInternalSubmit(e);
 
-    // Si no hay error, avisa al padre que fue exitoso
     if (!error && onSuccess) {
       onSuccess();
     }
@@ -55,8 +36,8 @@ export default function RegisterUserAddressForm({ onSuccess, userId, totalAddres
 
     if (successMessage) {
       toast.success(successMessage);
-      resetForm();          // Limpia formulario
-      clearSuccessMessage(); // Limpia mensaje para no repetir toast
+      resetForm();
+      clearSuccessMessage();
     }
   }, [error, successMessage, resetForm, clearSuccessMessage]);
 
@@ -125,16 +106,21 @@ export default function RegisterUserAddressForm({ onSuccess, userId, totalAddres
             />
 
             <label className="label-register">Tipo de dirección</label>
-            <input
+            <select
               className="input-normal"
-              type="text"
               name="address_type"
               value={formData.address_type}
               onChange={handleChange}
-              placeholder="Ej: Casa, Trabajo, etc."
               style={{ outline: "none" }}
               required
-            />
+            >
+              <option value="">Selecciona un tipo</option>
+              {tiposDireccion.map((tipo) => (
+                <option key={tipo} value={tipo}>
+                  {tipo}
+                </option>
+              ))}
+            </select>
 
             <label className="label-register">¿Dirección activa?</label>
             <div className="checkbox-container">

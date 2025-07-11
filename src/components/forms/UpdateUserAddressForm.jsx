@@ -6,25 +6,6 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function UpdateUserAddressForm({ addressId, onSuccess }) {
-
-  const regiones = [
-    "Arica y Parinacota",
-    "Tarapacá",
-    "Antofagasta",
-    "Atacama",
-    "Coquimbo",
-    "Valparaíso",
-    "Metropolitana de Santiago",
-    "Libertador General Bernardo O'Higgins",
-    "Maule",
-    "Ñuble",
-    "Biobío",
-    "La Araucanía",
-    "Los Ríos",
-    "Los Lagos",
-    "Aysén del General Carlos Ibáñez del Campo",
-    "Magallanes y de la Antártica Chilena"
-  ];
   const navigate = useNavigate();
 
   const {
@@ -33,7 +14,9 @@ export default function UpdateUserAddressForm({ addressId, onSuccess }) {
     successMessage,
     handleChange,
     handleSubmit,
-    resetStatus
+    resetStatus,
+    regiones,
+    tiposDireccion
   } = useEditUserAddress(addressId, navigate);
 
     useEffect(() => {
@@ -126,16 +109,22 @@ export default function UpdateUserAddressForm({ addressId, onSuccess }) {
             />
 
             <label className="label-register">Tipo de dirección</label>
-            <input
+            <select
               className="input-normal"
-              type="text"
               name="address_type"
               value={formData.address_type}
               onChange={handleChange}
-              placeholder="Ej: Casa, Trabajo, etc."
               style={{ outline: "none" }}
               required
-            />
+            >
+              <option value="">Selecciona un tipo</option>
+              {tiposDireccion.map((tipo) => (
+                <option key={tipo} value={tipo}>
+                  {tipo}
+                </option>
+              ))}
+            </select>
+
             <label className="label-register">¿Dirección activa?</label>
             <div className="checkbox-container">
               <input

@@ -11,6 +11,27 @@ const useRegisterUserAddress = (userId, totalAddresses = 0) => {
     is_active: totalAddresses === 0,
     user_id: userId,
   });
+  
+  const regiones = [
+    "Arica y Parinacota",
+    "Tarapacá",
+    "Antofagasta",
+    "Atacama",
+    "Coquimbo",
+    "Valparaíso",
+    "Metropolitana de Santiago",
+    "Libertador General Bernardo O'Higgins",
+    "Maule",
+    "Ñuble",
+    "Biobío",
+    "La Araucanía",
+    "Los Ríos",
+    "Los Lagos",
+    "Aysén del General Carlos Ibáñez del Campo",
+    "Magallanes y de la Antártica Chilena"
+  ];
+
+  const tiposDireccion = ["Casa", "Departamento", "Trabajo", "Otro"];
 
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -68,7 +89,9 @@ const useRegisterUserAddress = (userId, totalAddresses = 0) => {
     handleChange,
     handleSubmit,
     resetForm,
-    clearSuccessMessage
+    clearSuccessMessage,
+    regiones,
+    tiposDireccion,
   };
 };
 
