@@ -12,7 +12,6 @@ o comprar modelos preensamblados desde un catálogo.
 
 1️⃣ Clonar el repositorio:
    git clone https://github.com/EliasSoto/web_guitars.git
-   cd nombre-del-repo
 
 2️⃣ Instalar dependencias base:
    npm install
