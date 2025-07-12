@@ -16,7 +16,8 @@ export default function UpdateUserAddressForm({ addressId, onSuccess }) {
     handleSubmit,
     resetStatus,
     regiones,
-    tiposDireccion
+    tiposDireccion,
+    comunasPorRegiones
   } = useEditUserAddress(addressId, navigate);
 
     useEffect(() => {
@@ -84,16 +85,21 @@ export default function UpdateUserAddressForm({ addressId, onSuccess }) {
             </select>
 
             <label className="label-register">Comuna</label>
-            <input
+            <select
               className="input-normal"
-              type="text"
               name="commune"
               value={formData.commune}
               onChange={handleChange}
-              placeholder="Comuna"
               style={{ outline: "none" }}
               required
-            />
+            >
+              <option value="">Selecciona una comuna</option>
+              {(comunasPorRegiones[formData.region] || []).map((comuna) => (
+                <option key={comuna} value={comuna}>
+                  {comuna}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Columna derecha */}

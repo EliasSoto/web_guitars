@@ -34,6 +34,25 @@ export const useEditUserAddress = (addressId, handleUpdateGlobal) => {
     "Magallanes y de la Antártica Chilena"
   ];
 
+  const comunasPorRegiones = {
+    "Arica y Parinacota": ["Arica", "Camarones", "Putre", "General Lagos"],
+    "Tarapacá": ["Iquique", "Alto Hospicio", "Pozo Almonte", "Pica", "Huara", "Camiña", "Colchane"],
+    "Antofagasta": ["Antofagasta", "Mejillones", "Sierra Gorda", "Taltal", "Calama", "Ollagüe", "San Pedro de Atacama", "Tocopilla", "María Elena"],
+    "Atacama": ["Copiapó", "Caldera", "Tierra Amarilla", "Vallenar", "Huasco", "Freirina", "Alto del Carmen", "Chañaral", "Diego de Almagro"],
+    "Coquimbo": ["La Serena", "Coquimbo", "Ovalle", "Illapel", "Los Vilos", "Salamanca", "Andacollo", "Combarbalá", "Monte Patria", "Punitaqui", "Río Hurtado", "Vicuña", "Paihuano"],
+    "Valparaíso": ["Valparaíso", "Viña del Mar", "Quilpué", "Villa Alemana", "Quillota", "La Calera", "San Antonio", "Cartagena", "El Quisco", "Concón", "Casablanca", "Limache", "Olmué", "Los Andes", "San Felipe", "Putaendo", "Catemu", "Santa María"],
+    "Metropolitana de Santiago": ["Santiago", "Providencia", "Las Condes", "La Florida", "Puente Alto", "Maipú", "Ñuñoa", "La Reina", "Peñalolén", "Lo Barnechea", "Pudahuel", "Estación Central", "San Miguel", "El Bosque", "San Bernardo", "Melipilla", "Talagante", "Colina"],
+    "Libertador General Bernardo O'Higgins": ["Rancagua", "Machalí", "San Fernando", "Santa Cruz", "Pichilemu", "San Vicente", "Rengo", "Requínoa", "Graneros", "Peumo"],
+    "Maule": ["Talca", "Curicó", "Linares", "Cauquenes", "Parral", "San Javier", "Constitución", "Molina", "San Clemente", "Longaví"],
+    "Ñuble": ["Chillán", "Chillán Viejo", "San Carlos", "Bulnes", "Quirihue", "Yungay", "Coihueco", "San Nicolás"],
+    "Biobío": ["Concepción", "Talcahuano", "Chiguayante", "Hualpén", "Los Ángeles", "Coronel", "San Pedro de la Paz", "Lota", "Tome", "Penco", "Nacimiento", "Mulchén"],
+    "La Araucanía": ["Temuco", "Padre Las Casas", "Villarrica", "Angol", "Nueva Imperial", "Pucón", "Lautaro", "Victoria", "Freire", "Gorbea"],
+    "Los Ríos": ["Valdivia", "La Unión", "Río Bueno", "Panguipulli", "Paillaco", "Lanco", "Futrono", "Corral"],
+    "Los Lagos": ["Puerto Montt", "Puerto Varas", "Castro", "Osorno", "Ancud", "Frutillar", "Llanquihue", "Quellón", "Calbuco", "Chaitén"],
+    "Aysén del General Carlos Ibáñez del Campo": ["Coyhaique", "Puerto Aysén", "Chile Chico", "Cochrane", "Río Ibáñez", "Guaitecas"],
+    "Magallanes y de la Antártica Chilena": ["Punta Arenas", "Puerto Natales", "Porvenir", "Cabo de Hornos", "Laguna Blanca"]
+  };
+
   const tiposDireccion = ["Casa", "Departamento", "Trabajo", "Otro"];
 
   useEffect(() => {
@@ -117,6 +136,7 @@ export const useEditUserAddress = (addressId, handleUpdateGlobal) => {
     handleSubmit,
     resetStatus,
     regiones,
-    tiposDireccion
+    tiposDireccion,
+    comunasPorRegiones
   };
 };

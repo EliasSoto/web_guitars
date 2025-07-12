@@ -13,7 +13,8 @@ export default function RegisterUserAddressForm({ onSuccess, userId, totalAddres
     resetForm,
     clearSuccessMessage,
     regiones,
-    tiposDireccion
+    tiposDireccion,
+    comunasPorRegiones
   } = useRegisterUserAddress(userId, totalAddresses);
 
   const handleSubmit = async (e) => {
@@ -81,16 +82,21 @@ export default function RegisterUserAddressForm({ onSuccess, userId, totalAddres
             </select>
 
             <label className="label-register">Comuna</label>
-            <input
+            <select
               className="input-normal"
-              type="text"
               name="commune"
               value={formData.commune}
               onChange={handleChange}
-              placeholder="Comuna"
               style={{ outline: "none" }}
               required
-            />
+            >
+              <option value="">Selecciona una comuna</option>
+              {(comunasPorRegiones[formData.region] || []).map((comuna) => (
+                <option key={comuna} value={comuna}>
+                  {comuna}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Columna derecha */}
