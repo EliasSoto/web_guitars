@@ -1,20 +1,38 @@
-# React + Vite
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎸 Guitarras Personalizadas — Proyecto Web
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma para la venta y personalización de guitarras eléctricas. 
+Los usuarios pueden elegir cada componente del instrumento (cuerpo, mástil, pastillas, colores, puente, etc.)
+o comprar modelos preensamblados desde un catálogo.
 
-Currently, two official plugins are available:
+──────────────────────────────
+🔧 Instalación del Proyecto
+──────────────────────────────
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1️⃣ Clonar el repositorio:
+   git clone https://github.com/EliasSoto/web_guitars.git
+   cd nombre-del-repo
 
-## Expanding the ESLint configuration
+2️⃣ Instalar dependencias base:
+   npm install
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3️⃣ Instalar paquetes adicionales:
+   npm install react-toastify  
+   npm install @iconify/react  
+   npm install html2pdf.js
 
+4️⃣ Iniciar servidor de desarrollo:
+   npm run dev
 
-sacar iconos de aqui: https://icon-sets.iconify.design/fa-solid/home/
+──────────────────────────────
+📌 Estado del Proyecto
+──────────────────────────────
 
+✔️ En desarrollo — Versión MVP funcional
 
-npm install react-toastify
-npm install @iconify/react
-npm install html2pdf.js
+──────────────────────────────
+📄 Autores
+──────────────────────────────
+
+Desarrollado por Elías Soto y Álvaro Ramos — 2025
